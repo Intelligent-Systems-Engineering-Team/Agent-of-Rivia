@@ -2,10 +2,13 @@ MAS project {
 
 	infrastructure: Centralised // no distribution, the whole MAS runs in the same host
 
-	environment: env.Arena2DEnvironment(10, 10, 0) // 1% prob. of sliding
+	environment: env.Arena2DEnvironment(20, 20, 0) // 1% prob. of sliding
 
 	agents: // which agents partecipates the MAS?
 		witcher witcher_agent;
+		monster1 monster_agent;
+		monster2 monster_agent;
+		monster3 monster_agent;
 
 	aslSourcePath: // where to find agents' source code
 		"src/main/asl";
