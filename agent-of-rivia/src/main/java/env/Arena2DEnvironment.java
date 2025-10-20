@@ -50,7 +50,7 @@ public class Arena2DEnvironment extends Environment {
 
     private void initializeAgentIfNeeded(String agentName) {
         if (!model.containsAgent(agentName)) {
-            model.setAgentPoseRandomly(agentName);
+            model.setAgentPose(agentName, 5, 5, Orientation.NORTH);
             view.notifyModelChanged();
         }
     }
