@@ -25,7 +25,7 @@ public class Arena2DEnvironment extends Environment {
     public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
     public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
     public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
-    public static final Literal moveBackward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
+    public static final Literal moveBackward = Literal.parseLiteral("move(" + BACKWARD.name().toLowerCase() + ")");
     public static final Literal moveRandom = Literal.parseLiteral("move(random)");
 
     static Logger logger = Logger.getLogger(Arena2DEnvironment.class.getName());
@@ -50,7 +50,7 @@ public class Arena2DEnvironment extends Environment {
 
     private void initializeAgentIfNeeded(String agentName) {
         if (!model.containsAgent(agentName)) {
-            model.setAgentPose(agentName, 5, 5, Orientation.NORTH);
+            model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
             view.notifyModelChanged();
         }
     }
@@ -98,9 +98,7 @@ public class Arena2DEnvironment extends Environment {
     public boolean executeAction(final String ag, final Structure action) {
         initializeAgentIfNeeded(ag);
         final boolean result;
-        if (RAND.nextDouble() < model.getSlideProbability()) {
-            result = false;
-        } else if (action.equals(moveForward)) {
+        if (action.equals(moveForward)) {
             result = model.moveAgent(ag, 1, FORWARD);
         } else if (action.equals(moveRight)) {
             result = model.moveAgent(ag, 1, RIGHT);

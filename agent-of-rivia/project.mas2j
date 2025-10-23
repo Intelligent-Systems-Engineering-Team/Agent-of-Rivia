@@ -2,7 +2,7 @@ MAS project {
 
 	infrastructure: Centralised // no distribution, the whole MAS runs in the same host
 
-	environment: env.Arena2DEnvironment(10, 10, 0) // 1% prob. of sliding
+	environment: env.Arena2DEnvironment(20, 20, 0) // 1% prob. of sliding
 
 	agents: // which agents partecipates the MAS?
 		witcher witcher_agent;
