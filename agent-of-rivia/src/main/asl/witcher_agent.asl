@@ -56,75 +56,53 @@ monster(10, 3).
     !go(Direction).
 
 
+
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     -monster(Xt, Yt);
     .print("Monster killed").
 
-
-+!go_to(Xt, Yt) : position(X, Y) & X < Xt & facing(top) <-
-    !go(right);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & X < Xt & facing(right) <-
++!go_to(Xt, Yt) : position(X, Y) & X < Xt <-
+    !orient(right);
     !go(forward);
     !go_to(Xt, Yt).
 
-+!go_to(Xt, Yt) : position(X, Y) & X < Xt & facing(bottom) <-
-    !go(left);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & X < Xt & facing(left) <-
-    !go(backward);
-    !go_to(Xt, Yt).
-
-
-+!go_to(Xt, Yt) : position(X, Y) & X > Xt & facing(top) <-
-    !go(left);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & X > Xt & facing(right)<-
-    !go(backward);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & X > Xt & facing(bottom)<-
-    !go(right);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & X > Xt & facing(left)<-
++!go_to(Xt, Yt) : position(X, Y) & X > Xt <-
+    !orient(left);
     !go(forward);
     !go_to(Xt, Yt).
 
-
-+!go_to(Xt, Yt) : position(X, Y) & Y > Yt & facing(top) <-
++!go_to(Xt, Yt) : position(Xt, Y) & Y < Yt <-
+    !orient(bottom);
     !go(forward);
     !go_to(Xt, Yt).
 
-+!go_to(Xt, Yt) : position(X, Y) & Y > Yt & facing(right) <-
-    !go(left);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & Y > Yt & facing(bottom) <-
-    !go(backward);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & Y > Yt & facing(left) <-
-    !go(right);
-    !go_to(Xt, Yt).
-
-
-+!go_to(Xt, Yt) : position(X, Y) & Y < Yt & facing(top) <-
-    !go(backward);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & Y < Yt & facing(right) <-
-    !go(right);
-    !go_to(Xt, Yt).
-
-+!go_to(Xt, Yt) : position(X, Y) & Y < Yt & facing(bottom) <-
++!go_to(Xt, Yt) : position(Xt, Y) & Y > Yt <-
+    !orient(top);
     !go(forward);
     !go_to(Xt, Yt).
 
-+!go_to(Xt, Yt) : position(X, Y) & Y < Yt & facing(left) <-
-    !go(left);
-    !go_to(Xt, Yt).
++!orient(Dir) : facing(Dir) <-
+    true.
 
++!orient(right) : facing(top)    <- !go(right).
++!orient(right) : facing(bottom) <- !go(left).
++!orient(right) : facing(left)   <- !go(backward).
+
++!orient(left)  : facing(top)    <- !go(left).
++!orient(left)  : facing(bottom) <- !go(right).
++!orient(left)  : facing(right)  <- !go(backward).
+
++!orient(top)   : facing(right)  <- !go(left).
++!orient(top)   : facing(left)   <- !go(right).
++!orient(top)   : facing(bottom) <- !go(backward).
+
++!orient(bottom): facing(top)    <- !go(backward).
++!orient(bottom): facing(left)   <- !go(left).
++!orient(bottom): facing(right)  <- !go(right).
+
+
+
+
++neighbour(Agent) : status(hunting) <-
+    .print("Hello ", Agent, "! I'll kick your ass!");
+    .send(Agent, tell, fight).

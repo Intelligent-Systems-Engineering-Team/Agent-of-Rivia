@@ -49,10 +49,15 @@ public class Arena2DEnvironment extends Environment {
     }
 
     private void initializeAgentIfNeeded(String agentName) {
+        //TODO: remove hardcoded creation, generate monsters randomly
         if (!model.containsAgent(agentName)) {
             model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
-            view.notifyModelChanged();
+//            view.notifyModelChanged();
         }
+        model.setAgentPose("monster1", 3, 3, Orientation.NORTH);
+        model.setAgentPose("monster2", 5, 7, Orientation.NORTH);
+        model.setAgentPose("monster3", 10, 3, Orientation.NORTH);
+        view.notifyModelChanged();
     }
 
     @Override
