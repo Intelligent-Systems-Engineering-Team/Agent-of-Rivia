@@ -45,6 +45,8 @@ public class Arena2DEnvironment extends Environment {
         view.notifyModelChanged();
     }
 
+    private boolean isWitcherInitialized = false;
+
     private void initializeAgentIfNeeded(String agentName) {
         //TODO: create class to generate monsters randomly
         if (!model.containsAgent(agentName)) {
@@ -57,6 +59,7 @@ public class Arena2DEnvironment extends Environment {
                     model.setAgentPose(agentName, 5, 7, Orientation.NORTH);
                 case "monster3" ->
                     model.setAgentPose(agentName, 10, 3, Orientation.NORTH);
+                //TODO: find way to add monsters to beliefs of witcher
             }
         }
         view.notifyModelChanged();
