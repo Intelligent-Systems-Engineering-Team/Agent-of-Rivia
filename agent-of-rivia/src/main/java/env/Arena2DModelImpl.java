@@ -1,6 +1,5 @@
 package env;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -51,8 +50,7 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final int width;
     private final int height;
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
-    private long fsp = 1L;
-    private double slideProbability = 0d;
+    private long fps = 1L;
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {
@@ -167,21 +165,11 @@ public class Arena2DModelImpl implements Arena2DModel {
 
     @Override
     public long getFPS() {
-        return fsp;
+        return fps;
     }
 
     @Override
     public void setFPS(long fps) {
-        this.fsp = Math.max(Math.min(60, fps), 1);
-    }
-
-    @Override
-    public double getSlideProbability() {
-        return slideProbability;
-    }
-
-    @Override
-    public void setSlideProbability(double slideProbability) {
-        this.slideProbability = Math.max(Math.min(1d, slideProbability), 0d);;
+        this.fps = Math.max(Math.min(60, fps), 1);
     }
 }

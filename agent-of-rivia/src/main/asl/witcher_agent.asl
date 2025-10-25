@@ -2,12 +2,6 @@ facing(top).
 home(0, 0).
 position(0, 0).
 status(hunting).
-obstacle(Dir) :- robot(Dir).
-
-opposite(top, bottom).
-opposite(left, right).
-opposite(X, Y) :- opposite(Y, X).
-
 health(100).
 
 monster(3, 3).
@@ -15,38 +9,40 @@ monster(5, 7).
 monster(10, 3).
 
 
+obstacle(Dir) :- robot(Dir).
+opposite(top, bottom).
+opposite(left, right).
+opposite(X, Y) :- opposite(Y, X).
+
+
+
 
 !kill_all_monsters.
 
 +!kill_all_monsters <-
-    !explore;
+    !hunt;
     !go_home.
 
 
-+!explore : not(status(hunting)) <- true.
++!hunt : not(status(hunting)) <- true.
 
-+!explore : status(hunting) & monster(Xt, Yt) & not busy <-
++!hunt : status(hunting) & monster(Xt, Yt) & not busy <-
     -+busy;
     !go_to(Xt, Yt);
     -busy;
-    !explore.
+    !hunt.
 
-+!explore : not monster(_,_) <-
++!hunt : not monster(_,_) <-
     .print("All monsters are dead!");
     -+status(resting).
 
--!explore : status(hunting) <-
+-!hunt : status(hunting) <-
     .print("go_to failed");
-    !explore.
+    !hunt.
 
 
-+!go_home : home(Xt, Yt) <-
-    !go_to(Xt, Yt);
-    .print("Arrived home").
 
-
-+position(X, Y) <- .print("BEL: (", X, ", ", Y, ")").
-
+//---WALKING---
 
 +!go(Direction) <-
     move(Direction);
@@ -54,8 +50,6 @@ monster(10, 3).
 
 -!go(Direction) <-
     !go(Direction).
-
-
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     -monster(Xt, Yt);
@@ -100,9 +94,20 @@ monster(10, 3).
 +!orient(bottom): facing(left)   <- !go(left).
 +!orient(bottom): facing(right)  <- !go(right).
 
++position(X, Y) <- .print("I am in: (", X, ", ", Y, ")").
 
 
+
+//---NEIGHBOUR INTERACTION---
 
 +neighbour(Agent) : status(hunting) <-
     .print("Hello ", Agent, "! I'll kick your ass!");
     .send(Agent, tell, fight).
+
+
+
+//---GOING HOME---
+
++!go_home : home(Xt, Yt) <-
+    !go_to(Xt, Yt);
+    .print("Arrived home").

@@ -36,9 +36,6 @@ public class Arena2DEnvironment extends Environment {
     @Override
     public void init(final String[] args) {
         this.model = new Arena2DModelImpl(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        if (args.length > 2) {
-            model.setSlideProbability(Double.parseDouble(args[2]));
-        }
         Arena2DGuiView view = new Arena2DGuiView(model);
         this.view = view;
         view.setVisible(true);
