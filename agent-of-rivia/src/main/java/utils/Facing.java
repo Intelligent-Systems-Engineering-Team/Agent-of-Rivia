@@ -7,10 +7,10 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 
 enum Facing {
-    TOP(1, 0),
-    RIGHT(0, 1),
-    BOTTOM(-1, 0),
-    LEFT(0, -1);
+    TOP(0, -1),
+    RIGHT(1, 0),
+    BOTTOM(0, 1),
+    LEFT(-1, 0);
 
     Facing(int x, int y) {
         this.x = x;
@@ -38,9 +38,54 @@ enum Facing {
         return y;
     }
 
-    public Facing rotate(Direction direction) {
-        return values()[direction.ordinal() / 2 % 4];
+
+
+    public static Facing rotate(Facing currentFacing, Direction direction) {
+        switch (direction) {
+            case FORWARD:
+                return currentFacing; // не меняем направление
+            case BACKWARD:
+                return currentFacing.opposite(); // поворот на 180°
+            case LEFT:
+                return currentFacing.turnLeft(); // поворот на 90° влево
+            case RIGHT:
+                return currentFacing.turnRight(); // поворот на 90° вправо
+            default:
+                return currentFacing;
+        }
     }
+
+    public Facing turnLeft() {
+        switch (this) {
+            case TOP: return LEFT;
+            case LEFT: return BOTTOM;
+            case BOTTOM: return RIGHT;
+            case RIGHT: return TOP;
+            default: throw new IllegalStateException("Unknown facing: " + this);
+        }
+    }
+
+    public Facing turnRight() {
+        switch (this) {
+            case TOP: return RIGHT;
+            case RIGHT: return BOTTOM;
+            case BOTTOM: return LEFT;
+            case LEFT: return TOP;
+            default: throw new IllegalStateException("Unknown facing: " + this);
+        }
+    }
+
+    public Facing opposite() {
+        switch (this) {
+            case TOP: return BOTTOM;
+            case BOTTOM: return TOP;
+            case LEFT: return RIGHT;
+            case RIGHT: return LEFT;
+            default: throw new IllegalStateException("Unknown facing: " + this);
+        }
+    }
+
+
 
     public Vector2D asVector() {
         return Vector2D.of(x, y);

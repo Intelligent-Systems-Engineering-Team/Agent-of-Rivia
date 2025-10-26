@@ -35,9 +35,9 @@ public class update_pose extends DefaultInternalAction {
 
         Vector2D position = positionLiteralToVector(currentPosition);
         Facing facing = fromLiteral(currentFacing);
-        Direction dir = termToDirection(nextDirection);
+        Direction direction = termToDirection(nextDirection);
 
-        Facing nextFacing = facing.rotate(dir);
+        Facing nextFacing = facing.rotate(facing, direction);
         Vector2D nextPosition = position.plus(nextFacing.asVector());
 
         currentAgent.addBel(Literal.parseLiteral("position" + nextPosition));
