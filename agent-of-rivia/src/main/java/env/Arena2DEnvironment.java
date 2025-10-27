@@ -1,5 +1,5 @@
 package env;
-
+import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
@@ -55,7 +55,8 @@ public class Arena2DEnvironment extends Environment {
                 case "witcher" -> {
                     model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
                 }
-                case "monster1", "monster2", "monster3" -> {
+
+                default -> {
                     Random rand = new Random();
                     int x = rand.nextInt(20);
                     int y = rand.nextInt(20);
@@ -63,17 +64,20 @@ public class Arena2DEnvironment extends Environment {
                 }
             }
         }
+        view.notifyModelChanged();
+
     }
+
 
 
     @Override
     public Collection<Literal> getPercepts(String agName) {
         initializeAgentIfNeeded(agName);
         return Stream.of(
-                surroundingPercepts(agName),
-                neighboursPercepts(agName)
-        ).flatMap(Collection::stream)
-        .collect(Collectors.toList());
+                        surroundingPercepts(agName),
+                        neighboursPercepts(agName)
+                ).flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
     }
 
@@ -131,4 +135,6 @@ public class Arena2DEnvironment extends Environment {
         notifyModelChangedToView();
         return result;
     }
+
 }
+

@@ -4,9 +4,6 @@ position(0, 0).
 status(hunting).
 health(100).
 
-monster(3, 3).
-monster(5, 7).
-monster(10, 3).
 
 
 obstacle(Dir) :- robot(Dir).
@@ -111,3 +108,5 @@ opposite(X, Y) :- opposite(Y, X).
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived home").
+
++monster(X, Y) <- .print("Monster detected at (", X, ", ", Y, ")").
