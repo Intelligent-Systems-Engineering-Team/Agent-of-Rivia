@@ -51,6 +51,12 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final int height;
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
     private long fps = 1L;
+    private Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
+
+    enum MonsterStatus {
+        ALIVE,
+        DEAD
+    }
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {
@@ -171,5 +177,22 @@ public class Arena2DModelImpl implements Arena2DModel {
     @Override
     public void setFPS(long fps) {
         this.fps = Math.max(Math.min(60, fps), 1);
+    }
+
+
+    @Override
+    public boolean setAgentAlive(String agentName) {
+        monsterToStatus.put(agentName, MonsterStatus.ALIVE);
+        return true;
+    }
+
+    @Override
+    public boolean setAgentDead(String agentName) {
+        monsterToStatus.put(agentName, MonsterStatus.DEAD);
+        return true;
+    }
+
+    public MonsterStatus getAgentAliveStatus(String agentName) {
+        return monsterToStatus.getOrDefault(agentName, null);
     }
 }

@@ -9,6 +9,12 @@ MAS project {
 		monster1 monster_agent;
 		monster2 monster_agent;
 		monster3 monster_agent;
+		monster4 monster_agent;
+        monster5 monster_agent;
+        monster6 monster_agent;
+        monster7 monster_agent;
+        monster8 monster_agent;
+        monster9 monster_agent;
 
 	aslSourcePath:
 		"src/main/asl";

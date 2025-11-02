@@ -36,12 +36,6 @@ public class Arena2DEnvironment extends Environment {
 
     private Arena2DModel model;
     private Arena2DView view;
-    private Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
-
-    enum MonsterStatus {
-        ALIVE,
-        DEAD
-    }
 
 
     @Override
@@ -71,7 +65,7 @@ public class Arena2DEnvironment extends Environment {
                     int x = rand.nextInt(20);
                     int y = rand.nextInt(20);
                     model.setAgentPose(agentName, x, y, Orientation.NORTH);
-                    monsterToStatus.put(agentName, MonsterStatus.ALIVE);
+                    model.setAgentAlive(agentName);
                 }
             }
         }
@@ -121,7 +115,7 @@ public class Arena2DEnvironment extends Environment {
                 .filter(name -> name.startsWith("monster"))
                 .map(name -> {
                     Vector2D pos = model.getAgentPosition(name);
-                    return Literal.parseLiteral(String.format("monster(%d,%d,%s)", (int)pos.getX(), (int)pos.getY(), monsterToStatus.get(name).toString().toLowerCase()));
+                    return Literal.parseLiteral(String.format("monster(%d,%d,%s)", (int)pos.getX(), (int)pos.getY(), model.getAgentAliveStatus(name).toString().toLowerCase()));
                 })
                 .collect(Collectors.toList());
     }
@@ -148,8 +142,7 @@ public class Arena2DEnvironment extends Environment {
             result = model.moveAgent(ag, 1, rd);
         } else if (action.getFunctor().equals("kill")){
             String monsterName = action.getTerm(0).toString();
-            monsterToStatus.put(monsterName, MonsterStatus.DEAD);
-            result = true;
+            result = model.setAgentDead(monsterName);
         } else {
             RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
             logger.warning(e.getMessage());
