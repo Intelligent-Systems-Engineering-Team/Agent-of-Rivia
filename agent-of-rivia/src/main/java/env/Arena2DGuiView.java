@@ -78,6 +78,10 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setEnabled(true);
         });
         model.getAllAgents().forEach(a -> {
+            Object status = model.getAgentAliveStatus(a);
+            if (status != null && "DEAD".equals(status.toString())) {
+                return; // skip dead agents
+            }
             Vector2D pos = model.getAgentPosition(a);
             Orientation dir = model.getAgentDirection(a);
             JButton b = buttonsGrid.get(pos);
