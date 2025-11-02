@@ -71,6 +71,7 @@ public class Arena2DEnvironment extends Environment {
                     int x = rand.nextInt(20);
                     int y = rand.nextInt(20);
                     model.setAgentPose(agentName, x, y, Orientation.NORTH);
+                    monsterToStatus.put(agentName, MonsterStatus.ALIVE);
                 }
             }
         }
