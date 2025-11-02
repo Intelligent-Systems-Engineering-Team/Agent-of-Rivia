@@ -1,11 +1,13 @@
 package env;
-
+import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
+import utils.MonsterGenerator;
 
-import java.util.Collection;
+import jason.asSyntax.ASSyntax;
 import java.util.Random;
+import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +27,7 @@ public class Arena2DEnvironment extends Environment {
     public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
     public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
     public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
-    public static final Literal moveBackward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
+    public static final Literal moveBackward = Literal.parseLiteral("move(" + BACKWARD.name().toLowerCase() + ")");
     public static final Literal moveRandom = Literal.parseLiteral("move(random)");
 
     static Logger logger = Logger.getLogger(Arena2DEnvironment.class.getName());
@@ -36,9 +38,6 @@ public class Arena2DEnvironment extends Environment {
     @Override
     public void init(final String[] args) {
         this.model = new Arena2DModelImpl(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        if (args.length > 2) {
-            model.setSlideProbability(Double.parseDouble(args[2]));
-        }
         Arena2DGuiView view = new Arena2DGuiView(model);
         this.view = view;
         view.setVisible(true);
@@ -48,21 +47,37 @@ public class Arena2DEnvironment extends Environment {
         view.notifyModelChanged();
     }
 
+    private boolean isWitcherInitialized = false;
+
     private void initializeAgentIfNeeded(String agentName) {
         if (!model.containsAgent(agentName)) {
-            model.setAgentPoseRandomly(agentName);
-            view.notifyModelChanged();
+            switch (agentName) {
+                case "witcher" -> {
+                    model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
+                }
+
+                default -> {
+                    Random rand = new Random();
+                    int x = rand.nextInt(20);
+                    int y = rand.nextInt(20);
+                    model.setAgentPose(agentName, x, y, Orientation.NORTH);
+                }
+            }
         }
+        view.notifyModelChanged();
+
     }
+
+
 
     @Override
     public Collection<Literal> getPercepts(String agName) {
         initializeAgentIfNeeded(agName);
         return Stream.of(
-                surroundingPercepts(agName),
-                neighboursPercepts(agName)
-        ).flatMap(Collection::stream)
-        .collect(Collectors.toList());
+                        surroundingPercepts(agName),
+                        neighboursPercepts(agName)
+                ).flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
     }
 
@@ -98,9 +113,7 @@ public class Arena2DEnvironment extends Environment {
     public boolean executeAction(final String ag, final Structure action) {
         initializeAgentIfNeeded(ag);
         final boolean result;
-        if (RAND.nextDouble() < model.getSlideProbability()) {
-            result = false;
-        } else if (action.equals(moveForward)) {
+        if (action.equals(moveForward)) {
             result = model.moveAgent(ag, 1, FORWARD);
         } else if (action.equals(moveRight)) {
             result = model.moveAgent(ag, 1, RIGHT);
@@ -122,4 +135,6 @@ public class Arena2DEnvironment extends Environment {
         notifyModelChangedToView();
         return result;
     }
+
 }
+

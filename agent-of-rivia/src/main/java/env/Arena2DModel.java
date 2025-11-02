@@ -90,8 +90,4 @@ public interface Arena2DModel {
     /** Get the frame-per-second value to be used by any view of the system */
     long getFPS();
     void setFPS(long fps);
-
-    /** Gets the sliding probability for the current environment */
-    double getSlideProbability();
-    void setSlideProbability(double value);
 }

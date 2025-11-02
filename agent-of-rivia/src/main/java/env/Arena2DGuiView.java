@@ -49,6 +49,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
                 buttonsGrid.put(Vector2D.of(x, y), b);
             }
         }
+
         contentPane.add(grid, BorderLayout.CENTER);
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 60, (int) model.getFPS());
         contentPane.add(slider, BorderLayout.SOUTH);
@@ -85,11 +86,6 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setBackground(c);
             b.setForeground(negateColor(c));
             b.setEnabled(false);
-            Color s = smoothColor(c);
-            model.getAgentSurroundingPositions(a).values().forEach(p -> {
-                JButton b1 = buttonsGrid.get(p);
-                if (b1 != null) b1.setBackground(mix(b1.getBackground(), s));
-            });
         });
         repaint();
     }
