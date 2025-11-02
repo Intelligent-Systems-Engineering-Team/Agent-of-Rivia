@@ -1,13 +1,15 @@
 package env;
-
+import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
+import utils.MonsterGenerator;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -54,28 +56,28 @@ public class Arena2DEnvironment extends Environment {
         view.notifyModelChanged();
     }
 
+    private boolean isWitcherInitialized = false;
+
     private void initializeAgentIfNeeded(String agentName) {
         //TODO: create class to generate monsters randomly
         if (!model.containsAgent(agentName)) {
             switch (agentName) {
-                case "witcher" ->
+                case "witcher" -> {
                     model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
-                case "monster1" -> {
-                    model.setAgentPose(agentName, 3, 3, Orientation.NORTH);
-                    monsterToStatus.put(agentName, MonsterStatus.ALIVE);
                 }
-                case "monster2" -> {
-                    model.setAgentPose(agentName, 5, 7, Orientation.NORTH);
-                    monsterToStatus.put(agentName, MonsterStatus.ALIVE);
-                }
-                case "monster3" -> {
-                    model.setAgentPose(agentName, 10, 3, Orientation.NORTH);
-                    monsterToStatus.put(agentName, MonsterStatus.ALIVE);
+
+                default -> {
+                    Random rand = new Random();
+                    int x = rand.nextInt(20);
+                    int y = rand.nextInt(20);
+                    model.setAgentPose(agentName, x, y, Orientation.NORTH);
                 }
             }
         }
         view.notifyModelChanged();
     }
+
+
 
     @Override
     public Collection<Literal> getPercepts(String agName) {
