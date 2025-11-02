@@ -1,15 +1,15 @@
 MAS project {
 
-    infrastructure: Centralised
+	infrastructure: Centralised
 
-    environment: env.Arena2DEnvironment(20, 20, 0)
+	environment: env.Arena2DEnvironment(20, 20, 0)
 
-    agents:
-        witcher witcher_agent;
-        monster1 monster_agent;
-        monster2 monster_agent;
-        monster3 monster_agent;
+	agents:
+		witcher witcher_agent;
+		monster1 monster_agent;
+		monster2 monster_agent;
+		monster3 monster_agent;
 
-    aslSourcePath:
-        "src/main/asl";
+	aslSourcePath:
+		"src/main/asl";
 }

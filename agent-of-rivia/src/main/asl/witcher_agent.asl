@@ -6,6 +6,7 @@ health(100).
 
 
 
+
 obstacle(Dir) :- robot(Dir).
 opposite(top, bottom).
 opposite(left, right).
@@ -23,13 +24,13 @@ opposite(X, Y) :- opposite(Y, X).
 
 +!hunt : not(status(hunting)) <- true.
 
-+!hunt : status(hunting) & monster(Xt, Yt) & not busy <-
++!hunt : status(hunting) & monster(Xt, Yt, alive) & not busy <-
     -+busy;
     !go_to(Xt, Yt);
     -busy;
     !hunt.
 
-+!hunt : not monster(_,_) <-
++!hunt : not monster(_,_,alive) <-
     .print("All monsters are dead!");
     -+status(resting).
 
@@ -49,8 +50,7 @@ opposite(X, Y) :- opposite(Y, X).
     !go(Direction).
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
-    -monster(Xt, Yt);
-    .print("Monster killed").
+    -monster(Xt, Yt).
 
 +!go_to(Xt, Yt) : position(X, Y) & X < Xt <-
     !orient(right);
@@ -97,10 +97,15 @@ opposite(X, Y) :- opposite(Y, X).
 
 //---NEIGHBOUR INTERACTION---
 
-+neighbour(Agent) : status(hunting) <-
++neighbour(Agent) : status(hunting) & monster(Xt, Yt, alive) <-
     .print("Hello ", Agent, "! I'll kick your ass!");
-    .send(Agent, tell, fight).
+    .send(Agent, tell, fight);
+    kill(Agent);
+    .print("Monster at (", Xt, ",", Yt, ") is now dead.").
 
+
++monster(X, Y, Status) : true <-
+    .print("Получен belief: monster(", X, ",", Y, ",", Status, ")").
 
 
 //---GOING HOME---
@@ -108,5 +113,3 @@ opposite(X, Y) :- opposite(Y, X).
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived home").
-
-+monster(X, Y) <- .print("Monster detected at (", X, ", ", Y, ")").

@@ -5,7 +5,9 @@ import jason.asSyntax.Structure;
 import jason.environment.Environment;
 import utils.MonsterGenerator;
 
-import jason.asSyntax.ASSyntax;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -34,6 +36,13 @@ public class Arena2DEnvironment extends Environment {
 
     private Arena2DModel model;
     private Arena2DView view;
+    private Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
+
+    enum MonsterStatus {
+        ALIVE,
+        DEAD
+    }
+
 
     @Override
     public void init(final String[] args) {
@@ -50,6 +59,7 @@ public class Arena2DEnvironment extends Environment {
     private boolean isWitcherInitialized = false;
 
     private void initializeAgentIfNeeded(String agentName) {
+        //TODO: create class to generate monsters randomly
         if (!model.containsAgent(agentName)) {
             switch (agentName) {
                 case "witcher" -> {
@@ -65,7 +75,6 @@ public class Arena2DEnvironment extends Environment {
             }
         }
         view.notifyModelChanged();
-
     }
 
 
@@ -74,10 +83,11 @@ public class Arena2DEnvironment extends Environment {
     public Collection<Literal> getPercepts(String agName) {
         initializeAgentIfNeeded(agName);
         return Stream.of(
-                        surroundingPercepts(agName),
-                        neighboursPercepts(agName)
-                ).flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                surroundingPercepts(agName),
+                neighboursPercepts(agName),
+                        "witcher".equals(agName) ? addMonsterPerceptsOnce() : java.util.Collections.<Literal>emptyList()
+        ).flatMap(Collection::stream)
+        .collect(Collectors.toList());
 
     }
 
@@ -105,6 +115,17 @@ public class Arena2DEnvironment extends Environment {
                 .collect(Collectors.toList());
     }
 
+    private Collection<Literal> addMonsterPerceptsOnce() {
+        return model.getAllAgents().stream()
+                .filter(name -> name.startsWith("monster"))
+                .map(name -> {
+                    Vector2D pos = model.getAgentPosition(name);
+                    return Literal.parseLiteral(String.format("monster(%d,%d,%s)", (int)pos.getX(), (int)pos.getY(), monsterToStatus.get(name).toString().toLowerCase()));
+                })
+                .collect(Collectors.toList());
+    }
+
+
     /**
      * The <code>boolean</code> returned represents the action "move"
      * (success/failure)
@@ -124,6 +145,10 @@ public class Arena2DEnvironment extends Environment {
         } else if (action.equals(moveRandom)) {
             Direction rd = Direction.random();
             result = model.moveAgent(ag, 1, rd);
+        } else if (action.getFunctor().equals("kill")){
+            String monsterName = action.getTerm(0).toString();
+            monsterToStatus.put(monsterName, MonsterStatus.DEAD);
+            result = true;
         } else {
             RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
             logger.warning(e.getMessage());
@@ -135,6 +160,4 @@ public class Arena2DEnvironment extends Environment {
         notifyModelChangedToView();
         return result;
     }
-
 }
-
