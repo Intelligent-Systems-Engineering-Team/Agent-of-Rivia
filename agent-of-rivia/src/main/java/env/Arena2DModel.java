@@ -90,4 +90,8 @@ public interface Arena2DModel {
     /** Get the frame-per-second value to be used by any view of the system */
     long getFPS();
     void setFPS(long fps);
+
+    boolean setAgentAlive(String agentName);
+    boolean setAgentDead(String agentName);
+    Arena2DModelImpl.MonsterStatus getAgentAliveStatus(String agentName);
 }
