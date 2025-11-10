@@ -12,6 +12,9 @@ opposite(top, bottom).
 opposite(left, right).
 opposite(X, Y) :- opposite(Y, X).
 
+adjacent(X, Y, Xt, Yt) :-
+    (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
+    | (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
 
 
 
@@ -47,9 +50,15 @@ opposite(X, Y) :- opposite(Y, X).
     utils.update_pose(Direction).
 
 -!go(Direction) <-
+    .print("Move failed, retrying...");
     !go(Direction).
 
++!go_to(Xt, Yt) : position(X, Y) & adjacent(X, Y, Xt, Yt) <-
+    .print("Stopped one cell before monster at (", Xt, ",", Yt, ")").
+
+
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
+    .print("Arrived at target (", Xt, ",", Yt, ")");
     -monster(Xt, Yt).
 
 +!go_to(Xt, Yt) : position(X, Y) & X < Xt <-
@@ -100,7 +109,6 @@ opposite(X, Y) :- opposite(Y, X).
 +neighbour(Agent) : status(hunting) & monster(Xt, Yt, alive) <-
     .print("Hello ", Agent, "! I'll kick your ass!");
     .send(Agent, tell, fight);
-    kill(Agent);
     .print("Monster at (", Xt, ",", Yt, ") is now dead.").
 
 
