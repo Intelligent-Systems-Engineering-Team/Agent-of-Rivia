@@ -12,6 +12,9 @@ opposite(top, bottom).
 opposite(left, right).
 opposite(X, Y) :- opposite(Y, X).
 
+adjacent(X, Y, Xt, Yt) :-
+    (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
+    | (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
 
 
 
@@ -47,9 +50,15 @@ opposite(X, Y) :- opposite(Y, X).
     utils.update_pose(Direction).
 
 -!go(Direction) <-
+    .print("Move failed, retrying...");
     !go(Direction).
 
++!go_to(Xt, Yt) : position(X, Y) & adjacent(X, Y, Xt, Yt) <-
+    .print("Stopped one cell before monster at (", Xt, ",", Yt, ")").
+
+
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
+    .print("Arrived at target (", Xt, ",", Yt, ")");
     -monster(Xt, Yt).
 
 +!go_to(Xt, Yt) : position(X, Y) & X < Xt <-
@@ -98,9 +107,8 @@ opposite(X, Y) :- opposite(Y, X).
 //---NEIGHBOUR INTERACTION---
 
 +neighbour(Agent) : status(hunting) & monster(Xt, Yt, alive) <-
-    .print("I tracked: ", Agent);
-    !analyse_monster(Agent).
-
+       .print("I tracked: ", Agent);
+       !analyse_monster(Agent).
 
 +!analyse_monster(Agent) <-
     .send(Agent, achieve, show_level).
@@ -110,10 +118,8 @@ opposite(X, Y) :- opposite(Y, X).
     .print("Monster level is: ", Health / Strength).
 
 
-//---IDK HOW TO NAME---
-
 +monster(X, Y, Status) : true <-
-    .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ")").
+     .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ")").
 
 
 //---GOING HOME---
