@@ -2,8 +2,9 @@ facing(top).
 home(0, 0).
 position(0, 0).
 status(hunting).
-health(100).
 
+health(100).
+strength(50).
 
 
 
@@ -113,9 +114,19 @@ adjacent(X, Y, Xt, Yt) :-
 +!analyse_monster(Agent) <-
     .send(Agent, achieve, show_level).
 
-+monster_level(Health, Strength)[source(M)] <-
++monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR) <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
-    .print("Monster level is: ", Health / Strength).
+    MonsterLevel = Health / Strength;
+    MyLevel = HP / STR;
+    .print("Monster level is: ", MonsterLevel);
+    .print("My level is: ", MyLevel);
+    !make_decision(M, MonsterLevel, MyLevel).
+
++!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel <-
+    .print("Decided to attack monster: ", Monster).
+
++!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
+    .print("Decided to escape: ", Monster).
 
 
 +monster(X, Y, Status) : true <-
