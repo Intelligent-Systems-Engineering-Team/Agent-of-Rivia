@@ -98,14 +98,22 @@ opposite(X, Y) :- opposite(Y, X).
 //---NEIGHBOUR INTERACTION---
 
 +neighbour(Agent) : status(hunting) & monster(Xt, Yt, alive) <-
-    .print("Hello ", Agent, "! I'll kick your ass!");
-    .send(Agent, tell, fight);
-    kill(Agent);
-    .print("Monster at (", Xt, ",", Yt, ") is now dead.").
+    .print("I tracked: ", Agent);
+    !analyse_monster(Agent).
 
+
++!analyse_monster(Agent) <-
+    .send(Agent, achieve, show_level).
+
++monster_level(Health, Strength)[source(M)] <-
+    .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
+    .print("Monster level is: ", Health / Strength).
+
+
+//---IDK HOW TO NAME---
 
 +monster(X, Y, Status) : true <-
-    .print("Получен belief: monster(", X, ",", Y, ",", Status, ")").
+    .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ")").
 
 
 //---GOING HOME---

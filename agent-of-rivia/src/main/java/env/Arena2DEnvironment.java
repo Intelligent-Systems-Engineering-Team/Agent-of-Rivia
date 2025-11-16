@@ -53,11 +53,18 @@ public class Arena2DEnvironment extends Environment {
     private boolean isWitcherInitialized = false;
 
     private void initializeAgentIfNeeded(String agentName) {
-        //TODO: create class to generate monsters randomly
         if (!model.containsAgent(agentName)) {
             switch (agentName) {
                 case "witcher" -> {
                     model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
+                }
+
+                case "drowner" -> {
+                    Random rand = new Random();
+                    int x = rand.nextInt(20);
+                    int y = rand.nextInt(20);
+                    model.setAgentPose(agentName, x, y, Orientation.NORTH);
+                    model.setAgentAlive(agentName);
                 }
 
                 default -> {
@@ -112,7 +119,7 @@ public class Arena2DEnvironment extends Environment {
 
     private Collection<Literal> addMonsterPerceptsOnce() {
         return model.getAllAgents().stream()
-                .filter(name -> name.startsWith("monster"))
+                .filter(name -> name.equals("witcher") == false)
                 .map(name -> {
                     Vector2D pos = model.getAgentPosition(name);
                     return Literal.parseLiteral(String.format("monster(%d,%d,%s)", (int)pos.getX(), (int)pos.getY(), model.getAgentAliveStatus(name).toString().toLowerCase()));
