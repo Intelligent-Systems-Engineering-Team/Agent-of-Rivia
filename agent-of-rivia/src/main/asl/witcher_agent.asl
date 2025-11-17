@@ -116,7 +116,7 @@ adjacent(X, Y, Xt, Yt) :-
     .send(Agent, achieve, show_level).
 
 
-+monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR) <-
++monster_level(Health, Strength)[source(M)] : health(HP) <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
     MonsterLevel = Health / Strength;
     MyLevel = HP / STR;
@@ -127,8 +127,6 @@ adjacent(X, Y, Xt, Yt) :-
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel & strength(STR) <-
     .print("Decided to attack monster: ", Monster);
-    .send(Monster, achieve, get_damage(STR));
-    .send(Monster, achieve, fight_back);
     !fight(Monster).
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
@@ -137,9 +135,10 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---FIGHTING---
-+!fight(Monster) : monster(X, Y, alive) <-
++!fight(Monster) : monster(X, Y, alive) & strength(STR) <-
     .print("Fighting monster: ", Monster);
-
+    .send(Monster, achieve, get_damage(STR));
+    .send(Monster, achieve, fight_back);
     !fight(Monster).
 
 +!fight(Monster) : monster(X, Y, dead) <-
