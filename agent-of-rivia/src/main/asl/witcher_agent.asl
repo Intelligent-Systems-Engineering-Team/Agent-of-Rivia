@@ -4,7 +4,7 @@ position(0, 0).
 status(hunting).
 
 health(100).
-strength(50).
+strength(25).
 
 
 
@@ -111,8 +111,10 @@ adjacent(X, Y, Xt, Yt) :-
        .print("I tracked: ", Agent);
        !analyse_monster(Agent).
 
+
 +!analyse_monster(Agent) <-
     .send(Agent, achieve, show_level).
+
 
 +monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR) <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
@@ -122,11 +124,29 @@ adjacent(X, Y, Xt, Yt) :-
     .print("My level is: ", MyLevel);
     !make_decision(M, MonsterLevel, MyLevel).
 
-+!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel <-
-    .print("Decided to attack monster: ", Monster).
+
++!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel & strength(STR) <-
+    .print("Decided to attack monster: ", Monster);
+    .send(Monster, achieve, get_damage(STR));
+    .send(Monster, achieve, fight_back);
+    !fight(Monster).
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
     .print("Decided to escape: ", Monster).
+
+
+
+//---FIGHTING---
++!fight(Monster) : monster(X, Y, alive) <-
+    .print("Fighting monster: ", Monster);
+
+    !fight(Monster).
+
++!fight(Monster) : monster(X, Y, dead) <-
+    .print("Defeated: ", Monster).
+
+
+
 
 
 +monster(X, Y, Status) : true <-
