@@ -54,8 +54,8 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Move failed, retrying...");
     !go(Direction).
 
-+!go_to(Xt, Yt) : position(X, Y) & adjacent(X, Y, Xt, Yt) <-
-    .print("Stopped one cell before monster at (", Xt, ",", Yt, ")").
++!go_to(Xt, Yt) : position(X, Y) & monster(Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
+    true.
 
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
