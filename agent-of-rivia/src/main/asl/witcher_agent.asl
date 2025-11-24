@@ -28,13 +28,13 @@ adjacent(X, Y, Xt, Yt) :-
 
 +!hunt : not(status(hunting)) <- true.
 
-+!hunt : status(hunting) & monster(Xt, Yt, alive) & not busy <-
++!hunt : status(hunting) & monster(_,Xt,Yt,alive) & not busy <-
     -+busy;
     !go_to(Xt, Yt);
     -busy;
     !hunt.
 
-+!hunt : not monster(_,_,alive) <-
++!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!");
     -+status(resting).
 
@@ -54,7 +54,7 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Move failed, retrying...");
     !go(Direction).
 
-+!go_to(Xt, Yt) : position(X, Y) & monster(Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
++!go_to(Xt, Yt) : position(X, Y) & monster(_, Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
     true.
 
 
@@ -107,7 +107,7 @@ adjacent(X, Y, Xt, Yt) :-
 
 //---NEIGHBOUR INTERACTION---
 
-+neighbour(Agent) : status(hunting) & monster(Xt, Yt, alive) <-
++neighbour(Agent) : status(hunting) & monster(Agent, Xt, Yt, alive) <-
        .print("I tracked: ", Agent);
        !analyse_monster(Agent).
 
@@ -135,21 +135,18 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---FIGHTING---
-+!fight(Monster) : monster(X, Y, alive) & strength(STR) <-
++!fight(Monster) : monster(Monster, X, Y, alive) & strength(STR) <-
     .print("Fighting monster: ", Monster);
     .send(Monster, achieve, get_damage(STR));
     .send(Monster, achieve, fight_back);
     !fight(Monster).
 
-+!fight(Monster) : monster(X, Y, dead) <-
++!fight(Monster) : monster(Monster, X, Y, dead) <-
     .print("Defeated: ", Monster).
 
 
-
-
-
-+monster(X, Y, Status) : true <-
-     .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ")").
++monster(Name, X, Y, Status) : true <-
+     .print("BELIEF RECEIVED: ", Name, ",", Status).
 
 
 //---GOING HOME---

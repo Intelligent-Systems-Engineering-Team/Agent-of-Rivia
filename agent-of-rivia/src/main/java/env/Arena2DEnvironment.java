@@ -122,7 +122,7 @@ public class Arena2DEnvironment extends Environment {
                 .filter(name -> name.equals("witcher") == false)
                 .map(name -> {
                     Vector2D pos = model.getAgentPosition(name);
-                    return Literal.parseLiteral(String.format("monster(%d,%d,%s)", (int)pos.getX(), (int)pos.getY(), model.getAgentAliveStatus(name).toString().toLowerCase()));
+                    return Literal.parseLiteral(String.format("monster(%s,%d,%d,%s)", name, (int)pos.getX(), (int)pos.getY(), model.getAgentAliveStatus(name).toString().toLowerCase()));
                 })
                 .collect(Collectors.toList());
     }
