@@ -11,7 +11,7 @@ strength(25).
     .print("Ouch! I received ", Dmg, " damage. My health is now ", NewHP).
 
 
-+!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg >= 0 <-
++!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
     -+health(0);
     .my_name(Me);
     kill(Me);
