@@ -7,8 +7,8 @@ facing(top).
 home(0, 0).
 position(0, 0).
 status(hunting).
-
-health(100).
+tavern(19, 0).
+health(95).
 strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
@@ -28,7 +28,12 @@ adjacent(X, Y, Xt, Yt) :-
 
 -!kill_all_monsters <-
     .print("Failed to kill all monsters").
-
+    
+    
++!hunt : health(H) & H < 100 <-
+    !go_tavern;
+    !rest;
+    !hunt.
 
 +!hunt : status(hunting) & monster(_,Xt,Yt,alive) <-
     .print("Investigating location: (", Xt, ",", Yt, ")");
@@ -85,6 +90,16 @@ adjacent(X, Y, Xt, Yt) :-
 
 +!orient(Dir) : facing(Dir) <-
     true.
+
++!go_tavern : tavern(Xt, Yt) <-
+    .print("Health is low, heading to tavern...");
+    !go_to(Xt, Yt);
+    .print("Arrived at tavern.").
+
++!rest <-
+    -health(_);
+    +health(100);
+    .print("Rested at the tavern, Health restored to 100").
 
 +!orient(right) : facing(top)    <- !go(right).
 +!orient(right) : facing(bottom) <- !go(left).
