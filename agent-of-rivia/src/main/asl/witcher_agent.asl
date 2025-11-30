@@ -30,8 +30,7 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Failed to kill all monsters").
     
     
-+!hunt : health(H) & H < 100 <-
-    .print("Health is low, heading to tavern...");
++!hunt : health(HP) & HP < 100 <-
     !go_tavern;
     !rest;
     !hunt.
@@ -132,13 +131,14 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 +!analyse_monster(Agent) <-
+    .print("Analysing monster: ", Agent);
     .send(Agent, achieve, show_level).
 
 
-+monster_level(Health, Strength)[source(M)] : health(HP) <-
++monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR)  <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
-    MonsterLevel = Health / Strength;
-    MyLevel = HP / STR;
+    MonsterLevel = (Health + Strength) / 100;
+    MyLevel = (HP + STR) / 100;
     .print("Monster level is: ", MonsterLevel);
     .print("My level is: ", MyLevel);
     !make_decision(M, MonsterLevel, MyLevel).
@@ -173,6 +173,5 @@ adjacent(X, Y, Xt, Yt) :-
 //---GOING HOME---
 
 +!go_home : home(Xt, Yt) <-
-    .print("start going home");
     !go_to(Xt, Yt);
     .print("Arrived home").
