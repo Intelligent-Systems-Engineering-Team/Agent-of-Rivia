@@ -31,6 +31,7 @@ adjacent(X, Y, Xt, Yt) :-
     
     
 +!hunt : health(H) & H < 100 <-
+    .print("Health is low, heading to tavern...");
     !go_tavern;
     !rest;
     !hunt.
@@ -48,7 +49,10 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Hunting failed");
     !hunt.
 
-
++!celebrate <-
+    .print("TIME TO PARTY!");
+    !go_tavern;
+    .wait(5000).
 
 //---WALKING---
 
@@ -92,7 +96,6 @@ adjacent(X, Y, Xt, Yt) :-
     true.
 
 +!go_tavern : tavern(Xt, Yt) <-
-    .print("Health is low, heading to tavern...");
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
