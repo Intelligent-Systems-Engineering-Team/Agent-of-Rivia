@@ -4,7 +4,7 @@ position(0, 0).
 status(hunting).
 
 health(100).
-strength(50).
+strength(25).
 
 
 
@@ -54,8 +54,8 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Move failed, retrying...");
     !go(Direction).
 
-+!go_to(Xt, Yt) : position(X, Y) & adjacent(X, Y, Xt, Yt) <-
-    .print("Stopped one cell before monster at (", Xt, ",", Yt, ")").
++!go_to(Xt, Yt) : position(X, Y) & monster(Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
+    true.
 
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
@@ -116,7 +116,7 @@ adjacent(X, Y, Xt, Yt) :-
     .send(Agent, achieve, show_level).
 
 
-+monster_level(Health, Strength)[source(M)] : health(HP)  & strength(STR) <-
++monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR)<-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
     MonsterLevel = Health / Strength;
     MyLevel = HP / STR;
@@ -125,83 +125,29 @@ adjacent(X, Y, Xt, Yt) :-
     !make_decision(M, MonsterLevel, MyLevel).
 
 
+
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel & strength(STR) <-
     .print("Decided to attack monster: ", Monster);
     !fight(Monster).
 
-
++!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
+    .print("Decided to escape: ", Monster).
 
 //---ESCAPE---
-//---ESCAPE---
+
 //---ESCAPE---
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
-    .print("Decided to escape: ", Monster);
-    -+status(escaping);
-    // Find ANY alive monster, not just adjacent ones
+    .print("❌ Monster too strong! Marking as avoided: ", Monster);
+
+    // Mark this specific monster as too strong instead of dead
     if (monster(MX, MY, alive)) {
-        !escape_from(MX, MY)
-    } else {
-        .print("No monster found - returning to hunting");
-        -+status(hunting)
-    }.
+        -monster(MX, MY, alive);
+        +monster(MX, MY, too_strong);
+        .print("Marked monster at (", MX, ",", MY, ") as too_strong")
+    };
 
-// Escape plan - move away until safe distance
-+!escape_from(MX, MY) : position(X, Y) & adjacent(X, Y, MX, MY) <-
-    .print("🏃 Adjacent to monster at (", MX, ",", MY, "), retreating...");
-    !deterministic_retreat(MX, MY);
-    !escape_from(MX, MY).
-
-+!escape_from(MX, MY) <-
-    .print("✓ Escape successful — no longer adjacent to (", MX, ",", MY, ")");
-    -monster(MX, MY, alive);
-    +monster(MX, MY, dead);
-    -+status(hunting).
-
-// Deterministic retreat - prioritize moving away from monster
-+!deterministic_retreat(MX, MY) : position(X, Y) & X > MX & free(right) <-
-    .print("Escaping RIGHT (away from monster)");
-    !orient(right);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : position(X, Y) & X < MX & free(left) <-
-    .print("Escaping LEFT (away from monster)");
-    !orient(left);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : position(X, Y) & Y > MY & free(bottom) <-
-    .print("Escaping DOWN (away from monster)");
-    !orient(bottom);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : position(X, Y) & Y < MY & free(top) <-
-    .print("Escaping UP (away from monster)");
-    !orient(top);
-    !go(forward).
-
-// Fallback: try any free direction
-+!deterministic_retreat(MX, MY) : free(left) <-
-    .print("Escaping LEFT (fallback)");
-    !orient(left);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : free(right) <-
-    .print("Escaping RIGHT (fallback)");
-    !orient(right);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : free(top) <-
-    .print("Escaping UP (fallback)");
-    !orient(top);
-    !go(forward).
-
-+!deterministic_retreat(MX, MY) : free(bottom) <-
-    .print("Escaping DOWN (fallback)");
-    !orient(bottom);
-    !go(forward).
-
-+!deterministic_retreat(_,_) <-
-    .print("⚠️ No escape direction available — trapped!");
+    // Return to hunting - will find next alive monster
     -+status(hunting).
 
 // Define free directions
@@ -209,6 +155,7 @@ free(left) :- not obstacle(left).
 free(right) :- not obstacle(right).
 free(top) :- not obstacle(top).
 free(bottom) :- not obstacle(bottom).
+
 //---FIGHTING---
 +!fight(Monster) : monster(X, Y, alive) & strength(STR) <-
     .print("Fighting monster: ", Monster);
