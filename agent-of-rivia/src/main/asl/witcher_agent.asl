@@ -1,3 +1,8 @@
+
+
+
+//---INITIAL BELIEFS---
+
 facing(top).
 home(0, 0).
 position(0, 0).
@@ -6,40 +11,36 @@ status(hunting).
 health(100).
 strength(25).
 
-
-
-obstacle(Dir) :- robot(Dir).
-opposite(top, bottom).
-opposite(left, right).
-opposite(X, Y) :- opposite(Y, X).
-
 adjacent(X, Y, Xt, Yt) :-
     (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
     | (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
 
 
 
+//---MAIN GOAL---
+
 !kill_all_monsters.
 
 +!kill_all_monsters <-
     !hunt;
+    !celebrate;
     !go_home.
 
+-!kill_all_monsters <-
+    .print("Failed to kill all monsters").
 
-+!hunt : not(status(hunting)) <- true.
 
-+!hunt : status(hunting) & monster(_,Xt,Yt,alive) & not busy <-
-    -+busy;
++!hunt : status(hunting) & monster(_,Xt,Yt,alive) <-
+    .print("Investigating location: (", Xt, ",", Yt, ")");
     !go_to(Xt, Yt);
-    -busy;
     !hunt.
 
 +!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!");
-    -+status(resting).
+    -+status(celebrating).
 
--!hunt : status(hunting) <-
-    .print("go_to failed");
+-!hunt <-
+    .print("Hunting failed");
     !hunt.
 
 
@@ -54,9 +55,9 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Move failed, retrying...");
     !go(Direction).
 
+
 +!go_to(Xt, Yt) : position(X, Y) & monster(_, Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
     true.
-
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     .print("Arrived at target (", Xt, ",", Yt, ")");
@@ -135,6 +136,7 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---FIGHTING---
+
 +!fight(Monster) : monster(Monster, X, Y, alive) & strength(STR) <-
     .print("Fighting monster: ", Monster);
     .send(Monster, achieve, get_damage(STR));
@@ -149,8 +151,10 @@ adjacent(X, Y, Xt, Yt) :-
      .print("BELIEF RECEIVED: ", Name, ",", Status).
 
 
+
 //---GOING HOME---
 
 +!go_home : home(Xt, Yt) <-
+    .print("start going home");
     !go_to(Xt, Yt);
     .print("Arrived home").
