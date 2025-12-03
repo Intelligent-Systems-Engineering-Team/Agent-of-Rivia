@@ -38,11 +38,12 @@ adjacent(X, Y, Xt, Yt) :-
     .print("All monsters are dead!");
     -+status(resting).
 
++!hunt : not monster(_,_,alive,MonsterLevel) <-
+    .print("He is too strong for me").
+
 -!hunt : status(hunting) <-
-    .print("go_to failed");
+    .print("hunt failed");
     !hunt.
-
-
 
 //---WALKING---
 
@@ -54,9 +55,9 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Move failed, retrying...");
     !go(Direction).
 
-+!go_to(Xt, Yt) : position(X, Y) & monster(Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
-    true.
 
++!go_to(Xt, Yt) : position(X, Y) & monster(_, Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
+    true.
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     .print("Arrived at target (", Xt, ",", Yt, ")");
@@ -84,6 +85,9 @@ adjacent(X, Y, Xt, Yt) :-
 
 +!orient(Dir) : facing(Dir) <-
     true.
+
+
+
 
 +!orient(right) : facing(top)    <- !go(right).
 +!orient(right) : facing(bottom) <- !go(left).
@@ -131,30 +135,18 @@ adjacent(X, Y, Xt, Yt) :-
     !fight(Monster).
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
-    .print("Decided to escape: ", Monster).
+    .print("Decided to escape: ", Monster);
+    !escape(Monster, MonsterLevel).
 
 //---ESCAPE---
++!escape(Monster, MonsterLevel) : monster(X, Y, alive) <-
+    .print("Escaping from stronger monster: ", Monster);
+    -monster(X, Y, alive);
+    +monster(X, Y, alive, MonsterLevel);
+    !hunt.
 
-//---ESCAPE---
 
-+!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
-    .print("❌ Monster too strong! Marking as avoided: ", Monster);
 
-    // Mark this specific monster as too strong instead of dead
-    if (monster(MX, MY, alive)) {
-        -monster(MX, MY, alive);
-        +monster(MX, MY, too_strong);
-        .print("Marked monster at (", MX, ",", MY, ") as too_strong")
-    };
-
-    // Return to hunting - will find next alive monster
-    -+status(hunting).
-
-// Define free directions
-free(left) :- not obstacle(left).
-free(right) :- not obstacle(right).
-free(top) :- not obstacle(top).
-free(bottom) :- not obstacle(bottom).
 
 //---FIGHTING---
 +!fight(Monster) : monster(X, Y, alive) & strength(STR) <-
@@ -173,6 +165,8 @@ free(bottom) :- not obstacle(bottom).
 +monster(X, Y, Status) : true <-
      .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ")").
 
++monster(X, Y, Status, Level) : true <-
+     .print("BELIEF RECEIVED: monster(", X, ",", Y, ",", Status, ",", Level, ")").
 
 //---GOING HOME---
 
