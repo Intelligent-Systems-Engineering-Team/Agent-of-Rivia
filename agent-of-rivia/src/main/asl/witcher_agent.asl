@@ -7,8 +7,10 @@ home(0, 0).
 position(0, 0).
 status(hunting).
 tavern(19, 0).
-health(95).
+health(100).
+max_health(100).
 strength(25).
+max_strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
     (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
@@ -37,6 +39,7 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Investigating location: (", Xt, ",", Yt, ")");
     !go_to(Xt, Yt);
     !hunt.
+
 
 +!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!");
@@ -96,6 +99,8 @@ adjacent(X, Y, Xt, Yt) :-
     !go(forward);
     !go_to(Xt, Yt).
 
+
+
 +!orient(Dir) : facing(Dir) <-
     true.
 
@@ -103,10 +108,10 @@ adjacent(X, Y, Xt, Yt) :-
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
-+!rest <-
++!rest : max_health(Max) <-
     -health(_);
-    +health(100);
-    .print("Rested at the tavern, Health restored to 100").
+    +health(Max);
+    .print("Rested at the tavern, Health restored to ", Max).
 
 
 +!orient(right) : facing(top)    <- !go(right).
@@ -140,7 +145,7 @@ adjacent(X, Y, Xt, Yt) :-
     .send(Agent, achieve, show_level).
 
 
-+monster_level(Health, Strength)[source(M)] : health(My_HP) & strength(My_STR)  <-
++monster_level(Health, Strength)[source(M)] : max_health(My_HP) & max_strength(My_STR)  <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
     MonsterLevel = (Health + Strength) / 100;
     MyLevel = (My_HP + My_STR) / 100;
@@ -165,9 +170,15 @@ adjacent(X, Y, Xt, Yt) :-
     .send(Monster, achieve, fight_back);
     !fight(Monster).
 
-+!fight(Monster) : monster(Monster, X, Y, dead) <-
-    .print("Defeated: ", Monster).
-
++!fight(Monster) : monster(Monster, X, Y, dead) & max_health(MaxHLTH) & max_strength(MaxSTR)<-
+    .print("Defeated: ", Monster);
+    NewMaxHlth = MaxHLTH + 75;
+    NewMaxStr = MaxSTR + 25;
+    -max_health(MaxHLTH);
+    +max_health(NewMaxHlth);
+    -max_strength(MaxSTR);
+    +max_strength(NewMaxStr);
+    .print("Max health increased by 75! New max: ", NewMaxHlth, " & Max strength increased by 25! New max: ", NewMaxStr).
 
 
 //---GETTING DAMAGE---
