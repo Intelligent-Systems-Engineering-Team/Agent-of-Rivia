@@ -2,7 +2,6 @@
 
 
 //---INITIAL BELIEFS---
-
 facing(top).
 home(0, 0).
 position(0, 0).
@@ -18,7 +17,6 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---MAIN GOAL---
-
 !kill_all_monsters.
 
 +!kill_all_monsters <-
@@ -27,8 +25,7 @@ adjacent(X, Y, Xt, Yt) :-
     !go_home.
 
 -!kill_all_monsters <-
-    .print("Failed to kill all monsters").
-    
+    .print("Failed to kill all monsters").    
 
 
 
@@ -61,13 +58,20 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Hunting failed");
     !hunt.
 
+
 +!celebrate <-
     .print("TIME TO PARTY!");
     !go_tavern;
     .wait(5000).
 
-//---WALKING---
 
++!go_home : home(Xt, Yt) <-
+    !go_to(Xt, Yt);
+    .print("Arrived home").
+
+
+
+//---WALKING---
 +!go(Direction) <-
     move(Direction);
     utils.update_pose(Direction).
@@ -118,6 +122,7 @@ adjacent(X, Y, Xt, Yt) :-
     +health(100);
     .print("Rested at the tavern, Health restored to 100").
 
+
 +!orient(right) : facing(top)    <- !go(right).
 +!orient(right) : facing(bottom) <- !go(left).
 +!orient(right) : facing(left)   <- !go(backward).
@@ -139,21 +144,20 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---NEIGHBOUR INTERACTION---
-
 +neighbour(Agent) : status(hunting) & monster(Agent, Xt, Yt, alive) <-
        .print("I tracked: ", Agent);
        !analyse_monster(Agent).
 
 
 +!analyse_monster(Agent) <-
-    .print("Analysing monster: ", Agent);
+    .print("Analysing ", Agent);
     .send(Agent, achieve, show_level).
 
 
-+monster_level(Health, Strength)[source(M)] : health(HP) & strength(STR)  <-
++monster_level(Health, Strength)[source(M)] : health(My_HP) & strength(My_STR)  <-
     .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
     MonsterLevel = (Health + Strength) / 100;
-    MyLevel = (HP + STR) / 100;
+    MyLevel = (My_HP + My_STR) / 100;
     .print("Monster level is: ", MonsterLevel);
     .print("My level is: ", MyLevel);
     !make_decision(M, MonsterLevel, MyLevel).
@@ -191,7 +195,6 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---FIGHTING---
-
 +!fight(Monster) : monster(Monster, X, Y, alive) & strength(STR) <-
     .print("Fighting monster: ", Monster);
     .send(Monster, achieve, get_damage(STR));
@@ -202,30 +205,20 @@ adjacent(X, Y, Xt, Yt) :-
     .print("Defeated: ", Monster).
 
 
+
+//---GETTING DAMAGE---
++!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 <-
+    NewHP = HP - Dmg;
+    -health(HP);
+    +health(NewHP);
+    .print("RAAARGH! I received ", Dmg, " damage. My health is now ", NewHP).
+
++!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
+    -+health(0);
+    .print("NOOOOOOOOOOOOOOOOOOOOOO").
+
+
+
+//---BELIEF UPDATES---
 +monster(Name, X, Y, Status) : true <-
      .print("BELIEF RECEIVED: ", Name, ",", Status).
-
-
-
-
-//---GOING HOME---
-
-+!go_home : home(Xt, Yt) <-
-    !go_to(Xt, Yt);
-    .print("Arrived home").
-
-//---PRINT BELIEFS---
-/*
-+!print_all_beliefs <-
-    .findall(Belief, Belief, ListOfBeliefs);
-    .print("All beliefs: ", ListOfBeliefs).
-*/
-
-+!print_all_beliefs <-
-        .print("========== ALL BELIEFS ==========");
-        .findall(Belief, Belief, ListOfBeliefs);
-        for ( .member(B, ListOfBeliefs) ) {
-            .print("  ",
-            B)
-        };
-        .print("=================================").

@@ -20,4 +20,5 @@ strength(60).
 
 
 +!fight_back[source(Agent)] : health(HP) & strength(STR) <-
+    .send(Agent, achieve, get_damage(STR));
     .print("Fighting back ", Agent).
