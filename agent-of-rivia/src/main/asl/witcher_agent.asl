@@ -8,7 +8,7 @@ home(0, 0).
 position(0, 0).
 status(hunting).
 tavern(19, 0).
-health(95).
+health(100).
 strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
@@ -29,16 +29,29 @@ adjacent(X, Y, Xt, Yt) :-
 -!kill_all_monsters <-
     .print("Failed to kill all monsters").
     
-    
+
+
+
 +!hunt : health(HP) & HP < 100 <-
     !go_tavern;
     !rest;
     !hunt.
 
-+!hunt : status(hunting) & monster(_,Xt,Yt,alive) <-
-    .print("Investigating location: (", Xt, ",", Yt, ")");
+/*
++!hunt : status(hunting) & monster(Name,Xt,Yt,alive) & not monster(Name,_,_,postponed,_) <-
+    .print("Hunting monster ", Name, " at: (", Xt, ",", Yt, ")");
     !go_to(Xt, Yt);
     !hunt.
+*/
+
+
+
++!hunt : status(hunting) & monster(Name,Xt,Yt,alive) &
+         not monster(Name,_,_,postponed,_) <-
+    .print("Hunting monster ", Name, " at: (", Xt, ",", Yt, ")");
+    !go_to(Xt, Yt);
+    !hunt.
+
 
 +!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!");
@@ -90,6 +103,8 @@ adjacent(X, Y, Xt, Yt) :-
     !orient(top);
     !go(forward);
     !go_to(Xt, Yt).
+
+
 
 +!orient(Dir) : facing(Dir) <-
     true.
@@ -149,7 +164,29 @@ adjacent(X, Y, Xt, Yt) :-
     !fight(Monster).
 
 +!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
-    .print("Decided to escape: ", Monster).
+    .print("Decided to escape: ", Monster);
+    !escape(Monster, MonsterLevel).
+
+//---ESCAPE---
+
+
++!escape(Monster, MonsterLevel) <-
+    .print("Escaping from stronger monster: ", Monster);
+
+    // Query to get the monster's current position
+    ?monster(Monster, X, Y, alive);
+
+    .print("Marking monster as postponed at: (", X, ",", Y, ")");
+
+    // DON'T try to remove perceptual belief - just add postponed marker
+    // The hunt plan will filter it out using "not monster(Name,_,_,postponed,_)"
+    +monster(Monster, X, Y, postponed, MonsterLevel);
+
+    .print("Monster postponed. Continuing hunt...");
+    !print_all_beliefs.
+
+
+
 
 
 
@@ -170,8 +207,25 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
+
 //---GOING HOME---
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived home").
+
+//---PRINT BELIEFS---
+/*
++!print_all_beliefs <-
+    .findall(Belief, Belief, ListOfBeliefs);
+    .print("All beliefs: ", ListOfBeliefs).
+*/
+
++!print_all_beliefs <-
+        .print("========== ALL BELIEFS ==========");
+        .findall(Belief, Belief, ListOfBeliefs);
+        for ( .member(B, ListOfBeliefs) ) {
+            .print("  ",
+            B)
+        };
+        .print("=================================").
