@@ -8,7 +8,6 @@ MAS project {
 		witcher witcher_agent;
 		drowner monster_agent;
 		sirens monster_agent;
-
 	aslSourcePath:
 		"src/main/asl";
 }
