@@ -1,8 +1,11 @@
 health(100).
 strength(25).
 
-+!show_level[source(Agent)] : health(HP) & strength(STR) <-
-    .send(Agent, tell, monster_level(HP,STR)).
+
++!disclose_stats[source(Agent)] : health(H) & strength(S) <-
+    .send(Agent, tell, monster_stats(H, S)).
+
+
 
 +!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 <-
     NewHP = HP - Dmg;
