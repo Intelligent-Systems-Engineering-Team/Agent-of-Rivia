@@ -1,12 +1,9 @@
-
-
-
-//---INITIAL BELIEFS---
 facing(top).
-home(0, 0).
+
 position(0, 0).
-status(hunting).
+home(0, 0).
 tavern(19, 0).
+
 health(95).
 strength(25).
 
@@ -16,42 +13,59 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
-//---MAIN GOAL---
 !kill_all_monsters.
 
-+!kill_all_monsters <-
++!kill_all_monsters : monster(_,_,_,alive) <-
     !hunt;
+    !kill_all_monsters.
+
++!kill_all_monsters : not monster(_,_,_,alive) <-
     !celebrate;
     !go_home.
 
 -!kill_all_monsters <-
-    .print("Failed to kill all monsters").
+    .print("Failed: kill all monsters").
+
 
 
 +!hunt : health(HP) & HP < 100 <-
-    !go_tavern;
-    !rest;
+    !recover;
     !hunt.
 
-+!hunt : status(hunting) & monster(_,Xt,Yt,alive) <-
-    .print("Investigating location: (", Xt, ",", Yt, ")");
-    !go_to(Xt, Yt);
++!hunt : monster(_,Xt,Yt,alive) <-
+    !track_monster(Xt, Yt);
     !hunt.
 
 +!hunt : not monster(_,_,_,alive) <-
-    .print("All monsters are dead!");
-    -+status(celebrating).
+    .print("All monsters are dead!").
 
 -!hunt <-
-    .print("Hunting failed");
-    !hunt.
+    .print("Failed: hunt").
 
+
+
++!track_monster(Xt, Yt) <-
+    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
+    !go_to(Xt, Yt).
 
 +!celebrate <-
-    .print("TIME TO PARTY!");
+    .print("Let's celebrate!");
     !go_tavern;
     .wait(5000).
 
++!recover <-
+    .print("I need to recover my health...");
+    !go_tavern;
+    !heal.
+
++!go_tavern : tavern(Xt, Yt) <-
+    !go_to(Xt, Yt);
+    .print("Arrived at tavern.").
+
++!heal <-
+    .print("Ate some food, health restored to maximum");
+    -health(_);
+    +health(100).
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
@@ -73,7 +87,6 @@ adjacent(X, Y, Xt, Yt) :-
     true.
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
-    .print("Arrived at target (", Xt, ",", Yt, ")");
     -monster(Xt, Yt).
 
 +!go_to(Xt, Yt) : position(X, Y) & X < Xt <-
@@ -96,18 +109,9 @@ adjacent(X, Y, Xt, Yt) :-
     !go(forward);
     !go_to(Xt, Yt).
 
-+!orient(Dir) : facing(Dir) <-
-    true.
 
-+!go_tavern : tavern(Xt, Yt) <-
-    !go_to(Xt, Yt);
-    .print("Arrived at tavern.").
 
-+!rest <-
-    -health(_);
-    +health(100);
-    .print("Rested at the tavern, Health restored to 100").
-
++!orient(Dir) : facing(Dir) <- true.
 
 +!orient(right) : facing(top)    <- !go(right).
 +!orient(right) : facing(bottom) <- !go(left).
@@ -125,36 +129,27 @@ adjacent(X, Y, Xt, Yt) :-
 +!orient(bottom): facing(left)   <- !go(left).
 +!orient(bottom): facing(right)  <- !go(right).
 
-+position(X, Y) <- .print("I am in: (", X, ", ", Y, ")").
 
 
+//---MONSTER INTERACTION---
++neighbour(Agent) : monster(Agent, _, _, alive) <-
+       .print("I tracked ", Agent);
+       .print("First contact with enemy...");
+       .send(Agent, achieve, disclose_stats).
 
-//---NEIGHBOUR INTERACTION---
-+neighbour(Agent) : status(hunting) & monster(Agent, Xt, Yt, alive) <-
-       .print("I tracked: ", Agent);
-       !analyse_monster(Agent).
++monster_stats(H, S)[source(Agent)] : health(My_H) & strength(My_S) <-
+     .print("Aha! ", Agent, " has:");
+     .print(H, " health and ", S, " strength");
+     MonsterPower = H * S;
+     MyPower = My_H * My_S;
+     !make_decision(Agent, MonsterPower, MyPower).
 
++!make_decision(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
+    .print("I am strong enough to attack ", Agent, "!");
+    !fight(Agent).
 
-+!analyse_monster(Agent) <-
-    .print("Analysing ", Agent);
-    .send(Agent, achieve, show_level).
-
-
-+monster_level(Health, Strength)[source(M)] : health(My_HP) & strength(My_STR)  <-
-    .print("Monster has: [HP ", Health, "] [STR ", Strength, "]");
-    MonsterLevel = (Health + Strength) / 100;
-    MyLevel = (My_HP + My_STR) / 100;
-    .print("Monster level is: ", MonsterLevel);
-    .print("My level is: ", MyLevel);
-    !make_decision(M, MonsterLevel, MyLevel).
-
-
-+!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel <= MyLevel & strength(STR) <-
-    .print("Decided to attack monster: ", Monster);
-    !fight(Monster).
-
-+!make_decision(Monster, MonsterLevel, MyLevel) : MonsterLevel > MyLevel <-
-    .print("Decided to escape: ", Monster).
++!make_decision(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
+    .print("Decided to escape: ", Agent).
 
 
 
@@ -185,4 +180,4 @@ adjacent(X, Y, Xt, Yt) :-
 
 //---BELIEF UPDATES---
 +monster(Name, X, Y, Status) : true <-
-     .print("BELIEF RECEIVED: ", Name, ",", Status).
+     .print("I received an order to kill ", Name, ".").
