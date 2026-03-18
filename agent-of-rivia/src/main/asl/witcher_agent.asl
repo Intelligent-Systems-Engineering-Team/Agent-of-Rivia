@@ -3,8 +3,8 @@ facing(top).
 position(0, 0).
 home(0, 0).
 tavern(19, 0).
-health(100).
-max_health(100).
+health(75).
+max_health(75).
 strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
@@ -27,7 +27,7 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
-+!hunt : health(H) & H < 100 <-
++!hunt : health(H) & max_health(MaxHP) & H < MaxHP * 0.75  <-
     !go_tavern;
     !heal;
     !kill_all_monsters.
@@ -60,9 +60,8 @@ adjacent(X, Y, Xt, Yt) :-
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
-+!heal <-
-    -health(_);
-    +health(100);
++!heal : max_health(MaxHP) <-
+    -+health(MaxHP);
     .print("Ate some food, drunk some ale! (HP: 100)").
 
 +!go_home : home(Xt, Yt) <-
@@ -179,9 +178,9 @@ adjacent(X, Y, Xt, Yt) :-
 +!finish_fight[source(Monster)] : max_health(MaxHLTH) & strength(STR) <-
     NewMaxHlth = MaxHLTH + 75;
     NewStr = STR + 25;
-    -+max_health(MaxHLTH, NewMaxHlth);
-    -+strength(MaxSTR, NewStr);
-    .print("Max health increased by 75! New max: ", NewMaxHlth, " & Max strength increased by 25! New max: ", NewStr).
+    -+max_health(NewMaxHlth);
+    -+strength(NewStr);
+    .print("LEVEL UP! Max health: ", NewMaxHlth, " Strength: ", NewStr);
     
     -in_battle(Monster);
     !kill_all_monsters.

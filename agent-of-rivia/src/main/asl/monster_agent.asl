@@ -1,4 +1,4 @@
-health(100).
+health(75).
 strength(25).
 
 +!disclose_stats[source(Agent)] : health(H) & strength(S) <-
