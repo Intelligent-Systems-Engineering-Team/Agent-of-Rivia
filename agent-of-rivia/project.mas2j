@@ -9,6 +9,7 @@ MAS project {
 		drowner monster_agent;
 		siren monster_agent;
 
+
 	aslSourcePath:
 		"src/main/asl";
 }
