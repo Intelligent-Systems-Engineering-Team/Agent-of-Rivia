@@ -6,9 +6,8 @@ strength(25).
 
 +!take_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 & strength(S) <-
     NewHP = HP - Dmg;
-    .print("Rrrrr! (HP: ", NewHP, ")");
-    -health(HP);
-    +health(NewHP);
+    -+health(NewHP);
+    .print("Rrrrrrr! (HP: ", NewHP, ")");
     .print("ATTACKS*");
     .send(Agent, achieve, take_counter_damage(S)).
 
@@ -17,5 +16,5 @@ strength(25).
     -+health(0);
     .my_name(Me);
     .print(Me, " DEATH SOUND*");
-    kill(Me);
-    .send(Agent, achieve, finish_fight).
+    .send(Agent, achieve, finish_fight);
+    kill(Me).
