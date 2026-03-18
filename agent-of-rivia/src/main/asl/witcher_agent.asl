@@ -1,11 +1,11 @@
-facing(top).
+max_health(75).
+cur_health(75).
+strength(25).
 
+facing(top).
 position(0, 0).
 home(0, 0).
 tavern(19, 0).
-health(75).
-max_health(75).
-strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
     (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
@@ -22,51 +22,35 @@ adjacent(X, Y, Xt, Yt) :-
     !celebrate;
     !go_home.
 
--!kill_all_monsters <-
-    .print("Failed: kill all monsters").
 
 
++!hunt : monster(_,Xt,Yt,alive) & cur_health(CurHP) & max_health(MaxHP) & CurHP >= MaxHP * 0.75 <-
+    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
+    !go_to(Xt, Yt).
 
-+!hunt : health(H) & max_health(MaxHP) & H < MaxHP * 0.75  <-
++!hunt : cur_health(CurHP) & max_health(MaxHP) & CurHP < MaxHP * 0.75  <-
+    .print("Health is less then 75%, going to tavern to heal...");
     !go_tavern;
     !heal;
     !kill_all_monsters.
 
-+!hunt : monster(_,Xt,Yt,alive) <-
-    !track_monster(Xt, Yt).
 
-
-+!hunt : not monster(_,_,_,alive) <-
-    .print("All monsters are dead!").
-
-+!hunt : in_battle(_) <-
-    .print("Already in battle, stop hunting for now.").
-
--!hunt <-
-    .print("Failed: hunt").
-
-
-
-+!track_monster(Xt, Yt) <-
-    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
-    !go_to(Xt, Yt).
 
 +!celebrate <-
     .print("Let's celebrate!");
-    !go_tavern;
-    .wait(5000).
+    !go_tavern.
 
 +!go_tavern : tavern(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
 +!heal : max_health(MaxHP) <-
-    -+health(MaxHP);
-    .print("Ate some food, drunk some ale! (HP: 100)").
+    -+cur_health(MaxHP);
+    .print("Ate some food, drunk some ale! (HP: ", MaxHP, ")").
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
-    .print("Arrived home").
+    .print("I am home!").
 
 
 
@@ -78,7 +62,6 @@ adjacent(X, Y, Xt, Yt) :-
 -!go(Direction) <-
     .print("Move failed, retrying...");
     !go(Direction).
-
 
 +!go_to(Xt, Yt) : position(X, Y) & monster(_, Xt, Yt, alive) & adjacent(X, Y, Xt, Yt) <-
     true.
@@ -134,56 +117,57 @@ adjacent(X, Y, Xt, Yt) :-
        .print("First contact with enemy...");
        .send(Agent, achieve, disclose_stats).
 
-+monster_stats(H, S)[source(Agent)] : health(My_H) & strength(My_S) <-
++monster_stats(H, S)[source(Agent)] : cur_health(My_H) & strength(My_S) <-
      .print("Aha! ", Agent, " has:");
      .print(H, " health and ", S, " strength");
      MonsterPower = H * S;
      MyPower = My_H * My_S;
-     !make_decision(Agent, MonsterPower, MyPower).
+     !choose_action(Agent, MonsterPower, MyPower).
 
-+!make_decision(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
++!choose_action(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
     .print("I am strong enough to attack ", Agent, "!");
     !fight(Agent).
 
-+!make_decision(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
++!choose_action(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
     .print("Decided to escape: ", Agent).
 
 
 
 //---FIGHTING---
 +!fight(Agent) : not in_battle(_) <-
-    .print("I start a battle!");
     +in_battle(Agent);
+    .print("I attack!");
     !attack.
 
 +!attack : in_battle(Agent) & strength(S) <-
-    .print("I caused ", S, " damage to ", Agent);
-    .send(Agent, achieve, take_damage(S)).
+    .send(Agent, achieve, take_damage(S));
+    .print("Aha! I caused ", S, " damage to ", Agent).
 
-+!counter_damage(Dmg)[source(Agent)] : in_battle(Agent) & health(HP) <-
++!take_counter_damage(Dmg)[source(Agent)] : in_battle(Agent) & cur_health(HP) <-
     NewHP = HP - Dmg;
-    .print("Argh! Bastard! (HP: ", NewHP, ")");
-    -health(HP);
-    +health(NewHP);
-    !check_battle.
+    -+cur_health(NewHP);
+    !check_battle;
+    .print("Argh! Bastard! (HP: ", NewHP, ")").
 
-+!check_battle : health(HP) & HP > 0 & in_battle(Monster) <-
++!check_battle : cur_health(HP) & HP > 0 & in_battle(Monster) <-
     !attack.
 
-+!check_battle : health(HP) & HP <= 0 & in_battle(Monster) <-
++!check_battle : cur_health(HP) & HP <= 0 & in_battle(Monster) <-
     .print("I am defeated...");
     kill(self);
     -in_battle(Monster).
 
-+!finish_fight[source(Monster)] : max_health(MaxHLTH) & strength(STR) <-
-    NewMaxHlth = MaxHLTH + 75;
-    NewStr = STR + 25;
-    -+max_health(NewMaxHlth);
-    -+strength(NewStr);
-    .print("LEVEL UP! Max health: ", NewMaxHlth, " Strength: ", NewStr);
-    
++!finish_fight[source(Monster)] : max_health(MaxHP) & strength(STR) <-
+    !level_up;
     -in_battle(Monster);
     !kill_all_monsters.
+
++!level_up : max_health(MaxHP) & strength(Str) <-
+    NewMaxHP = MaxHP + 75;
+    NewStr = Str + 25;
+    -+max_health(NewMaxHP);
+    -+strength(NewStr);
+    .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
 
 
 
