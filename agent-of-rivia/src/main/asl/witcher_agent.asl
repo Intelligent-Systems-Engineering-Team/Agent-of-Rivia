@@ -16,8 +16,7 @@ adjacent(X, Y, Xt, Yt) :-
 !kill_all_monsters.
 
 +!kill_all_monsters : monster(_,_,_,alive) <-
-    !hunt;
-    !kill_all_monsters.
+    !hunt.
 
 +!kill_all_monsters : not monster(_,_,_,alive) <-
     !celebrate;
@@ -28,16 +27,19 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
-+!hunt : health(HP) & HP < 100 <-
-    !recover;
-    !hunt.
++!hunt : health(H) & H < 100 <-
+    !go_tavern;
+    !heal;
+    !kill_all_monsters.
 
 +!hunt : monster(_,Xt,Yt,alive) <-
-    !track_monster(Xt, Yt);
-    !hunt.
+    !track_monster(Xt, Yt).
 
 +!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!").
+
++!hunt : in_battle(_) <-
+    .print("Already in battle, stop hunting for now.").
 
 -!hunt <-
     .print("Failed: hunt").
@@ -53,19 +55,14 @@ adjacent(X, Y, Xt, Yt) :-
     !go_tavern;
     .wait(5000).
 
-+!recover <-
-    .print("I need to recover my health...");
-    !go_tavern;
-    !heal.
-
 +!go_tavern : tavern(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
 +!heal <-
-    .print("Ate some food, health restored to maximum");
     -health(_);
-    +health(100).
+    +health(100);
+    .print("Ate some food, drunk some ale! (HP: 100)").
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
@@ -131,7 +128,7 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
-//---MONSTER INTERACTION---
+//---MONSTER ESTIMATION---
 +neighbour(Agent) : monster(Agent, _, _, alive) <-
        .print("I tracked ", Agent);
        .print("First contact with enemy...");
@@ -154,30 +151,39 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---FIGHTING---
-+!fight(Monster) : monster(Monster, X, Y, alive) & strength(STR) <-
-    .print("Fighting monster: ", Monster);
-    .send(Monster, achieve, get_damage(STR));
-    .send(Monster, achieve, fight_back);
-    !fight(Monster).
++!fight(Agent) : not in_battle(_) <-
+    .print("I start a battle!");
+    +in_battle(Agent);
+    !attack.
 
-+!fight(Monster) : monster(Monster, X, Y, dead) <-
-    .print("Defeated: ", Monster).
++!attack : in_battle(Agent) & strength(S) <-
+    .print("I caused ", S, " damage to ", Agent);
+    .send(Agent, achieve, take_damage(S)).
 
-
-
-//---GETTING DAMAGE---
-+!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 <-
++!counter_damage(Dmg)[source(Agent)] : in_battle(Agent) & health(HP) <-
     NewHP = HP - Dmg;
+    .print("Argh! Bastard! (HP: ", NewHP, ")");
     -health(HP);
     +health(NewHP);
-    .print("RAAARGH! I received ", Dmg, " damage. My health is now ", NewHP).
+    !check_battle.
 
-+!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
-    -+health(0);
-    .print("NOOOOOOOOOOOOOOOOOOOOOO").
++!check_battle : health(HP) & HP > 0 & in_battle(Monster) <-
+    !attack.
+
++!check_battle : health(HP) & HP <= 0 & in_battle(Monster) <-
+    .print("I am defeated...");
+    kill(self);
+    -in_battle(Monster).
+
++!finish_fight[source(Monster)] <-
+    -in_battle(Monster);
+    !kill_all_monsters.
 
 
 
-//---BELIEF UPDATES---
-+monster(Name, X, Y, Status) : true <-
-     .print("I received an order to kill ", Name, ".").
+//---MONSTER CONTRACT BELIEFS---
++monster(Name, X, Y, Status) : Status = alive <-
+     .print("I received contract to kill ", Name).
+
++monster(Name, X, Y, Status) : Status = dead <-
+     .print("I finished an contract for ", Name).

@@ -1,27 +1,21 @@
 health(100).
 strength(25).
 
-
 +!disclose_stats[source(Agent)] : health(H) & strength(S) <-
     .send(Agent, tell, monster_stats(H, S)).
 
-
-
-+!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 <-
++!take_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg > 0 & strength(STR) <-
     NewHP = HP - Dmg;
+    .print("Rrrrr! (HP: ", NewHP, ")");
     -health(HP);
     +health(NewHP);
-    .print("Ouch! I received ", Dmg, " damage. My health is now ", NewHP).
+    .print("ATTACKS*");
+    .send(Agent, achieve, counter_damage(STR)).
 
 
-+!get_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
++!take_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
     -+health(0);
     .my_name(Me);
+    .print(Me, " DEATH SOUND*");
     kill(Me);
-    .print("I DIED").
-
-
-
-+!fight_back[source(Agent)] : health(HP) & strength(STR) <-
-    .send(Agent, achieve, get_damage(STR));
-    .print("Fighting back ", Agent).
+    .send(Agent, achieve, finish_fight).
