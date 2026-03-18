@@ -3,8 +3,8 @@ facing(top).
 position(0, 0).
 home(0, 0).
 tavern(19, 0).
-
-health(95).
+health(100).
+max_health(100).
 strength(25).
 
 adjacent(X, Y, Xt, Yt) :-
@@ -34,6 +34,7 @@ adjacent(X, Y, Xt, Yt) :-
 
 +!hunt : monster(_,Xt,Yt,alive) <-
     !track_monster(Xt, Yt).
+
 
 +!hunt : not monster(_,_,_,alive) <-
     .print("All monsters are dead!").
@@ -175,7 +176,13 @@ adjacent(X, Y, Xt, Yt) :-
     kill(self);
     -in_battle(Monster).
 
-+!finish_fight[source(Monster)] <-
++!finish_fight[source(Monster)] : max_health(MaxHLTH) & strength(STR) <-
+    NewMaxHlth = MaxHLTH + 75;
+    NewStr = STR + 25;
+    -+max_health(MaxHLTH, NewMaxHlth);
+    -+strength(MaxSTR, NewStr);
+    .print("Max health increased by 75! New max: ", NewMaxHlth, " & Max strength increased by 25! New max: ", NewStr).
+    
     -in_battle(Monster);
     !kill_all_monsters.
 
