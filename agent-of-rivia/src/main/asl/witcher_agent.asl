@@ -2,20 +2,34 @@ max_health(75).
 cur_health(75).
 strength(25).
 
+my_power(100).
+
 facing(top).
 position(0, 0).
+
 home(0, 0).
 tavern(19, 0).
 
+
+
 adjacent(X, Y, Xt, Yt) :-
     (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
-    | (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
+    |
+    (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
+
+healthy_enough :-
+    cur_health(CurHP) & max_health(MaxHP) & CurHP >= MaxHP * 0.75.
+
+my_power(P) :-
+    cur_health(H) & strength(S) & P = H * S.
 
 
 
+//---MAIN GOAL---
 !kill_all_monsters.
 
 +!kill_all_monsters : monster(_,_,_,alive) <-
+    !ensure_ready;
     !hunt.
 
 +!kill_all_monsters : not monster(_,_,_,alive) <-
@@ -24,15 +38,23 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 
-+!hunt : monster(_,Xt,Yt,alive) & cur_health(CurHP) & max_health(MaxHP) & CurHP >= MaxHP * 0.75 <-
++!ensure_ready : healthy_enough <-
+    true.
+
++!ensure_ready : not healthy_enough <-
+    .print("Health is below 75%, I am going to tavern to recover...");
+    !go_tavern;
+    !heal.
+
+
++!hunt : monster(Name,Xt,Yt,alive) & monster_power(Name, Power) & my_power(MyPower) & MyPower >= Power <-
+    .print("My power is higher!");
     .print("Tracking monster at: (", Xt, ", ", Yt, ")");
     !go_to(Xt, Yt).
 
-+!hunt : cur_health(CurHP) & max_health(MaxHP) & CurHP < MaxHP * 0.75  <-
-    .print("Health is less then 75%, going to tavern to heal...");
-    !go_tavern;
-    !heal;
-    !kill_all_monsters.
++!hunt : monster(Name,Xt,Yt,alive) & not monster_power(Name, _) <-
+    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
+    !go_to(Xt, Yt).
 
 
 
@@ -112,6 +134,11 @@ adjacent(X, Y, Xt, Yt) :-
 
 
 //---MONSTER ESTIMATION---
++neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) <-
+       .print("I returned to ", Agent);
+       .print("Long time no see!");
+       !fight(Agent).
+
 +neighbour(Agent) : monster(Agent, _, _, alive) <-
        .print("I tracked ", Agent);
        .print("First contact with enemy...");
@@ -129,7 +156,9 @@ adjacent(X, Y, Xt, Yt) :-
     !fight(Agent).
 
 +!choose_action(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
-    .print("Decided to escape: ", Agent).
+    +monster_power(Agent, MonsterPower);
+    .print("I should escape!");
+    !kill_all_monsters.
 
 
 
@@ -167,6 +196,7 @@ adjacent(X, Y, Xt, Yt) :-
     NewStr = Str + 25;
     -+max_health(NewMaxHP);
     -+strength(NewStr);
+    -+my_power(NewMaxHP * NewStr);
     .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
 
 

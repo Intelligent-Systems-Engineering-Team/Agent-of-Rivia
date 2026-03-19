@@ -6,8 +6,8 @@ MAS project {
 
 	agents:
 		witcher witcher_agent;
-		drowner monster_agent;
-		siren monster_agent;
+		drowner monster_agent_weak;
+		siren monster_agent_strong;
 
 
 	aslSourcePath:
