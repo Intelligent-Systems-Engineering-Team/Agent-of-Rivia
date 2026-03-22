@@ -10,6 +10,8 @@ tavern(19, 0).
 
 cur_target(none).
 
+heal_threshold(0.75).
+
 
 
 adjacent(X, Y, Xt, Yt) :-
@@ -18,7 +20,7 @@ adjacent(X, Y, Xt, Yt) :-
     (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
 
 healthy_enough :-
-    cur_health(CurHP) & max_health(MaxHP) & CurHP >= MaxHP * 0.75.
+    cur_health(CurHP) & max_health(MaxHP) & heal_threshold(ThresholdHP) & CurHP >= MaxHP * ThresholdHP.
 
 my_power(P) :-
     cur_health(H) & strength(S) & P = H * S.
@@ -80,7 +82,8 @@ my_power(P) :-
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
-    .print("I am home!").
+    .print("I am home!");
+    .print("...zzzzzz").
 
 
 
@@ -165,7 +168,7 @@ my_power(P) :-
 
 +!choose_action(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
     +monster_power(Agent, MonsterPower);
-    .print("I should escape!");
+    .print("Monster is too strong! I retreat!");
     !kill_all_monsters.
 
 
@@ -180,11 +183,11 @@ my_power(P) :-
     .send(Agent, achieve, take_damage(S));
     .print("Aha! I caused ", S, " damage to ", Agent).
 
-+!take_counter_damage(Dmg)[source(Agent)] : in_battle(Agent) & cur_health(HP) <-
++!take_counter_damage(Dmg)[source(Agent)] : in_battle(Agent) & cur_health(HP) & max_health(MaxHP) <-
     NewHP = HP - Dmg;
     -+cur_health(NewHP);
     !check_battle;
-    .print("Argh! Bastard! (HP: ", NewHP, ")").
+    .print("Argh! Bastard! (HP: ", NewHP, "/", MaxHP, ")").
 
 +!check_battle : cur_health(HP) & HP > 0 & in_battle(Monster) <-
     !attack.
