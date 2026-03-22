@@ -2,13 +2,13 @@ max_health(75).
 cur_health(75).
 strength(25).
 
-my_power(100).
-
 facing(top).
 position(0, 0).
 
 home(0, 0).
 tavern(19, 0).
+
+cur_target(none).
 
 
 
@@ -38,6 +38,7 @@ my_power(P) :-
 
 
 
+//---PREPARATION---
 +!ensure_ready : healthy_enough <-
     true.
 
@@ -46,29 +47,36 @@ my_power(P) :-
     !go_tavern;
     !heal.
 
-
-+!hunt : monster(Name,Xt,Yt,alive) & monster_power(Name, Power) & my_power(MyPower) & MyPower >= Power <-
-    .print("My power is higher!");
-    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
-    !go_to(Xt, Yt).
-
-+!hunt : monster(Name,Xt,Yt,alive) & not monster_power(Name, _) <-
-    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
-    !go_to(Xt, Yt).
-
-
-
-+!celebrate <-
-    .print("Let's celebrate!");
-    !go_tavern.
-
 +!go_tavern : tavern(Xt, Yt) <-
     !go_to(Xt, Yt);
     .print("Arrived at tavern.").
 
 +!heal : max_health(MaxHP) <-
     -+cur_health(MaxHP);
-    .print("Ate some food, drunk some ale! (HP: ", MaxHP, ")").
+    .print("Ate some food, drunk some ale! (HP: ", MaxHP, "/", MaxHP, ")").
+
+
+
+//---HUNTING---
++!hunt : monster(Name,Xt,Yt,alive) & monster_power(Name, Power) & my_power(MyPower) & MyPower >= Power <-
+    .print("My power is higher!");
+    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
+    -+cur_target(Name);
+    .print("CURRENT TARGET: ", Name, "!");
+    !go_to(Xt, Yt).
+
++!hunt : monster(Name,Xt,Yt,alive) & not monster_power(Name, _) <-
+    .print("Tracking monster at: (", Xt, ", ", Yt, ")");
+    -+cur_target(Name);
+    .print("CURRENT TARGET: ", Name, "!");
+    !go_to(Xt, Yt).
+
+
+
+//---CELEBRATING---
++!celebrate <-
+    .print("Let's celebrate!");
+    !go_tavern.
 
 +!go_home : home(Xt, Yt) <-
     !go_to(Xt, Yt);
@@ -134,12 +142,12 @@ my_power(P) :-
 
 
 //---MONSTER ESTIMATION---
-+neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) <-
++neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
        .print("I returned to ", Agent);
        .print("Long time no see!");
        !fight(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, alive) <-
++neighbour(Agent) : monster(Agent, _, _, alive) & cur_target(Agent) <-
        .print("I tracked ", Agent);
        .print("First contact with enemy...");
        .send(Agent, achieve, disclose_stats).
@@ -196,7 +204,6 @@ my_power(P) :-
     NewStr = Str + 25;
     -+max_health(NewMaxHP);
     -+strength(NewStr);
-    -+my_power(NewMaxHP * NewStr);
     .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
 
 

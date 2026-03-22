@@ -15,6 +15,6 @@ strength(25).
 +!take_damage(Dmg)[source(Agent)] : health(HP) & HP - Dmg <= 0 <-
     -+health(0);
     .my_name(Me);
-    .print(Me, " DEATH SOUND*");
+    .print("DEATH SOUND*");
     .send(Agent, achieve, finish_fight);
     kill(Me).
