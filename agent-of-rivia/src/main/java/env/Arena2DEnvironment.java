@@ -92,8 +92,12 @@ private Literal selfStatsPercept(String agentName) {
         if (agentName.equals("witcher")) {
             model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
         } else {
-            int x = RAND.nextInt(20);
-            int y = RAND.nextInt(20);
+            int x, y;
+
+            do {
+                x = RAND.nextInt(20);
+                y = RAND.nextInt(20);
+            } while ((x == 0 && y == 0) || (x == 19 && y == 0));
 
             model.setAgentPose(agentName, x, y, Orientation.NORTH);
             model.setAgentAlive(agentName);
@@ -162,28 +166,24 @@ private Literal selfStatsPercept(String agentName) {
                 .collect(Collectors.toList());
     }
 
+
 private Collection<Literal> addMonsterPercepts() {
     return model.getAllAgents().stream()
-            .filter(name -> !name.equals("witcher"))
-            .map(name -> {
-                Vector2D pos = model.getAgentPosition(name);
-                String type = monsterTypes.getOrDefault(name, "unknown");
-                int hp = monsterHealth.getOrDefault(name, 0);
-                int str = monsterStrength.getOrDefault(name, 0);
-                String status = model.getAgentAliveStatus(name).toString().toLowerCase();
+        .filter(name -> !name.equals("witcher"))
+        .filter(name -> model.getAgentAliveStatus(name) != null)
+        .map(name -> {
+            Vector2D pos = model.getAgentPosition(name);
+            String type = monsterTypes.getOrDefault(name, "unknown");
+            int hp = monsterHealth.getOrDefault(name, 0);
+            int str = monsterStrength.getOrDefault(name, 0);
+            String status = model.getAgentAliveStatus(name).toString().toLowerCase();
 
-                return Literal.parseLiteral(String.format(
-                        "monster(%s,%s,%d,%d,%s,%d,%d)",
-                        name,
-                        type,
-                        (int) pos.getX(),
-                        (int) pos.getY(),
-                        status,
-                        hp,
-                        str
-                ));
-            })
-            .collect(Collectors.toList());
+            return Literal.parseLiteral(String.format(
+                "monster(%s,%s,%d,%d,%s,%d,%d)",
+                name, type, (int) pos.getX(), (int) pos.getY(), status, hp, str
+            ));
+        })
+        .collect(Collectors.toList());
 }
 
 
