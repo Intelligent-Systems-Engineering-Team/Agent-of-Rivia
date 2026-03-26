@@ -6,6 +6,7 @@ MAS project {
 
 	agents:
 		witcher witcher_agent;
+
 		drowner monster_agent;
 		wraith monster_agent;
 		siren monster_agent;
@@ -15,9 +16,6 @@ MAS project {
 		fiend monster_agent;
 		leshen monster_agent;
 		vampire monster_agent;
-	
-
-
 
 	aslSourcePath:
 		"src/main/asl";
