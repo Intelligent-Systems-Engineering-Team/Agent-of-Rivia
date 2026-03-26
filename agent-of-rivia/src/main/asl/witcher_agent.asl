@@ -14,6 +14,11 @@ heal_threshold(0.75).
 
 
 // ---------- DERIVED BELIEFS ----------
+adjacent(X, Y, Xt, Yt) :-
+    (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
+    |
+    (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
+
 healthy_enough :-
     cur_health(CurHP) &
     max_health(MaxHP) &
@@ -21,24 +26,26 @@ healthy_enough :-
     CurHP >= MaxHP * ThresholdHP.
 
 my_power(P) :-
-    cur_health(H) &
-    strength(S) &
+    cur_health(H) & 
+    strength(S) & 
     P = H * S.
+
+monster_power(Name, Power) :-
+    monster(Name, _, _, _, alive, HP, STR) & 
+    Power = HP * STR.
 
 
 // ---------- MAIN GOAL ----------
 !kill_all_monsters.
 
-+!kill_all_monsters : monster(_,_,_,alive) <-
-    .print("ENTER kill_all_monsters");
++!kill_all_monsters : monster(_,_,_,_,alive,_,_) <-
     !ensure_ready;
-    .print("EXIT ensure_ready");
     !hunt;
-    .print("EXIT hunt").
 
-+!kill_all_monsters : not monster(_,_,_,alive) <-
++!kill_all_monsters : not monster(_,_,_,_,alive,_,_) <-
     !celebrate;
     !go_home.
+
 
 // ---------- PREPARATION ----------
 +!ensure_ready : healthy_enough <- true.
@@ -66,11 +73,11 @@ can_hunt(Name) :-
 can_hunt(Name) :-
     not monster_power(Name, _).
 
-+!hunt : monster(Name, X, Y, alive) & can_hunt(Name) <-
++!hunt : monster(Name, _, X, Y, alive, _, _) & can_hunt(Name) <-
     !set_target(Name);
     !track_target(X, Y).
 
-+!hunt : monster(Name, _, _, alive) & not can_hunt(Name) <-
++!hunt : monster(Name, _, _, _, alive, _, _) & not can_hunt(Name) <-
     .print("Monster ", Name, " is too strong, skipping target...");
     !kill_all_monsters.
 
@@ -102,6 +109,9 @@ can_hunt(Name) :-
 -!go(Direction) <-
     .print("Move failed, retrying...");
     !go(Direction).
+
++!go_to(Xt, Yt) : position(X, Y) & monster(_, _, Xt, Yt, alive, _, _) & adjacent(X, Y, Xt, Yt) <-
+    true.
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     true.
@@ -155,16 +165,15 @@ can_hunt(Name) :-
 +neighbour(Agent) : monster(Agent, _, _, alive) & not cur_target(Agent) <-
        .print("I found ", Agent, ", but it is not my current target...").
 
-+neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive, _, _) & monster_power(Agent, _) & cur_target(Agent) <-
        .print("I returned to ", Agent);
        .print("Long time no see!");
        !fight(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, alive) & cur_target(Agent) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive, H, S) & cur_target(Agent) <-
        .print("I tracked ", Agent);
        .print("First contact with enemy...");
        .send(Agent, achieve, disclose_stats).
-
 
 +monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) <-
      .print("Aha! ", Agent, " has:");
@@ -222,8 +231,8 @@ can_hunt(Name) :-
 
 
 // ---------- MONSTER CONTRACT BELIEFS ----------
-+monster(Name, X, Y, Status) : Status = alive <-
-     .print("I received contract to kill ", Name).
++monster(Name, Type, X, Y, alive, HP, STR) <-
+    .print("I received contract to kill ", Name, " of type ", Type).
 
-+monster(Name, X, Y, Status) : Status = dead <-
-     .print("I finished a contract for ", Name).
++monster(Name, Type, X, Y, dead, HP, STR) <-
+    .print("I finished a contract for ", Name).
