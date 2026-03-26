@@ -40,7 +40,7 @@ monster_power(Name, Power) :-
 
 +!kill_all_monsters : monster(_,_,_,_,alive,_,_) <-
     !ensure_ready;
-    !hunt;
+    !hunt.
 
 +!kill_all_monsters : not monster(_,_,_,_,alive,_,_) <-
     !celebrate;
