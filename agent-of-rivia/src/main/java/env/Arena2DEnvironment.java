@@ -1,15 +1,10 @@
 package env;
-import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
-import utils.MonsterGenerator;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
