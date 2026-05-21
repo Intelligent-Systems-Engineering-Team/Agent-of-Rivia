@@ -12,6 +12,8 @@ cur_target(none).
 
 heal_threshold(0.75).
 
+mode(idle).
+
 
 // ---------- DERIVED BELIEFS ----------
 healthy_enough :-
@@ -25,39 +27,6 @@ my_power(P) :-
     strength(S) &
     P = H * S.
 
-
-// ---------- MAIN GOAL ----------
-!kill_all_monsters.
-
-+!kill_all_monsters : monster(_,_,_,alive) <-
-    .print("ENTER kill_all_monsters");
-    !ensure_ready;
-    .print("EXIT ensure_ready");
-    !hunt;
-    .print("EXIT hunt").
-
-+!kill_all_monsters : not monster(_,_,_,alive) <-
-    !celebrate;
-    !go_home.
-
-// ---------- PREPARATION ----------
-+!ensure_ready : healthy_enough <- true.
-
-+!ensure_ready : not healthy_enough <-
-    .print("Health is below threshold, I am going to tavern...");
-    !go_tavern;
-    !heal.
-
-+!go_tavern : tavern(X, Y) <-
-    !go_to(X, Y);
-    .print("Arrived at tavern.").
-
-+!heal : max_health(MaxHP) <-
-    -+cur_health(MaxHP);
-    .print("Ate some food, drunk some ale! (HP: ", MaxHP, "/", MaxHP, ")").
-
-
-// ---------- HUNTING ----------
 can_hunt(Name) :-
     monster_power(Name, MonsterPower) &
     my_power(MyPower) &
@@ -66,29 +35,70 @@ can_hunt(Name) :-
 can_hunt(Name) :-
     not monster_power(Name, _).
 
+
+// ---------- MAIN GOAL ----------
+!kill_all_monsters.
+
++!kill_all_monsters : monster(_,_,_,alive) <-
+    !ensure_ready;
+    !hunt.
+
++!kill_all_monsters : not monster(_,_,_,alive) <-
+    -+mode(celebrating);
+    !celebrate;
+    !go_home.
+
+
+// ---------- PREPARATION ----------
++!ensure_ready : healthy_enough & mode(idle) <- true.
+
++!ensure_ready : not healthy_enough & mode(idle) <-
+    .print("Health is below threshold, I am going to tavern...");
+    -+mode(recovering);
+    !go_tavern;
+    !heal.
+
++!go_tavern : tavern(X, Y) & mode(recovering) <-
+    !go_to(X, Y);
+    .print("I am in tavern to recover.").
+
+
++!heal : max_health(MaxHP) & mode(recovering) <-
+    -+cur_health(MaxHP);
+    -+mode(idle);
+    .print("Ate some food, drunk some ale! (HP: ", MaxHP, "/", MaxHP, ")").
+
+
+// ---------- HUNTING ----------
 +!hunt : monster(Name, X, Y, alive) & can_hunt(Name) <-
+    -+mode(hunting);
     !set_target(Name);
     !track_target(X, Y).
 
 +!hunt : monster(Name, _, _, alive) & not can_hunt(Name) <-
-    .print("Monster ", Name, " is too strong, skipping target...");
-    !kill_all_monsters.
+    .print("I am not ready to fight ", Name, " yet, skipping target...");
+    !hunt.
 
-+!set_target(Name) <-
+
++!set_target(Name) : mode(hunting) <-
     -+cur_target(Name);
     .print("My next target is ", Name, "!").
 
-+!track_target(X, Y) <-
++!track_target(X, Y) : mode(hunting) <-
     .print("Tracking monster at: (", X, ", ", Y, ")");
     !go_to(X, Y).
 
 
 // ---------- CELEBRATING ----------
-+!celebrate <-
++!celebrate : mode(celebrating) <-
     .print("Let's celebrate!");
     !go_tavern.
 
-+!go_home : home(Xt, Yt) <-
++!go_tavern : tavern(X, Y) & mode(celebrating) <-
+    !go_to(X, Y);
+    .print("I am in tavern to celebrate!").
+
++!go_home : home(Xt, Yt) & mode(celebrating) <-
     !go_to(Xt, Yt);
     .print("I am home!");
     .print("...zzzzzz").
@@ -102,6 +112,9 @@ can_hunt(Name) :-
 -!go(Direction) <-
     .print("Move failed, retrying...");
     !go(Direction).
+
++!go_to(Xt, Yt) : monster(Agent, Xt, Yt, alive) & neighbour(Agent) & cur_target(Agent) <-
+    true.
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     true.
@@ -146,45 +159,66 @@ can_hunt(Name) :-
 +!orient(bottom) : facing(left)   <- !turn_left.
 +!orient(bottom) : facing(right)  <- !turn_right.
 
-+!turn_right <- !go(right).
-+!turn_left  <- !go(left).
-+!turn_back  <- !go(backward).
++!turn_right : facing(top)    <- turn(right); -+facing(right).
++!turn_right : facing(right)  <- turn(right); -+facing(bottom).
++!turn_right : facing(bottom) <- turn(right); -+facing(left).
++!turn_right : facing(left)   <- turn(right); -+facing(top).
+
++!turn_left  : facing(top)    <- turn(left); -+facing(left).
++!turn_left  : facing(left)   <- turn(left); -+facing(bottom).
++!turn_left  : facing(bottom) <- turn(left); -+facing(right).
++!turn_left  : facing(right)  <- turn(left); -+facing(top).
+
++!turn_back  : facing(top)    <- turn(backward); -+facing(bottom).
++!turn_back  : facing(bottom) <- turn(backward); -+facing(top).
++!turn_back  : facing(left)   <- turn(backward); -+facing(right).
++!turn_back  : facing(right)  <- turn(backward); -+facing(left).
 
 
 // ---------- MONSTER ESTIMATION ----------
-+neighbour(Agent) : monster(Agent, _, _, alive) & not cur_target(Agent) <-
-       .print("I found ", Agent, ", but it is not my current target...").
++neighbour(Agent) : monster(Agent, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
+       .print("I tracked ", Agent);
+       .print("First contact with enemy...");
+       -+awaiting_stats(Agent);
+       .send(Agent, achieve, disclose_stats).
+
++awaiting_stats(Agent) : cur_target(Agent) & monster(Agent, _, _, alive) & not monster_power(Agent, _) <-
+       .wait(500);
+       .send(Agent, achieve, disclose_stats);
+       -+awaiting_stats(Agent).
 
 +neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
        .print("I returned to ", Agent);
        .print("Long time no see!");
        !fight(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, alive) & cur_target(Agent) <-
-       .print("I tracked ", Agent);
-       .print("First contact with enemy...");
-       .send(Agent, achieve, disclose_stats).
++neighbour(Agent) : monster(Agent, _, _, alive) & not cur_target(Agent) <-
+       .print("I found ", Agent, ", but it is not my current target...").
 
 
-+monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) <-
++monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) & not in_battle(_) & monster(Agent, _, _, alive) <-
+     -awaiting_stats(Agent);
      .print("Aha! ", Agent, " has:");
      .print(H, " health and ", S, " strength");
      MonsterPower = H * S;
      MyPower = MyH * MyS;
      !choose_action(Agent, MonsterPower, MyPower).
 
+
 +!choose_action(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
-    .print("I am strong enough to attack ", Agent, "!");
+    .print("I am strong enough to fight ", Agent, "!");
     !fight(Agent).
 
 +!choose_action(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
     +monster_power(Agent, MonsterPower);
     .print("Monster is too strong! I retreat!");
     .print("...but I will return!");
-    !kill_all_monsters.
+    !hunt.
 
 
 // ---------- FIGHTING ----------
++!fight(Agent) : in_battle(Agent) <- true.
+
 +!fight(Agent) : not in_battle(_) <-
     +in_battle(Agent);
     .print("I attack!");
@@ -218,12 +252,7 @@ can_hunt(Name) :-
     NewStr = Str + 25;
     -+max_health(NewMaxHP);
     -+strength(NewStr);
+    -+mode(idle);
     .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
 
 
-// ---------- MONSTER CONTRACT BELIEFS ----------
-+monster(Name, X, Y, Status) : Status = alive <-
-     .print("I received contract to kill ", Name).
-
-+monster(Name, X, Y, Status) : Status = dead <-
-     .print("I finished a contract for ", Name).
