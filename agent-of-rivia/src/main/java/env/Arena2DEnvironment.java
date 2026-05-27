@@ -1,5 +1,4 @@
 package env;
-import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
@@ -7,10 +6,7 @@ import jason.stdlib.prefix;
 import utils.MonsterGenerator;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -189,30 +185,24 @@ private Collection<Literal> addMonsterPercepts() {
      * (success/failure)
      */
     @Override
+
 public boolean executeAction(final String ag, final Structure action) {
     initializeAgentIfNeeded(ag);
     final boolean result;
-
     if (action.equals(moveForward)) {
         result = model.moveAgent(ag, 1, FORWARD);
-
     } else if (action.equals(moveRight)) {
         result = model.moveAgent(ag, 1, RIGHT);
-
     } else if (action.equals(moveBackward)) {
         result = model.moveAgent(ag, 1, BACKWARD);
-
     } else if (action.equals(moveLeft)) {
         result = model.moveAgent(ag, 1, LEFT);
-
     } else if (action.equals(moveRandom)) {
         Direction rd = Direction.random();
         result = model.moveAgent(ag, 1, rd);
-
     } else if (action.getFunctor().equals("kill")) {
         String monsterName = action.getTerm(0).toString();
         result = model.setAgentDead(monsterName);
-
     } else if (action.getFunctor().equals("apply_damage")) {
         int dmg = Integer.parseInt(action.getTerm(0).toString());
 
@@ -223,6 +213,11 @@ public boolean executeAction(final String ag, final Structure action) {
         if (newHp == 0) {
             model.setAgentDead(ag);
             logger.info(ag + " died.");
+        } else if (action.getFunctor().equals("turn")) {
+            Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
+            Vector2D position = model.getAgentPosition(ag);
+            Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
+            result = model.setAgentPose(ag, position, newOrientation);
         } else {
             logger.info(ag + " took " + dmg + " damage. HP now: " + newHp);
         }
@@ -234,12 +229,10 @@ public boolean executeAction(final String ag, final Structure action) {
         logger.warning(e.getMessage());
         throw e;
     }
-
     try {
         Thread.sleep(1000L / model.getFPS());
-    } catch (InterruptedException ignored) { }
-
+    } catch (InterruptedException ignored) {
     notifyModelChangedToView();
     return result;
-}
+    }
 }
