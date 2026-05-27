@@ -174,13 +174,10 @@ private Collection<Literal> addMonsterPercepts() {
         .map(name -> {
             Vector2D pos = model.getAgentPosition(name);
             String type = monsterTypes.getOrDefault(name, "unknown");
-            int hp = monsterHealth.getOrDefault(name, 0);
-            int str = monsterStrength.getOrDefault(name, 0);
             String status = model.getAgentAliveStatus(name).toString().toLowerCase();
-
             return Literal.parseLiteral(String.format(
-                "monster(%s,%s,%d,%d,%s,%d,%d)",
-                name, type, (int) pos.getX(), (int) pos.getY(), status, hp, str
+                "monster(%s,%s,%d,%d,%s)",
+                name, type, (int) pos.getX(), (int) pos.getY(), status
             ));
         })
         .collect(Collectors.toList());
