@@ -1,3 +1,4 @@
+// ---------- INITIAL BELIEFS ----------
 max_health(75).
 cur_health(75).
 strength(25).
@@ -9,13 +10,17 @@ home(0, 0).
 tavern(19, 0).
 
 cur_target(none).
-
 heal_threshold(0.75).
 
 mode(idle).
 
 
 // ---------- DERIVED BELIEFS ----------
+adjacent(X, Y, Xt, Yt) :-
+    (X = Xt & (Yt = Y + 1 | Yt = Y - 1))
+    |
+    (Y = Yt & (Xt = X + 1 | Xt = X - 1)).
+
 healthy_enough :-
     cur_health(CurHP) &
     max_health(MaxHP) &
@@ -34,16 +39,20 @@ can_hunt(Name) :-
 
 can_hunt(Name) :-
     not monster_power(Name, _).
+    
+unknown_monster(Name) :-
+    monster(Name, _, _, _, alive) &
+    not known_monster(Name).
 
 
 // ---------- MAIN GOAL ----------
 !kill_all_monsters.
 
-+!kill_all_monsters : monster(_,_,_,alive) <-
++!kill_all_monsters : monster(_, _, _, _, alive) <-
     !ensure_ready;
     !hunt.
 
-+!kill_all_monsters : not monster(_,_,_,alive) <-
++!kill_all_monsters : not monster(_, _, _, _, alive) <-
     -+mode(celebrating);
     !celebrate;
     !go_home.
@@ -70,12 +79,12 @@ can_hunt(Name) :-
 
 
 // ---------- HUNTING ----------
-+!hunt : monster(Name, X, Y, alive) & can_hunt(Name) <-
++!hunt : monster(Name, _, X, Y, alive) & can_hunt(Name) <-
     -+mode(hunting);
     !set_target(Name);
     !track_target(X, Y).
 
-+!hunt : monster(Name, _, _, alive) & not can_hunt(Name) <-
++!hunt : monster(Name, _, _, _, alive) & not can_hunt(Name) <-
     .print("I am not ready to fight ", Name, " yet, skipping target...");
     !hunt.
 
@@ -87,6 +96,118 @@ can_hunt(Name) :-
 +!track_target(X, Y) : mode(hunting) <-
     .print("Tracking monster at: (", X, ", ", Y, ")");
     !go_to(X, Y).
+
+// ---------- FIRST CONTACT / SCOUTING ----------
+
+// Known current target: fight if beatable, otherwise retreat
++neighbour(Agent) : monster(Agent, _, _, _, alive) &
+                    monster_power(Agent, Power) &
+                    cur_target(Agent) &
+                    my_power(MyPower) &
+                    MyPower >= Power <-
+    .print("Reached known beatable monster: ", Agent);
+    !fight(Agent).
+
++neighbour(Agent) : monster(Agent, _, _, _, alive) &
+                    monster_power(Agent, Power) &
+                    cur_target(Agent) &
+                    my_power(MyPower) &
+                    Power > MyPower <-
+    .print(Agent, " is still too strong. Retreating.");
+    !retreat_and_recover.
+
+// Unknown current target: ask for stats
++neighbour(Agent) : monster(Agent, _, _, _, alive) &
+                    not known_monster(Agent) &
+                    cur_target(Agent) <-
+    +known_monster(Agent);
+    .print("First contact with ", Agent, ". Requesting stats...");
+    .send(Agent, achieve, disclose_stats).
+
+// Other monster nearby: ignore
++neighbour(Agent) : monster(Agent, _, _, _, alive) &
+                    not cur_target(Agent) <-
+    .print("Spotted ", Agent, ", but it is not my current target.").
+
+// ---------- MONSTER STATS DECISION ----------
+
++monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) <-
+    .print(Agent, " revealed stats: HP=", H, " STR=", S);
+    MonsterPower = H * S;
+    MyPower = MyH * MyS;
+    -monster_power(Agent, _);
+    +monster_power(Agent, MonsterPower);
+    !choose_action(Agent, MonsterPower, MyPower).
+
++!choose_action(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
+    .print("I can defeat ", Agent, ". Attacking.");
+    !fight(Agent).
+
++!choose_action(Agent, MonsterPower, MyPower) : MonsterPower > MyPower <-
+    .print(Agent, " is too strong. Monster power: ", MonsterPower, ", my power: ", MyPower);
+    !retreat_and_recover.
+
+// ---------- RETREAT ----------
++!retreat_and_recover <-
+    .print("I retreat!");
+    .print("...but I will return!");
+    -cur_target(_);
+    +cur_target(none);
+    !go_tavern;
+    !heal;
+    !kill_all_monsters.
+
+// ---------- FIGHTING ----------
+
++!fight(Agent) : not in_battle(_) <-
+    +in_battle(Agent);
+    .print("Engaging ", Agent, "!");
+    !attack.
+
++!fight(Agent) : in_battle(Agent) <-
+    .print("Already fighting ", Agent).
+
++!fight(Agent) : in_battle(Other) & not in_battle(Agent) <-
+    .print("Cannot fight ", Agent, ". Already fighting ", Other).
+
++!attack : in_battle(Agent) & strength(S) <-
+    .send(Agent, achieve, take_damage(S));
+    .print("Struck ", Agent, " for ", S, " damage.").
+
++!take_counter_damage(Dmg)[source(Agent)] : in_battle(Agent) &
+                                             cur_health(HP) &
+                                             max_health(MaxHP) <-
+    NewHP = HP - Dmg;
+    -+cur_health(NewHP);
+    .print("Counter-hit by ", Agent, ". HP: ", NewHP, "/", MaxHP);
+    !check_battle.
+
++!check_battle : cur_health(HP) & HP > 0 & in_battle(_) <-
+    !attack.
+
++!check_battle : cur_health(HP) & HP <= 0 & in_battle(Monster) <-
+    .print("Defeated by ", Monster, "...");
+    -in_battle(Monster);
+    kill(self).
+
++!finish_fight[source(Monster)] <-
+    .print("Defeated ", Monster, "!");
+    !level_up;
+    -in_battle(Monster);
+    -known_monster(Monster);
+    -monster_power(Monster, _);
+    -cur_target(_);
+    +cur_target(none);
+    !kill_all_monsters.
+
++!level_up : max_health(MaxHP) & strength(Str) <-
+    NewMaxHP = MaxHP + 75;
+    NewStr = Str + 25;
+    -+max_health(NewMaxHP);
+    -+cur_health(NewMaxHP);
+    -+strength(NewStr);
+    .print("LEVEL UP! HP: ", NewMaxHP, " STR: ", NewStr).
+
 
 
 // ---------- CELEBRATING ----------
@@ -105,12 +226,13 @@ can_hunt(Name) :-
 
 
 // ---------- MOVEMENT ----------
+
 +!go(Direction) <-
     move(Direction);
     utils.update_pose(Direction).
 
 -!go(Direction) <-
-    .print("Move failed, retrying...");
+    .print("Move failed. Retrying...");
     !go(Direction).
 
 +!go_to(Xt, Yt) : monster(Agent, Xt, Yt, alive) & neighbour(Agent) & cur_target(Agent) <-
@@ -176,27 +298,27 @@ can_hunt(Name) :-
 
 
 // ---------- MONSTER ESTIMATION ----------
-+neighbour(Agent) : monster(Agent, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
        .print("I tracked ", Agent);
        .print("First contact with enemy...");
        -+awaiting_stats(Agent);
        .send(Agent, achieve, disclose_stats).
 
-+awaiting_stats(Agent) : cur_target(Agent) & monster(Agent, _, _, alive) & not monster_power(Agent, _) <-
++awaiting_stats(Agent) : cur_target(Agent) & monster(Agent, _, _, _, alive) & not monster_power(Agent, _) <-
        .wait(500);
        .send(Agent, achieve, disclose_stats);
        -+awaiting_stats(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
        .print("I returned to ", Agent);
        .print("Long time no see!");
        !fight(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, alive) & not cur_target(Agent) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive) & not cur_target(Agent) <-
        .print("I found ", Agent, ", but it is not my current target...").
 
 
-+monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) & not in_battle(_) & monster(Agent, _, _, alive) <-
++monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) & not in_battle(_) & monster(Agent, _, _, _, alive) <-
      -awaiting_stats(Agent);
      .print("Aha! ", Agent, " has:");
      .print(H, " health and ", S, " strength");
@@ -254,5 +376,3 @@ can_hunt(Name) :-
     -+strength(NewStr);
     -+mode(idle);
     .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
-
-
