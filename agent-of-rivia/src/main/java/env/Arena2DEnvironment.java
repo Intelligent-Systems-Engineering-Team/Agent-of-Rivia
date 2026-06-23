@@ -212,6 +212,19 @@ public boolean executeAction(final String ag, final Structure action) {
         Direction rd = Direction.random();
         result = model.moveAgent(ag, 1, rd);
 
+    } else if (action.getFunctor().equals("turn")) {
+        String dir = action.getTerm(0).toString();
+        Orientation newOrient;
+        switch (dir) {
+            case "top": newOrient = Orientation.NORTH; break;
+            case "bottom": newOrient = Orientation.SOUTH; break;
+            case "left": newOrient = Orientation.WEST; break;
+            case "right": newOrient = Orientation.EAST; break;
+            default: newOrient = Orientation.NORTH; break;
+        }
+        Vector2D pos = model.getAgentPosition(ag);
+        result = model.setAgentPose(ag, (int)pos.getX(), (int)pos.getY(), newOrient);
+
     } else if (action.getFunctor().equals("kill")) {
         String monsterName = action.getTerm(0).toString();
         result = model.setAgentDead(monsterName);
@@ -238,11 +251,14 @@ public boolean executeAction(final String ag, final Structure action) {
         throw e;
     }
 
+
     try {
         Thread.sleep(1000L / model.getFPS());
     } catch (InterruptedException ignored) { }
 
     notifyModelChangedToView();
+    // Log the performed action and its result to help debugging stuck moves
+    logger.info(String.format("Agent '%s' performed action %s -> result=%s", ag, action, result));
     return result;
 }
 }

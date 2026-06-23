@@ -106,9 +106,11 @@ can_hunt(Name) :-
     move(Direction);
     utils.update_pose(Direction).
 
+// If a direct move fails, try an alternative (random) direction to avoid
+// getting stuck retrying the same blocked move forever.
 -!go(Direction) <-
-    .print("Move failed, retrying...");
-    !go(Direction).
+    .print("Move failed, trying an alternative direction...");
+    !go(random).
 
 +!go_to(Xt, Yt) : position(X, Y) & monster(_, _, Xt, Yt, alive, _, _) & adjacent(X, Y, Xt, Yt) <-
     true.
@@ -138,31 +140,24 @@ can_hunt(Name) :-
 
 
 // ---------- ORIENTATION ----------
+// Orient without moving: update the facing belief directly. This prevents
+// using movement actions to change orientation (which caused oscillations
+// because orienting previously issued !go(...) and that moved the agent).
+
 +!orient(Dir) : facing(Dir) <- true.
 
-+!orient(right)  : facing(top)    <- !turn_right.
-+!orient(right)  : facing(bottom) <- !turn_left.
-+!orient(right)  : facing(left)   <- !turn_back.
-
-+!orient(left)   : facing(top)    <- !turn_left.
-+!orient(left)   : facing(bottom) <- !turn_right.
-+!orient(left)   : facing(right)  <- !turn_back.
-
-+!orient(top)    : facing(right)  <- !turn_left.
-+!orient(top)    : facing(left)   <- !turn_right.
-+!orient(top)    : facing(bottom) <- !turn_back.
-
-+!orient(bottom) : facing(top)    <- !turn_back.
-+!orient(bottom) : facing(left)   <- !turn_left.
-+!orient(bottom) : facing(right)  <- !turn_right.
-
-+!turn_right <- !go(right).
-+!turn_left  <- !go(left).
-+!turn_back  <- !go(backward).
+// If we need to change orientation, perform an environment action to update
+// the model orientation as well, then update our belief. This keeps the
+// environment model and the agent belief synchronized and avoids move
+// failures due to mismatched orientations.
++!orient(Dir) : facing(Current) & not Current = Dir <-
+    turn(Dir);
+    -facing(Current);
+    +facing(Dir).
 
 
 // ---------- MONSTER ESTIMATION ----------
-+neighbour(Agent) : monster(Agent, _, _, alive) & not cur_target(Agent) <-
++neighbour(Agent) : monster(Agent, _, _, _, alive) & not cur_target(Agent) <-
        .print("I found ", Agent, ", but it is not my current target...").
 
 +neighbour(Agent) : monster(Agent, _, _, _, alive, _, _) & monster_power(Agent, _) & cur_target(Agent) <-
