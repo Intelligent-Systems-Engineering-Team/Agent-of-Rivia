@@ -205,6 +205,12 @@ public boolean executeAction(final String ag, final Structure action) {
         Direction rd = Direction.random();
         result = model.moveAgent(ag, 1, rd);
 
+    } else if (action.getFunctor().equals("turn")) {
+        Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
+        Vector2D position = model.getAgentPosition(ag);
+        Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
+        result = model.setAgentPose(ag, position, newOrientation);
+
     } else if (action.getFunctor().equals("kill")) {
         String monsterName = action.getTerm(0).toString();
         result = model.setAgentDead(monsterName);
