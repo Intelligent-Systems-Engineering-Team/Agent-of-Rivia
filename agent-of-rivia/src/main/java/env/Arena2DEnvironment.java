@@ -4,6 +4,8 @@ import jason.asSyntax.Structure;
 import jason.environment.Environment;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;

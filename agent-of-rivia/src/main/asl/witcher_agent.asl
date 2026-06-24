@@ -78,12 +78,12 @@ unknown_monster(Name) :-
 
 
 // ---------- HUNTING ----------
-+!hunt : monster(Name, X, Y, alive) & can_hunt(Name) <-
++!hunt : monster(Name, _, X, Y, alive) & can_hunt(Name) <-
     -+mode(hunting);
     !set_target(Name);
     !track_target(X, Y).
 
-+!hunt : monster(Name, _, _, alive) & not can_hunt(Name) <-
++!hunt : monster(Name, _, _, _, alive) & not can_hunt(Name) <-
     .print("I am not ready to fight ", Name, " yet, skipping target...");
     !hunt.
 
