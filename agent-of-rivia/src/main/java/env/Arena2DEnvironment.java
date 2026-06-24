@@ -1,16 +1,12 @@
 package env;
-import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
-import jason.stdlib.prefix;
-import utils.MonsterGenerator;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -174,13 +170,10 @@ private Collection<Literal> addMonsterPercepts() {
         .map(name -> {
             Vector2D pos = model.getAgentPosition(name);
             String type = monsterTypes.getOrDefault(name, "unknown");
-            int hp = monsterHealth.getOrDefault(name, 0);
-            int str = monsterStrength.getOrDefault(name, 0);
             String status = model.getAgentAliveStatus(name).toString().toLowerCase();
-
             return Literal.parseLiteral(String.format(
-                "monster(%s,%s,%d,%d,%s,%d,%d)",
-                name, type, (int) pos.getX(), (int) pos.getY(), status, hp, str
+                "monster(%s,%s,%d,%d,%s)",
+                name, type, (int) pos.getX(), (int) pos.getY(), status
             ));
         })
         .collect(Collectors.toList());
@@ -211,6 +204,12 @@ public boolean executeAction(final String ag, final Structure action) {
     } else if (action.equals(moveRandom)) {
         Direction rd = Direction.random();
         result = model.moveAgent(ag, 1, rd);
+
+    } else if (action.getFunctor().equals("turn")) {
+        Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
+        Vector2D position = model.getAgentPosition(ag);
+        Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
+        result = model.setAgentPose(ag, position, newOrientation);
 
     } else if (action.getFunctor().equals("kill")) {
         String monsterName = action.getTerm(0).toString();

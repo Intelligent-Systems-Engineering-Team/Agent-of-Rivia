@@ -1,0 +1,340 @@
+2026.04.05 10:48:48 INFO  Started: Metals version 1.6.6 in folders '/Users/shaikha/Desktop/UniBo/Agent-of-Rivia' for client Visual Studio Code 1.104.0.[0m
+2026.04.05 10:48:48 INFO  Memory monitor started[0m
+2026.04.05 10:48:48 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.05 10:48:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:51 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/package-info.java[0m
+2026.04.05 10:48:51 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.04.05 10:48:51 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java[0m
+2026.04.05 10:48:51 WARN  Running javac-semanticdb failed for file:///Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/package-info.java. Output:
+[0m
+2026.04.05 10:48:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:48:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:33 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:33 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:34 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:34 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:45 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:45 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:47 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:47 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:47 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:47 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:53:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:55:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:55:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:55:28 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:55:28 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:55:29 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:56:32 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:56:34 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:56:40 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:59 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:58:59 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:59:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 05, 2026 10:59:00 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 104
+2026.04.05 10:59:01 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java[0m
+2026.04.05 10:59:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 10:59:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 10:59:03 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.04.05 10:59:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:59:05 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 10:59:10 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:11 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/package-info.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:20 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModelImpl.java[0m
+2026.04.05 11:06:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModelImpl.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:21 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModelImpl.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:21 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java[0m
+2026.04.05 11:06:21 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:26 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:06:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:15:06 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:15:07 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:15:22 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.04.05 11:15:22 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:15:22 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:15:22 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:01 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:01 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:01 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:27:10 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DModel.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:33 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.04.05 11:44:33 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:42 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:42 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:43 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:46 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 05, 2026 11:44:50 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 227
+2026.04.05 11:44:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:52 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:44:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:46:18 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java[0m
+2026.04.05 11:46:18 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.04.05 11:46:18 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.04.05 11:46:18 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:46:18 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:46:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:48:32 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:48:32 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:48:32 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:48:33 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 11:49:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 16:29:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 16:34:32 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.05 20:13:13 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:27:42 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:43 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:45 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:46 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:48 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:48 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.06 10:31:49 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 10, 2026 4:03:55 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2026.04.11 15:10:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 11, 2026 3:10:54 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 336
+2026.04.17 11:42:07 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 17, 2026 2:07:04 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+Apr 17, 2026 3:58:50 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2026.04.17 15:58:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.17 15:58:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.04.17 15:58:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+Apr 17, 2026 3:58:51 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 355
+Apr 17, 2026 3:58:51 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 356
+Apr 17, 2026 3:58:52 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2026.05.20 15:08:22 INFO  Started: Metals version 1.6.7 in folders '/Users/shaikha/Desktop/UniBo/Agent-of-Rivia' for client Visual Studio Code 1.104.0.[0m
+2026.05.20 15:08:22 INFO  Memory monitor started[0m
+2026.05.20 15:08:25 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 10
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 13
+2026.05.20 15:08:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+May 20, 2026 3:08:26 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+May 20, 2026 3:08:27 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2026.05.20 15:08:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:44 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:12:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:12:58 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:13:20 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:13:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:13:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:13:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:13:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:14:55 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:14:55 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:14:55 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:14:55 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:14:55 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:01 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:15:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:19:00 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:19:01 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:20:19 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:20:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:20:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:20:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:20:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:41 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:25:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:42 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:48 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:50 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:54 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:55 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:57 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:58 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:25:59 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:59 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:25:59 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:02 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:04 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:04 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:05 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:05 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:05 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:07 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:26:08 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:08 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:14 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:26:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:26:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:33:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:33:41 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:33:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:13 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java[0m
+2026.05.20 15:36:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:12 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:14 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:29 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:40 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:40 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:36:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DEnvironment.java. Using fallback presentation compiler.[0m
+2026.05.20 15:43:03 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/env/Arena2DGuiView.java. Using fallback presentation compiler.[0m
+2026.05.20 16:26:51 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/Utils.java. Using fallback presentation compiler.[0m
+2026.05.20 16:26:53 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/Utils.java. Using fallback presentation compiler.[0m
+2026.05.20 16:26:56 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/Utils.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:11 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/Utils.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:11 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:11 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:11 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:13 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:13 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:15 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:15 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:16 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:19 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:20 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:21 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:21 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:22 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:22 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:23 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:23 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:23 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:25 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:27 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:29 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:29 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:29 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:31 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:31 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:33 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:34 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:34 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:36 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:37 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:38 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:39 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.20 16:27:41 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.22 13:42:44 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.22 13:44:43 WARN  no build target for: /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java[0m
+2026.05.22 13:44:43 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.22 13:44:43 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m
+2026.05.22 13:44:43 INFO  no build target found for /Users/shaikha/Desktop/UniBo/Agent-of-Rivia/agent-of-rivia/src/main/java/utils/update_pose.java. Using fallback presentation compiler.[0m

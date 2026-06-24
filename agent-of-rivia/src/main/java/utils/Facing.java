@@ -85,8 +85,6 @@ enum Facing {
         }
     }
 
-
-
     public Vector2D asVector() {
         return Vector2D.of(x, y);
     }
