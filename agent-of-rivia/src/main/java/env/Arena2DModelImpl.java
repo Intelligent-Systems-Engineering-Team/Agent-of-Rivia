@@ -227,4 +227,16 @@ public class Arena2DModelImpl implements Arena2DModel {
     }
 
 
+    @Override
+    public boolean applyDamage(String agentName, int damage) {
+        int currentHp = monsterNameToHealth.getOrDefault(agentName, 0);
+        int newHp = Math.max(0, currentHp - damage);
+        monsterNameToHealth.put(agentName, newHp);
+
+        if (newHp == 0) {
+            setAgentDead(agentName);
+        }
+
+        return true;
+    }
 }

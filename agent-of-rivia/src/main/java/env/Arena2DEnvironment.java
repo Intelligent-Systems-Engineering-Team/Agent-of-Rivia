@@ -18,11 +18,15 @@ import static env.Direction.*;
  */
 public class Arena2DEnvironment extends Environment {
 
-    public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
-    public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
-    public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
-    public static final Literal moveBackward = Literal.parseLiteral("move(" + BACKWARD.name().toLowerCase() + ")");
-    public static final Literal moveRandom = Literal.parseLiteral("move(random)");
+    private static final Literal moveForward = Literal.parseLiteral("move(forward)");
+    private static final Literal moveRight = Literal.parseLiteral("move(right)");
+    private static final Literal moveLeft = Literal.parseLiteral("move(left)");
+    private static final Literal moveBackward = Literal.parseLiteral("move(backward)");
+    private static final Literal moveRandom = Literal.parseLiteral("move(random)");
+
+    private static final String ACTION_TURN = "turn";
+    private static final String ACTION_KILL = "kill";
+    private static final String ACTION_APPLY_DAMAGE = "apply_damage";
 
     private Arena2DModel model;
     private Arena2DView view;
@@ -182,62 +186,100 @@ public class Arena2DEnvironment extends Environment {
     @Override
     public boolean executeAction(final String agentName, final Structure action) {
         initializeAgentIfNeeded(agentName);
-        final boolean result;
 
+        boolean result = handleAction(agentName, action);
+
+        sleepOneFrame();
+        notifyModelChangedToView();
+
+        return result;
+    }
+
+
+    private boolean handleAction(String agentName, Structure action) {
         if (action.equals(moveForward)) {
-            result = model.moveAgent(agentName, 1, FORWARD);
-
-        } else if (action.equals(moveRight)) {
-            result = model.moveAgent(agentName, 1, RIGHT);
-
-        } else if (action.equals(moveBackward)) {
-            result = model.moveAgent(agentName, 1, BACKWARD);
-
-        } else if (action.equals(moveLeft)) {
-            result = model.moveAgent(agentName, 1, LEFT);
-
-        } else if (action.equals(moveRandom)) {
-            Direction rd = Direction.random();
-            result = model.moveAgent(agentName, 1, rd);
-
-        } else if (action.getFunctor().equals("turn")) {
-            Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
-            Vector2D position = model.getAgentPosition(agentName);
-            Orientation newOrientation = model.getAgentDirection(agentName).rotate(direction);
-            result = model.setAgentPose(agentName, position, newOrientation);
-
-        } else if (action.getFunctor().equals("kill")) {
-            String monsterName = action.getTerm(0).toString();
-            result = model.setAgentDead(monsterName);
-
-        } else if (action.getFunctor().equals("apply_damage")) {
-            int dmg = Integer.parseInt(action.getTerm(0).toString());
-
-            int currentHp = model.getMonsterNameToHealth().getOrDefault(agentName, 0);
-            int newHp = Math.max(0, currentHp - dmg);
-            model.getMonsterNameToHealth().put(agentName, newHp);
-
-            if (newHp == 0) {
-                model.setAgentDead(agentName);
-                logger.info(agentName + " died.");
-            } else {
-                logger.info(agentName + " took " + dmg + " damage. HP now: " + newHp);
-            }
-
-            result = true;
-
-        } else {
-            RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
-            logger.warning(e.getMessage());
-            throw e;
+            return model.moveAgent(agentName, 1, FORWARD);
         }
 
+        if (action.equals(moveRight)) {
+            return model.moveAgent(agentName, 1, RIGHT);
+        }
+
+        if (action.equals(moveBackward)) {
+            return model.moveAgent(agentName, 1, BACKWARD);
+        }
+
+        if (action.equals(moveLeft)) {
+            return model.moveAgent(agentName, 1, LEFT);
+        }
+
+        if (action.equals(moveRandom)) {
+            return model.moveAgent(agentName, 1, Direction.random());
+        }
+
+        if (action.getFunctor().equals(ACTION_TURN)) {
+            return handleTurn(agentName, action);
+        }
+
+        if (action.getFunctor().equals(ACTION_KILL)) {
+            return handleKill(action);
+        }
+
+        if (action.getFunctor().equals(ACTION_APPLY_DAMAGE)) {
+            return handleApplyDamage(agentName, action);
+        }
+
+        throwUnsupportedAction(action);
+        return false;
+    }
+
+
+    private boolean handleTurn(String agentName, Structure action) {
+        Direction direction = Direction.valueOf(
+                action.getTerm(0).toString().toUpperCase()
+        );
+
+        Vector2D position = model.getAgentPosition(agentName);
+        Orientation newOrientation = model.getAgentDirection(agentName).rotate(direction);
+
+        return model.setAgentPose(agentName, position, newOrientation);
+    }
+
+
+    private boolean handleKill(Structure action) {
+        String monsterName = action.getTerm(0).toString();
+        return model.setAgentDead(monsterName);
+    }
+
+
+    private boolean handleApplyDamage(String agentName, Structure action) {
+        int damage = Integer.parseInt(action.getTerm(0).toString());
+
+        boolean result = model.applyDamage(agentName, damage);
+
+        MonsterStats stats = model.getMonsterStats(agentName);
+        if (stats.health() == 0) {
+            logger.info(agentName + " died.");
+        } else {
+            logger.info(agentName + " took " + damage + " damage. HP now: " + stats.health());
+        }
+        return result;
+    }
+
+
+    private void sleepOneFrame() {
         try {
             Thread.sleep(1000L / model.getFPS());
-        } catch (InterruptedException ignored) { }
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
-        notifyModelChangedToView();
-        return result;
+
+    private void throwUnsupportedAction(Structure action) {
+        RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
+        logger.warning(e.getMessage());
+        throw e;
     }
 
 

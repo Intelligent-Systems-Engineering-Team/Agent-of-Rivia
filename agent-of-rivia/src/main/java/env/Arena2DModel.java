@@ -102,4 +102,6 @@ public interface Arena2DModel {
     MonsterStats getMonsterStats(String agentName);
 
     void setMonsterStats(String agentName, String type, int health, int strength);
+
+    boolean applyDamage(String agentName, int damage);
 }
