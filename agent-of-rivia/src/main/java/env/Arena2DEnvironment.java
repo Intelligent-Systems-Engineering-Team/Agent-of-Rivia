@@ -18,11 +18,15 @@ import static env.Direction.*;
  */
 public class Arena2DEnvironment extends Environment {
 
-    public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
-    public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
-    public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
-    public static final Literal moveBackward = Literal.parseLiteral("move(" + BACKWARD.name().toLowerCase() + ")");
-    public static final Literal moveRandom = Literal.parseLiteral("move(random)");
+    private static final Literal moveForward = Literal.parseLiteral("move(forward)");
+    private static final Literal moveRight = Literal.parseLiteral("move(right)");
+    private static final Literal moveLeft = Literal.parseLiteral("move(left)");
+    private static final Literal moveBackward = Literal.parseLiteral("move(backward)");
+    private static final Literal moveRandom = Literal.parseLiteral("move(random)");
+
+    private static final String ACTION_TURN = "turn";
+    private static final String ACTION_KILL = "kill";
+    private static final String ACTION_APPLY_DAMAGE = "apply_damage";
 
     private Arena2DModel model;
     private Arena2DView view;
@@ -213,15 +217,15 @@ public class Arena2DEnvironment extends Environment {
             return model.moveAgent(agentName, 1, Direction.random());
         }
 
-        if (action.getFunctor().equals("turn")) {
+        if (action.getFunctor().equals(ACTION_TURN)) {
             return handleTurn(agentName, action);
         }
 
-        if (action.getFunctor().equals("kill")) {
+        if (action.getFunctor().equals(ACTION_KILL)) {
             return handleKill(action);
         }
 
-        if (action.getFunctor().equals("apply_damage")) {
+        if (action.getFunctor().equals(ACTION_APPLY_DAMAGE)) {
             return handleApplyDamage(agentName, action);
         }
 
@@ -259,7 +263,6 @@ public class Arena2DEnvironment extends Environment {
         } else {
             logger.info(agentName + " took " + damage + " damage. HP now: " + stats.health());
         }
-
         return result;
     }
 
