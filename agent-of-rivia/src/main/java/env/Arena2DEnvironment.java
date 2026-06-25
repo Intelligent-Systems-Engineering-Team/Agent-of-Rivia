@@ -171,10 +171,6 @@ public class Arena2DEnvironment extends Environment {
             return Literal.parseLiteral(String.format("obstacle(%s)", directionName));
         }
 
-        if (model.getAgentByPosition(position).isPresent()) {
-            return Literal.parseLiteral(String.format("robot(%s)", directionName));
-        }
-
         return Literal.parseLiteral(String.format("free(%s)", directionName));
     }
 
