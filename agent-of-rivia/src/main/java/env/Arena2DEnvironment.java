@@ -4,8 +4,6 @@ import jason.asSyntax.Structure;
 import jason.environment.Environment;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -22,9 +20,6 @@ public class Arena2DEnvironment extends Environment {
 
     private static final Random RAND = new Random();
 
-
-
-    // action literals
     public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
     public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
     public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
@@ -36,38 +31,7 @@ public class Arena2DEnvironment extends Environment {
     private Arena2DModel model;
     private Arena2DView view;
 
-    //hashmap to add monster type and the specs
-    private final Map<String, String> monsterTypes = new HashMap<>();
-    private final Map<String, Integer> monsterHealth = new HashMap<>();
-    private final Map<String, Integer> monsterStrength = new HashMap<>();
 
-
-    //record of monster specs
-    private record MonsterSpec(String type, int health, int strength) {}
-
-
-private MonsterSpec getMonsterSpec(String agentName) {
-    String type = agentName.replaceAll("\\d+$", ""); // remove trailing numbers
-
-    return switch (type) {
-        case "drowner"  -> new MonsterSpec("drowner", 71, 24);
-        case "siren"    -> new MonsterSpec("siren", 142, 48);
-        case "wraith"   -> new MonsterSpec("wraith", 214, 71);
-        case "werewolf" -> new MonsterSpec("werewolf", 285, 95);
-        case "troll"    -> new MonsterSpec("troll", 356, 95);
-        case "griffon"  -> new MonsterSpec("griffon", 400, 142);
-        case "fiend"    -> new MonsterSpec("fiend", 499, 166);
-        case "leshen"   -> new MonsterSpec("leshen", 500, 214);
-        case "vampire"  -> new MonsterSpec("vampire", 600, 238);
-        default -> throw new IllegalArgumentException("Unknown monster type for agent: " + agentName);
-    };
-}
-
-private Literal selfStatsPercept(String agentName) {
-    int hp = monsterHealth.getOrDefault(agentName, 0);
-    int str = monsterStrength.getOrDefault(agentName, 0);
-    return Literal.parseLiteral(String.format("self_stats(%d,%d)", hp, str));
-}
     @Override
     public void init(final String[] args) {
         this.model = new Arena2DModelImpl(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
@@ -76,15 +40,9 @@ private Literal selfStatsPercept(String agentName) {
         view.setVisible(true);
     }
 
-    private void notifyModelChangedToView() {
-        view.notifyModelChanged();
-    }
-
-    private boolean isWitcherInitialized = false;
-
     private void initializeAgentIfNeeded(String agentName) {
         if (!model.containsAgent(agentName)) {
-   
+
         if (agentName.equals("witcher")) {
             model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
         } else {
@@ -98,11 +56,11 @@ private Literal selfStatsPercept(String agentName) {
             model.setAgentPose(agentName, x, y, Orientation.NORTH);
             model.setAgentAlive(agentName);
 
-            MonsterSpec spec = getMonsterSpec(agentName);
+            MonsterType spec = MonsterType.fromAgentName(agentName);
 
-            monsterTypes.put(agentName, spec.type());
-            monsterHealth.put(agentName, spec.health());
-            monsterStrength.put(agentName, spec.strength());
+            model.getMonsterNameToType().put(agentName, spec.type());
+            model.getMonsterNameToHealth().put(agentName, spec.health());
+            model.getMonsterNameToStrength().put(agentName, spec.strength());
         }
     }
 
@@ -110,7 +68,7 @@ private Literal selfStatsPercept(String agentName) {
     }
 
 
-  
+
     @Override
     public Collection<Literal> getPercepts(String agName) {
         initializeAgentIfNeeded(agName);
@@ -136,7 +94,17 @@ private Literal selfStatsPercept(String agentName) {
         ).collect(Collectors.toList());
     }
 
-    
+
+    private Literal selfStatsPercept(String agentName) {
+        MonsterStats stats = model.getMonsterStats(agentName);
+        return Literal.parseLiteral(String.format(
+                "self_stats(%d,%d)",
+                stats.health(),
+                stats.strength()
+        ));
+    }
+
+
 
     private Literal proximityPerceptFor(Direction direction, Vector2D position) {
         if (model.getAgentByPosition(position).isPresent()) {
@@ -169,7 +137,7 @@ private Collection<Literal> addMonsterPercepts() {
         .filter(name -> model.getAgentAliveStatus(name) != null)
         .map(name -> {
             Vector2D pos = model.getAgentPosition(name);
-            String type = monsterTypes.getOrDefault(name, "unknown");
+            String type = model.getMonsterNameToType().getOrDefault(name, "unknown");
             String status = model.getAgentAliveStatus(name).toString().toLowerCase();
             return Literal.parseLiteral(String.format(
                 "monster(%s,%s,%d,%d,%s)",
@@ -185,63 +153,67 @@ private Collection<Literal> addMonsterPercepts() {
      * (success/failure)
      */
     @Override
-public boolean executeAction(final String ag, final Structure action) {
-    initializeAgentIfNeeded(ag);
-    final boolean result;
+    public boolean executeAction(final String ag, final Structure action) {
+        initializeAgentIfNeeded(ag);
+        final boolean result;
 
-    if (action.equals(moveForward)) {
-        result = model.moveAgent(ag, 1, FORWARD);
+        if (action.equals(moveForward)) {
+            result = model.moveAgent(ag, 1, FORWARD);
 
-    } else if (action.equals(moveRight)) {
-        result = model.moveAgent(ag, 1, RIGHT);
+        } else if (action.equals(moveRight)) {
+            result = model.moveAgent(ag, 1, RIGHT);
 
-    } else if (action.equals(moveBackward)) {
-        result = model.moveAgent(ag, 1, BACKWARD);
+        } else if (action.equals(moveBackward)) {
+            result = model.moveAgent(ag, 1, BACKWARD);
 
-    } else if (action.equals(moveLeft)) {
-        result = model.moveAgent(ag, 1, LEFT);
+        } else if (action.equals(moveLeft)) {
+            result = model.moveAgent(ag, 1, LEFT);
 
-    } else if (action.equals(moveRandom)) {
-        Direction rd = Direction.random();
-        result = model.moveAgent(ag, 1, rd);
+        } else if (action.equals(moveRandom)) {
+            Direction rd = Direction.random();
+            result = model.moveAgent(ag, 1, rd);
 
-    } else if (action.getFunctor().equals("turn")) {
-        Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
-        Vector2D position = model.getAgentPosition(ag);
-        Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
-        result = model.setAgentPose(ag, position, newOrientation);
+        } else if (action.getFunctor().equals("turn")) {
+            Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
+            Vector2D position = model.getAgentPosition(ag);
+            Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
+            result = model.setAgentPose(ag, position, newOrientation);
 
-    } else if (action.getFunctor().equals("kill")) {
-        String monsterName = action.getTerm(0).toString();
-        result = model.setAgentDead(monsterName);
+        } else if (action.getFunctor().equals("kill")) {
+            String monsterName = action.getTerm(0).toString();
+            result = model.setAgentDead(monsterName);
 
-    } else if (action.getFunctor().equals("apply_damage")) {
-        int dmg = Integer.parseInt(action.getTerm(0).toString());
+        } else if (action.getFunctor().equals("apply_damage")) {
+            int dmg = Integer.parseInt(action.getTerm(0).toString());
 
-        int currentHp = monsterHealth.getOrDefault(ag, 0);
-        int newHp = Math.max(0, currentHp - dmg);
-        monsterHealth.put(ag, newHp);
+            int currentHp = model.getMonsterNameToHealth().getOrDefault(ag, 0);
+            int newHp = Math.max(0, currentHp - dmg);
+            model.getMonsterNameToHealth().put(ag, newHp);
 
-        if (newHp == 0) {
-            model.setAgentDead(ag);
-            logger.info(ag + " died.");
+            if (newHp == 0) {
+                model.setAgentDead(ag);
+                logger.info(ag + " died.");
+            } else {
+                logger.info(ag + " took " + dmg + " damage. HP now: " + newHp);
+            }
+
+            result = true;
+
         } else {
-            logger.info(ag + " took " + dmg + " damage. HP now: " + newHp);
+            RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
+            logger.warning(e.getMessage());
+            throw e;
         }
 
-        result = true;
+        try {
+            Thread.sleep(1000L / model.getFPS());
+        } catch (InterruptedException ignored) { }
 
-    } else {
-        RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
-        logger.warning(e.getMessage());
-        throw e;
+        notifyModelChangedToView();
+        return result;
     }
 
-    try {
-        Thread.sleep(1000L / model.getFPS());
-    } catch (InterruptedException ignored) { }
-
-    notifyModelChangedToView();
-    return result;
-}
+    private void notifyModelChangedToView() {
+        view.notifyModelChanged();
+    }
 }

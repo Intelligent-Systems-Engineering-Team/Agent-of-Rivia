@@ -94,4 +94,10 @@ public interface Arena2DModel {
     boolean setAgentAlive(String agentName);
     boolean setAgentDead(String agentName);
     Arena2DModelImpl.MonsterStatus getAgentAliveStatus(String agentName);
+
+    Map<String, String> getMonsterNameToType();
+    Map<String, Integer> getMonsterNameToHealth();
+    Map<String, Integer> getMonsterNameToStrength();
+
+    MonsterStats getMonsterStats(String agentName);
 }
