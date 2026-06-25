@@ -218,4 +218,13 @@ public class Arena2DModelImpl implements Arena2DModel {
         String type = monsterNameToType.getOrDefault(agentName, "unknown");
         return new MonsterStats(type, hp, str);
     }
+
+    @Override
+    public void setMonsterStats(String agentName, String type, int health, int strength) {
+        monsterNameToType.put(agentName, type);
+        monsterNameToHealth.put(agentName, health);
+        monsterNameToStrength.put(agentName, strength);
+    }
+
+
 }

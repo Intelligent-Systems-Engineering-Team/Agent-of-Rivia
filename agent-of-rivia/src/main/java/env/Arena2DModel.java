@@ -100,4 +100,6 @@ public interface Arena2DModel {
     Map<String, Integer> getMonsterNameToStrength();
 
     MonsterStats getMonsterStats(String agentName);
+
+    void setMonsterStats(String agentName, String type, int health, int strength);
 }
