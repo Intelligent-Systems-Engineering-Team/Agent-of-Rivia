@@ -3,11 +3,11 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static env.Direction.*;
 
@@ -18,18 +18,17 @@ import static env.Direction.*;
  */
 public class Arena2DEnvironment extends Environment {
 
-    private static final Random RAND = new Random();
-
     public static final Literal moveForward = Literal.parseLiteral("move(" + FORWARD.name().toLowerCase() + ")");
     public static final Literal moveRight = Literal.parseLiteral("move(" + RIGHT.name().toLowerCase() + ")");
     public static final Literal moveLeft = Literal.parseLiteral("move(" + LEFT.name().toLowerCase() + ")");
     public static final Literal moveBackward = Literal.parseLiteral("move(" + BACKWARD.name().toLowerCase() + ")");
     public static final Literal moveRandom = Literal.parseLiteral("move(random)");
 
-    static Logger logger = Logger.getLogger(Arena2DEnvironment.class.getName());
-
     private Arena2DModel model;
     private Arena2DView view;
+
+    static Logger logger = Logger.getLogger(Arena2DEnvironment.class.getName());
+    private static final Random RAND = new Random();
 
 
     @Override
@@ -40,62 +39,64 @@ public class Arena2DEnvironment extends Environment {
         view.setVisible(true);
     }
 
-    private void initializeAgentIfNeeded(String agentName) {
-        if (!model.containsAgent(agentName)) {
-
-        if (agentName.equals("witcher")) {
-            model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
-        } else {
-            int x, y;
-
-            do {
-                x = RAND.nextInt(20);
-                y = RAND.nextInt(20);
-            } while ((x == 0 && y == 0) || (x == 19 && y == 0));
-
-            model.setAgentPose(agentName, x, y, Orientation.NORTH);
-            model.setAgentAlive(agentName);
-
-            MonsterType spec = MonsterType.fromAgentName(agentName);
-
-            model.getMonsterNameToType().put(agentName, spec.type());
-            model.getMonsterNameToHealth().put(agentName, spec.health());
-            model.getMonsterNameToStrength().put(agentName, spec.strength());
-        }
-    }
-
-        view.notifyModelChanged();
-    }
-
-
 
     @Override
-    public Collection<Literal> getPercepts(String agName) {
-        initializeAgentIfNeeded(agName);
+    public Collection<Literal> getPercepts(String agentName) {
+        initializeAgentIfNeeded(agentName);
 
-        Stream<Literal> basePercepts = Stream.of(
-                surroundingPercepts(agName),
-                neighboursPercepts(agName)
-        ).flatMap(Collection::stream);
+        Collection<Literal> percepts = new ArrayList<>();
 
-        Stream<Literal> extraPercepts;
+        percepts.addAll(surroundingPercepts(agentName));
+        percepts.addAll(neighboursPercepts(agentName));
 
-        if ("witcher".equals(agName)) {
-            extraPercepts = addMonsterPercepts().stream();
+        if ("witcher".equals(agentName)) {
+            percepts.addAll(getMonsterLocationPercepts());
         } else {
-            extraPercepts = Stream.of(selfStatsPercept(agName));
+            percepts.add(getMonsterSelfPercepts(agentName));
         }
-
-        Collection<Literal> dynamicPercepts = super.getPercepts(agName);
-
-        return Stream.concat(
-                Stream.concat(basePercepts, extraPercepts),
-                dynamicPercepts == null ? Stream.empty() : dynamicPercepts.stream()
-        ).collect(Collectors.toList());
+        return percepts;
     }
 
 
-    private Literal selfStatsPercept(String agentName) {
+    private Collection<Literal> surroundingPercepts(String agentName) {
+        return model.getAgentSurroundingPositions(agentName)
+                .entrySet().stream()
+                .map(it -> proximityPerceptFor(it.getKey(), it.getValue()))
+                .collect(Collectors.toList());
+    }
+
+
+    private Collection<Literal> neighboursPercepts(String agentName) {
+        return model.getAgentNeighbours(agentName).stream()
+                .map(it -> String.format("neighbour(%s)", it))
+                .map(Literal::parseLiteral)
+                .collect(Collectors.toList());
+    }
+
+
+    private Collection<Literal> getMonsterLocationPercepts() {
+        return model.getAllAgents().stream()
+                .filter(name -> !name.equals("witcher"))
+                .filter(name -> model.getAgentAliveStatus(name) != null)
+                .map(name -> {
+                    Vector2D pos = model.getAgentPosition(name);
+                    MonsterStats stats = model.getMonsterStats(name);
+                    String status = model.getAgentAliveStatus(name).toString().toLowerCase();
+
+                    return Literal.parseLiteral(String.format(
+                            "monster(%s,%s,%d,%d,%s)",
+                            name,
+                            stats.type(),
+                            pos.getX(),
+                            pos.getY(),
+                            status
+                    ));
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    private Literal getMonsterSelfPercepts(String agentName) {
         MonsterStats stats = model.getMonsterStats(agentName);
         return Literal.parseLiteral(String.format(
                 "self_stats(%d,%d)",
@@ -105,47 +106,73 @@ public class Arena2DEnvironment extends Environment {
     }
 
 
+    private void initializeAgentIfNeeded(String agentName) {
+        if (model.containsAgent(agentName)) {
+            return;
+        }
+
+        if (isWitcher(agentName)) {
+            initializeWitcher(agentName);
+        } else {
+            initializeMonster(agentName);
+        }
+
+        view.notifyModelChanged();
+    }
+
+
+    private boolean isWitcher(String agentName) {
+        return agentName.equals("witcher");
+    }
+
+
+    private void initializeWitcher(String agentName) {
+        model.setAgentPose(agentName, 0, 0, Orientation.NORTH);
+    }
+
+
+    private void initializeMonster(String agentName) {
+        Vector2D spawnPosition = randomMonsterSpawnPosition();
+
+        model.setAgentPose(agentName, spawnPosition, Orientation.NORTH);
+        model.setAgentAlive(agentName);
+
+        MonsterType spec = MonsterType.fromAgentName(agentName);
+        model.setMonsterStats(agentName, spec.type(), spec.health(), spec.strength());
+    }
+
+
+    private Vector2D randomMonsterSpawnPosition() {
+        int x;
+        int y;
+
+        do {
+            x = RAND.nextInt(model.getWidth());
+            y = RAND.nextInt(model.getHeight());
+        } while (isReservedSpawnPosition(x, y));
+
+        return Vector2D.of(x, y);
+    }
+
+
+    private boolean isReservedSpawnPosition(int x, int y) {
+        return (x == 0 && y == 0) || (x == model.getWidth() - 1 && y == 0);
+    }
+
 
     private Literal proximityPerceptFor(Direction direction, Vector2D position) {
-        if (model.getAgentByPosition(position).isPresent()) {
-            return Literal.parseLiteral(String.format("robot(%s)", direction.name().toLowerCase()));
-        } else if (model.isPositionOutside(position)) {
-            return Literal.parseLiteral(String.format("obstacle(%s)", direction.name().toLowerCase()));
-        } else {
-            return Literal.parseLiteral(String.format("free(%s)", direction.name().toLowerCase()));
+        String directionName = direction.name().toLowerCase();
+
+        if (model.isPositionOutside(position)) {
+            return Literal.parseLiteral(String.format("obstacle(%s)", directionName));
         }
+
+        if (model.getAgentByPosition(position).isPresent()) {
+            return Literal.parseLiteral(String.format("robot(%s)", directionName));
+        }
+
+        return Literal.parseLiteral(String.format("free(%s)", directionName));
     }
-
-    private Collection<Literal> surroundingPercepts(String agent) {
-        return model.getAgentSurroundingPositions(agent)
-                .entrySet().stream()
-                .map(it -> proximityPerceptFor(it.getKey(), it.getValue()))
-                .collect(Collectors.toList());
-    }
-
-    private Collection<Literal> neighboursPercepts(String agent) {
-        return model.getAgentNeighbours(agent).stream()
-                .map(it -> String.format("neighbour(%s)", it))
-                .map(Literal::parseLiteral)
-                .collect(Collectors.toList());
-    }
-
-
-private Collection<Literal> addMonsterPercepts() {
-    return model.getAllAgents().stream()
-        .filter(name -> !name.equals("witcher"))
-        .filter(name -> model.getAgentAliveStatus(name) != null)
-        .map(name -> {
-            Vector2D pos = model.getAgentPosition(name);
-            String type = model.getMonsterNameToType().getOrDefault(name, "unknown");
-            String status = model.getAgentAliveStatus(name).toString().toLowerCase();
-            return Literal.parseLiteral(String.format(
-                "monster(%s,%s,%d,%d,%s)",
-                name, type, (int) pos.getX(), (int) pos.getY(), status
-            ));
-        })
-        .collect(Collectors.toList());
-}
 
 
     /**
@@ -153,31 +180,31 @@ private Collection<Literal> addMonsterPercepts() {
      * (success/failure)
      */
     @Override
-    public boolean executeAction(final String ag, final Structure action) {
-        initializeAgentIfNeeded(ag);
+    public boolean executeAction(final String agentName, final Structure action) {
+        initializeAgentIfNeeded(agentName);
         final boolean result;
 
         if (action.equals(moveForward)) {
-            result = model.moveAgent(ag, 1, FORWARD);
+            result = model.moveAgent(agentName, 1, FORWARD);
 
         } else if (action.equals(moveRight)) {
-            result = model.moveAgent(ag, 1, RIGHT);
+            result = model.moveAgent(agentName, 1, RIGHT);
 
         } else if (action.equals(moveBackward)) {
-            result = model.moveAgent(ag, 1, BACKWARD);
+            result = model.moveAgent(agentName, 1, BACKWARD);
 
         } else if (action.equals(moveLeft)) {
-            result = model.moveAgent(ag, 1, LEFT);
+            result = model.moveAgent(agentName, 1, LEFT);
 
         } else if (action.equals(moveRandom)) {
             Direction rd = Direction.random();
-            result = model.moveAgent(ag, 1, rd);
+            result = model.moveAgent(agentName, 1, rd);
 
         } else if (action.getFunctor().equals("turn")) {
             Direction direction = Direction.valueOf(action.getTerm(0).toString().toUpperCase());
-            Vector2D position = model.getAgentPosition(ag);
-            Orientation newOrientation = model.getAgentDirection(ag).rotate(direction);
-            result = model.setAgentPose(ag, position, newOrientation);
+            Vector2D position = model.getAgentPosition(agentName);
+            Orientation newOrientation = model.getAgentDirection(agentName).rotate(direction);
+            result = model.setAgentPose(agentName, position, newOrientation);
 
         } else if (action.getFunctor().equals("kill")) {
             String monsterName = action.getTerm(0).toString();
@@ -186,15 +213,15 @@ private Collection<Literal> addMonsterPercepts() {
         } else if (action.getFunctor().equals("apply_damage")) {
             int dmg = Integer.parseInt(action.getTerm(0).toString());
 
-            int currentHp = model.getMonsterNameToHealth().getOrDefault(ag, 0);
+            int currentHp = model.getMonsterNameToHealth().getOrDefault(agentName, 0);
             int newHp = Math.max(0, currentHp - dmg);
-            model.getMonsterNameToHealth().put(ag, newHp);
+            model.getMonsterNameToHealth().put(agentName, newHp);
 
             if (newHp == 0) {
-                model.setAgentDead(ag);
-                logger.info(ag + " died.");
+                model.setAgentDead(agentName);
+                logger.info(agentName + " died.");
             } else {
-                logger.info(ag + " took " + dmg + " damage. HP now: " + newHp);
+                logger.info(agentName + " took " + dmg + " damage. HP now: " + newHp);
             }
 
             result = true;
@@ -212,6 +239,7 @@ private Collection<Literal> addMonsterPercepts() {
         notifyModelChangedToView();
         return result;
     }
+
 
     private void notifyModelChangedToView() {
         view.notifyModelChanged();
