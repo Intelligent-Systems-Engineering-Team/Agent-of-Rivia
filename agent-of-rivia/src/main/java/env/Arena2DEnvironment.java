@@ -212,23 +212,10 @@ public class Arena2DEnvironment extends Environment {
 
         } else if (action.getFunctor().equals("apply_damage")) {
             int dmg = Integer.parseInt(action.getTerm(0).toString());
-
-            int currentHp = model.getMonsterNameToHealth().getOrDefault(agentName, 0);
-            int newHp = Math.max(0, currentHp - dmg);
-            model.getMonsterNameToHealth().put(agentName, newHp);
-
-            if (newHp == 0) {
-                model.setAgentDead(agentName);
-                logger.info(agentName + " died.");
-            } else {
-                logger.info(agentName + " took " + dmg + " damage. HP now: " + newHp);
-            }
-
-            result = true;
+            result = model.applyDamage(agentName, dmg);
 
         } else {
             RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
-            logger.warning(e.getMessage());
             throw e;
         }
 
