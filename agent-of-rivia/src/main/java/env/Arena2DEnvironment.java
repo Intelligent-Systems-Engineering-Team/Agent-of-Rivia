@@ -18,11 +18,11 @@ import static env.Direction.*;
  */
 public class Arena2DEnvironment extends Environment {
 
-    private static final Literal moveForward = Literal.parseLiteral("move(forward)");
-    private static final Literal moveRight = Literal.parseLiteral("move(right)");
-    private static final Literal moveLeft = Literal.parseLiteral("move(left)");
-    private static final Literal moveBackward = Literal.parseLiteral("move(backward)");
-    private static final Literal moveRandom = Literal.parseLiteral("move(random)");
+    private static final Literal ACTION_MOVE_FORWARD = Literal.parseLiteral("move(forward)");
+    private static final Literal ACTION_MOVE_RIGHT = Literal.parseLiteral("move(right)");
+    private static final Literal ACTION_MOVE_LEFT = Literal.parseLiteral("move(left)");
+    private static final Literal ACTION_MOVE_BACKWARD = Literal.parseLiteral("move(backward)");
+    private static final Literal ACTION_MOVE_RANDOM = Literal.parseLiteral("move(random)");
 
     private static final String ACTION_TURN = "turn";
     private static final String ACTION_KILL = "kill";
@@ -56,7 +56,7 @@ public class Arena2DEnvironment extends Environment {
         if ("witcher".equals(agentName)) {
             percepts.addAll(getMonsterLocationPercepts());
         } else {
-            percepts.add(getMonsterSelfPercepts(agentName));
+            percepts.add(getMonsterSelfPercept(agentName));
         }
         return percepts;
     }
@@ -100,7 +100,7 @@ public class Arena2DEnvironment extends Environment {
     }
 
 
-    private Literal getMonsterSelfPercepts(String agentName) {
+    private Literal getMonsterSelfPercept(String agentName) {
         MonsterStats stats = model.getMonsterStats(agentName);
         return Literal.parseLiteral(String.format(
                 "self_stats(%d,%d)",
@@ -126,7 +126,7 @@ public class Arena2DEnvironment extends Environment {
 
 
     private boolean isWitcher(String agentName) {
-        return agentName.equals("witcher");
+        return "witcher".equals(agentName);
     }
 
 
@@ -197,23 +197,23 @@ public class Arena2DEnvironment extends Environment {
 
 
     private boolean handleAction(String agentName, Structure action) {
-        if (action.equals(moveForward)) {
+        if (action.equals(ACTION_MOVE_FORWARD)) {
             return model.moveAgent(agentName, 1, FORWARD);
         }
 
-        if (action.equals(moveRight)) {
+        if (action.equals(ACTION_MOVE_RIGHT)) {
             return model.moveAgent(agentName, 1, RIGHT);
         }
 
-        if (action.equals(moveBackward)) {
+        if (action.equals(ACTION_MOVE_BACKWARD)) {
             return model.moveAgent(agentName, 1, BACKWARD);
         }
 
-        if (action.equals(moveLeft)) {
+        if (action.equals(ACTION_MOVE_LEFT)) {
             return model.moveAgent(agentName, 1, LEFT);
         }
 
-        if (action.equals(moveRandom)) {
+        if (action.equals(ACTION_MOVE_RANDOM)) {
             return model.moveAgent(agentName, 1, Direction.random());
         }
 
