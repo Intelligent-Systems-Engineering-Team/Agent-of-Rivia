@@ -5,9 +5,6 @@ import java.util.function.BiFunction;
 
 public class Arena2DModelImpl implements Arena2DModel {
 
-    private final Map<String, String> monsterNameToType = new HashMap<>();
-    private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
-    private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
 
     private static class Pose {
         private final Vector2D position;
@@ -56,7 +53,11 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final int height;
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
     private long fps = 1L;
-    private Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
+
+    private final Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
+    private final Map<String, String> monsterNameToType = new HashMap<>();
+    private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
+    private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {
