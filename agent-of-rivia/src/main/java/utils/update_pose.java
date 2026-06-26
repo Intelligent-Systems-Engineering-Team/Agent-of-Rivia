@@ -1,7 +1,7 @@
 package utils;
 
-import env.Direction;
-import env.Vector2D;
+import model.Direction;
+import model.Vector2D;
 import jason.asSemantics.Agent;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;

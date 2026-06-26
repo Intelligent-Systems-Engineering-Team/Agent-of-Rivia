@@ -1,4 +1,4 @@
-package env;
+package model;
 
 public enum MonsterType {
     DROWNER("drowner", 71, 24),

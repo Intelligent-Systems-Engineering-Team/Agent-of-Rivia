@@ -2,6 +2,9 @@ package env;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import jason.environment.Environment;
+import model.*;
+import view.Arena2DGuiView;
+import view.Arena2DView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +12,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static env.Direction.*;
+import static model.Direction.*;
 
 /**
  * Any Jason environment "entry point" should extend
