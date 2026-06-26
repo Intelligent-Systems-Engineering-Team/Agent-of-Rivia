@@ -1,4 +1,4 @@
-package env;
+package model;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -68,11 +68,6 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
     private long fps = 1L;
     private Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
-
-    enum MonsterStatus {
-        ALIVE,
-        DEAD
-    }
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {

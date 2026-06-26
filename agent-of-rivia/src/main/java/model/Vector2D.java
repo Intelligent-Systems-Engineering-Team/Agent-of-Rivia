@@ -1,4 +1,4 @@
-package env;
+package model;
 
 import java.util.Objects;
 import java.util.Random;

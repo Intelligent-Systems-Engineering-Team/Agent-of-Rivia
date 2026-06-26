@@ -1,4 +1,4 @@
-package env;
+package model;
 
 import java.util.Map;
 import java.util.Optional;
@@ -93,7 +93,7 @@ public interface Arena2DModel {
 
     boolean setAgentAlive(String agentName);
     boolean setAgentDead(String agentName);
-    Arena2DModelImpl.MonsterStatus getAgentAliveStatus(String agentName);
+    MonsterStatus getAgentAliveStatus(String agentName);
 
     Map<String, String> getMonsterNameToType();
     Map<String, Integer> getMonsterNameToHealth();

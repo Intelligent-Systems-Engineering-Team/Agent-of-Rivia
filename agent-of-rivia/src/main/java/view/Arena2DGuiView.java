@@ -1,4 +1,8 @@
-package env;
+package view;
+
+import model.Arena2DModel;
+import model.Orientation;
+import model.Vector2D;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,6 @@
-package env;
+package view;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import model.Arena2DModel;
 
 public interface Arena2DView {
     Arena2DModel getModel();
