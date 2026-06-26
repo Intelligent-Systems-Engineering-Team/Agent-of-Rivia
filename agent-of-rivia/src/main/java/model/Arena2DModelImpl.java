@@ -9,18 +9,6 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
     private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
 
-    public Map<String, String> getMonsterNameToType() {
-        return monsterNameToType;
-    }
-
-    public Map<String, Integer> getMonsterNameToHealth() {
-        return monsterNameToHealth;
-    }
-
-    public Map<String, Integer> getMonsterNameToStrength() {
-        return monsterNameToStrength;
-    }
-
     private static class Pose {
         private final Vector2D position;
         private final Orientation orientation;
@@ -61,6 +49,7 @@ public class Arena2DModelImpl implements Arena2DModel {
                     '}';
         }
     }
+
 
     private final Map<String, Pose> agentPoses = Collections.synchronizedMap(new HashMap<>());
     private final int width;
@@ -203,10 +192,12 @@ public class Arena2DModelImpl implements Arena2DModel {
         return true;
     }
 
-    public MonsterStatus getAgentAliveStatus(String agentName) {
-        return monsterToStatus.getOrDefault(agentName, null);
+    @Override
+    public MonsterStatus getAgentStatus(String agentName) {
+        return monsterToStatus.get(agentName);
     }
 
+    @Override
     public MonsterStats getMonsterStats(String agentName) {
         int hp = monsterNameToHealth.getOrDefault(agentName, 0);
         int str = monsterNameToStrength.getOrDefault(agentName, 0);
@@ -221,7 +212,6 @@ public class Arena2DModelImpl implements Arena2DModel {
         monsterNameToStrength.put(agentName, strength);
     }
 
-
     @Override
     public boolean applyDamage(String agentName, int damage) {
         int currentHp = monsterNameToHealth.getOrDefault(agentName, 0);
@@ -231,7 +221,6 @@ public class Arena2DModelImpl implements Arena2DModel {
         if (newHp == 0) {
             setAgentDead(agentName);
         }
-
         return true;
     }
 }
