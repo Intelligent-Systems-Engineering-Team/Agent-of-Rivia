@@ -69,6 +69,9 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setForeground(UIManager.getColor("Button.foreground"));
             b.setEnabled(true);
         });
+
+        drawMapObjects();
+
         model.getAllAgents().forEach(a -> {
             if (model.getAgentStatus(a) == MonsterStatus.DEAD) {
                 return;
@@ -83,6 +86,14 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setEnabled(false);
         });
         repaint();
+    }
+
+    private void drawMapObjects() {
+        JButton homeButton = buttonsGrid.get(model.getHomePosition());
+        homeButton.setText("H");
+
+        JButton tavernButton = buttonsGrid.get(model.getTavernPosition());
+        tavernButton.setText("T");
     }
 
     @Override
