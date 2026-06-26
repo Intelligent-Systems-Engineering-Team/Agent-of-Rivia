@@ -84,11 +84,11 @@ public class Arena2DEnvironment extends Environment {
     private Collection<Literal> getMonsterLocationPercepts() {
         return model.getAllAgents().stream()
                 .filter(name -> !name.equals("witcher"))
-                .filter(name -> model.getAgentAliveStatus(name) != null)
+                .filter(name -> model.getAgentStatus(name) != null)
                 .map(name -> {
                     Vector2D pos = model.getAgentPosition(name);
                     MonsterStats stats = model.getMonsterStats(name);
-                    String status = model.getAgentAliveStatus(name).toString().toLowerCase();
+                    String status = model.getAgentStatus(name).toString().toLowerCase();
 
                     return Literal.parseLiteral(String.format(
                             "monster(%s,%s,%d,%d,%s)",

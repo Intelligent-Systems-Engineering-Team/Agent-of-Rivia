@@ -89,15 +89,16 @@ public interface Arena2DModel {
 
     /** Get the frame-per-second value to be used by any view of the system */
     long getFPS();
+
+    /** Set the frame-per-second value to be used by any view of the system */
     void setFPS(long fps);
 
-    boolean setAgentAlive(String agentName);
-    boolean setAgentDead(String agentName);
-    MonsterStatus getAgentAliveStatus(String agentName);
 
-    Map<String, String> getMonsterNameToType();
-    Map<String, Integer> getMonsterNameToHealth();
-    Map<String, Integer> getMonsterNameToStrength();
+    boolean setAgentAlive(String agentName);
+
+    boolean setAgentDead(String agentName);
+
+    MonsterStatus getAgentStatus(String agentName);
 
     MonsterStats getMonsterStats(String agentName);
 
