@@ -1,6 +1,7 @@
 package view;
 
 import model.Arena2DModel;
+import model.MonsterStatus;
 import model.Orientation;
 import model.Vector2D;
 
@@ -22,19 +23,6 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
 
     private static Color negateColor(Color color) {
         return new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue(), color.getAlpha());
-    }
-
-    private static Color smoothColor(Color color) {
-        return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() / 2);
-    }
-
-    private static Color mix(Color c1, Color c2) {
-        return new Color(
-                (c1.getRed() * c1.getAlpha() + c2.getRed() * c2.getAlpha()) / 255 % 256,
-                (c1.getGreen() * c1.getAlpha() + c2.getGreen() * c2.getAlpha()) / 255 % 256,
-                (c1.getBlue() * c1.getAlpha() + c2.getBlue() * c2.getAlpha()) / 255 % 256,
-                Math.min(c1.getAlpha(), c2.getAlpha())
-        );
     }
 
     private final Arena2DModel model;
@@ -82,9 +70,8 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setEnabled(true);
         });
         model.getAllAgents().forEach(a -> {
-            Object status = model.getAgentStatus(a);
-            if (status != null && "DEAD".equals(status.toString())) {
-                return; // skip dead agents
+            if (model.getAgentStatus(a) == MonsterStatus.DEAD) {
+                return;
             }
             Vector2D pos = model.getAgentPosition(a);
             Orientation dir = model.getAgentDirection(a);
