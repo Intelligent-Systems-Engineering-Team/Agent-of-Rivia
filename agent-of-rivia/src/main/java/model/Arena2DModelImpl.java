@@ -48,9 +48,12 @@ public class Arena2DModelImpl implements Arena2DModel {
     }
 
 
-    private final Map<String, Pose> agentPoses = Collections.synchronizedMap(new HashMap<>());
     private final int width;
     private final int height;
+    private final Vector2D homePosition = Vector2D.of(0, 0);
+    private final Vector2D tavernPosition = Vector2D.of(19, 0);
+
+    private final Map<String, Pose> agentPoses = Collections.synchronizedMap(new HashMap<>());
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
     private long fps = 1L;
 
@@ -58,6 +61,7 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final Map<String, String> monsterNameToType = new HashMap<>();
     private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
     private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
+
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {
@@ -223,5 +227,15 @@ public class Arena2DModelImpl implements Arena2DModel {
             setAgentDead(agentName);
         }
         return true;
+    }
+
+    @Override
+    public Vector2D getHomePosition() {
+        return homePosition;
+    }
+
+    @Override
+    public Vector2D getTavernPosition() {
+        return tavernPosition;
     }
 }

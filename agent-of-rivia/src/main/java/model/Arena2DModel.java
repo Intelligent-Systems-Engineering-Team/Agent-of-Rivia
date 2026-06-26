@@ -105,4 +105,8 @@ public interface Arena2DModel {
     void setMonsterStats(String agentName, String type, int health, int strength);
 
     boolean applyDamage(String agentName, int damage);
+
+    Vector2D getHomePosition();
+
+    Vector2D getTavernPosition();
 }

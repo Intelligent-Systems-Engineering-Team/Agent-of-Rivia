@@ -2,19 +2,11 @@
 max_health(75).
 cur_health(75).
 strength(25).
-
+cur_target(none).
+heal_threshold(0.75).
+mode(idle).
 facing(top).
 position(0, 0).
-
-home(0, 0).
-tavern(19, 0).
-
-cur_target(none).
-
-heal_threshold(0.75).
-
-mode(idle).
-
 
 // ---------- DERIVED BELIEFS ----------
 healthy_enough :-
