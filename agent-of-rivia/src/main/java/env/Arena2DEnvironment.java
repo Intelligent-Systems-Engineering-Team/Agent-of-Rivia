@@ -57,6 +57,8 @@ public class Arena2DEnvironment extends Environment {
         percepts.addAll(neighboursPercepts(agentName));
 
         if ("witcher".equals(agentName)) {
+            percepts.add(mapPositionPercept("home", model.getHomePosition()));
+            percepts.add(mapPositionPercept("tavern", model.getTavernPosition()));
             percepts.addAll(getMonsterLocationPercepts());
         } else {
             percepts.add(getMonsterSelfPercept(agentName));
@@ -78,6 +80,16 @@ public class Arena2DEnvironment extends Environment {
                 .map(it -> String.format("neighbour(%s)", it))
                 .map(Literal::parseLiteral)
                 .collect(Collectors.toList());
+    }
+
+
+    private Literal mapPositionPercept(String name, Vector2D position) {
+        return Literal.parseLiteral(String.format(
+                "%s(%d,%d)",
+                name,
+                position.getX(),
+                position.getY()
+        ));
     }
 
 
