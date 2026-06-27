@@ -29,10 +29,19 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     private final Map<Vector2D, JButton> buttonsGrid = new HashMap<>();
     private final Map<String, Color> agentColors = new HashMap<>();
 
+    private final JLabel deathCounterLabel = new JLabel();
+
     public Arena2DGuiView(Arena2DModel model) {
         this.model = Objects.requireNonNull(model);
 
         JPanel contentPane = new JPanel(new BorderLayout());
+
+
+        deathCounterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        deathCounterLabel.setFont(deathCounterLabel.getFont().deriveFont(Font.BOLD, 16f));
+        contentPane.add(deathCounterLabel, BorderLayout.NORTH);
+
+
         JPanel grid = new JPanel(new GridLayout(model.getHeight(), model.getWidth()));
         for (int y = 0; y < model.getHeight(); y++) {
             for (int x = 0; x < model.getWidth(); x++) {
@@ -63,6 +72,8 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     }
 
     private void updateView() {
+        deathCounterLabel.setText("Deaths: " + model.getDeathCount());
+
         buttonsGrid.values().forEach(b -> {
             b.setText(" ");
             b.setBackground(Color.WHITE);

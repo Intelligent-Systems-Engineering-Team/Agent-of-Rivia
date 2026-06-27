@@ -62,6 +62,8 @@ public class Arena2DModelImpl implements Arena2DModel {
     private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
     private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
 
+    private int heroDeathCounter = 0;
+
 
     public Arena2DModelImpl(int width, int height) {
         this(width, height, (a, b) -> {
@@ -237,5 +239,15 @@ public class Arena2DModelImpl implements Arena2DModel {
     @Override
     public Vector2D getTavernPosition() {
         return tavernPosition;
+    }
+
+    @Override
+    public void incrementDeathCounter() {
+        heroDeathCounter++;
+    }
+
+    @Override
+    public int getDeathCount() {
+        return heroDeathCounter;
     }
 }

@@ -109,4 +109,8 @@ public interface Arena2DModel {
     Vector2D getHomePosition();
 
     Vector2D getTavernPosition();
+
+    void incrementDeathCounter();
+
+    int getDeathCount();
 }
