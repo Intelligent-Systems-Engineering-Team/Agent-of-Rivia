@@ -18,12 +18,22 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     private static final Random RAND = new Random();
 
     private static Color randomColor() {
-        return new Color(RAND.nextInt(256), RAND.nextInt(256), RAND.nextInt(256));
+        float hue;
+
+        do {
+            hue = RAND.nextFloat();
+        } while (hue >= 0.30f && hue <= 0.38f);
+
+        float saturation = 0.75f + RAND.nextFloat() * 0.25f;
+        float brightness = 0.80f + RAND.nextFloat() * 0.20f;
+
+        return Color.getHSBColor(hue, saturation, brightness);
     }
 
     private static Color negateColor(Color color) {
         return new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue(), color.getAlpha());
     }
+
 
     private final Arena2DModel model;
     private final Map<Vector2D, JButton> buttonsGrid = new HashMap<>();
@@ -31,16 +41,19 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
 
     private final JLabel deathCounterLabel = new JLabel();
 
+    private final int deathLength = 2000;
+    private int lastDeathCount = 0;
+    private long witcherRedUntilMillis = 0;
+
+
     public Arena2DGuiView(Arena2DModel model) {
         this.model = Objects.requireNonNull(model);
 
         JPanel contentPane = new JPanel(new BorderLayout());
 
-
         deathCounterLabel.setHorizontalAlignment(SwingConstants.CENTER);
         deathCounterLabel.setFont(deathCounterLabel.getFont().deriveFont(Font.BOLD, 16f));
         contentPane.add(deathCounterLabel, BorderLayout.NORTH);
-
 
         JPanel grid = new JPanel(new GridLayout(model.getHeight(), model.getWidth()));
         for (int y = 0; y < model.getHeight(); y++) {
@@ -59,12 +72,20 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         pack();
     }
 
-    private Color getColorForAgent(String agent) {
-        if (!agentColors.containsKey(agent)) {
-            agentColors.put(agent, randomColor());
+    private Color getColorForAgent(String agentName) {
+        if (agentName.equals("witcher")) {
+            if (System.currentTimeMillis() < witcherRedUntilMillis) {
+                return Color.RED;
+            }
+            return Color.GREEN;
         }
-        return agentColors.get(agent);
+
+        if (!agentColors.containsKey(agentName)) {
+            agentColors.put(agentName, randomColor());
+        }
+        return agentColors.get(agentName);
     }
+
 
     @Override
     public Arena2DModel getModel() {
@@ -72,7 +93,19 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     }
 
     private void updateView() {
-        deathCounterLabel.setText("Deaths: " + model.getDeathCount());
+        int currentDeathCount = model.getDeathCount();
+
+        if (currentDeathCount > lastDeathCount) {
+            int curDeathLength = deathLength / (int) model.getFPS();
+            witcherRedUntilMillis = System.currentTimeMillis() + curDeathLength;
+
+            Timer timer = new Timer(curDeathLength, e -> updateView());
+            timer.setRepeats(false);
+            timer.start();
+        }
+
+        lastDeathCount = currentDeathCount;
+        deathCounterLabel.setText("Deaths: " + currentDeathCount);
 
         buttonsGrid.values().forEach(b -> {
             b.setText(" ");
@@ -99,6 +132,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         repaint();
     }
 
+
     private void drawMapObjects() {
         JButton homeButton = buttonsGrid.get(model.getHomePosition());
         homeButton.setText("H");
@@ -106,6 +140,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         JButton tavernButton = buttonsGrid.get(model.getTavernPosition());
         tavernButton.setText("T");
     }
+
 
     @Override
     public void notifyModelChanged() {
