@@ -16,7 +16,7 @@ healthy_enough :-
     CurHP >= MaxHP * ThresholdHP.
 
 my_power(P) :-
-    cur_health(H) &
+    max_health(H) &
     strength(S) &
     P = H * S.
 
