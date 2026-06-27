@@ -3,7 +3,7 @@ max_health(75).
 cur_health(75).
 strength(25).
 cur_target(none).
-heal_threshold(0.75).
+heal_threshold(0.10).
 mode(idle).
 facing(top).
 position(0, 0).
@@ -238,8 +238,12 @@ can_hunt(Name) :-
 
 +!check_battle : cur_health(HP) & HP <= 0 & in_battle(Monster) <-
     .print("I am defeated...");
-    kill(self);
-    -in_battle(Monster).
+    .my_name(Me);
+    kill(Me);
+
+
+
+    !attack.
 
 +!finish_fight[source(Monster)] <-
     !level_up;

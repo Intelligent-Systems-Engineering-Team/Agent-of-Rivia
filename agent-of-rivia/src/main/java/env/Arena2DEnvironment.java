@@ -258,8 +258,14 @@ public class Arena2DEnvironment extends Environment {
 
 
     private boolean handleKill(Structure action) {
-        String monsterName = action.getTerm(0).toString();
-        return model.setAgentDead(monsterName);
+        String agentName = action.getTerm(0).toString();
+
+        if (agentName.equals("witcher")) {
+            model.incrementDeathCounter();
+            return true;
+        }
+
+        return model.setAgentDead(agentName);
     }
 
 
