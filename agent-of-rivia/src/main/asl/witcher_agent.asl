@@ -105,7 +105,7 @@ can_hunt(Name) :-
     !go(Direction).
 
 +!go_to(Xt, Yt) : monster(Agent, _, Xt, Yt, alive) & neighbour(Agent) & cur_target(Agent) <-
-    true.
+    !engage_target(Agent).
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     true.
@@ -173,18 +173,28 @@ can_hunt(Name) :-
        -+awaiting_stats(Agent);
        .send(Agent, achieve, disclose_stats).
 
++!engage_target(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
+    .print("I tracked ", Agent);
+    .print("First contact with enemy...");
+    -+awaiting_stats(Agent);
+    .send(Agent, achieve, disclose_stats).
+
++!engage_target(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & monster_power(Agent, _) <-
+    .print("I returned to ", Agent);
+    .print("Long time no see!");
+    !fight(Agent).
+
+
 +awaiting_stats(Agent) : cur_target(Agent) & monster(Agent, _, _, _, alive) & not monster_power(Agent, _) <-
        .wait(500);
        .send(Agent, achieve, disclose_stats);
        -+awaiting_stats(Agent).
 
-+neighbour(Agent) : monster(Agent, _, _, _, alive) & monster_power(Agent, _) & cur_target(Agent) <-
-       .print("I returned to ", Agent);
-       .print("Long time no see!");
-       !fight(Agent).
++neighbour(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) <-
+    !engage_target(Agent).
 
 +neighbour(Agent) : monster(Agent, _, _, _, alive) & not cur_target(Agent) <-
-       .print("I found ", Agent, ", but it is not my current target...").
+    .print("I found ", Agent, ", but it is not my current target...").
 
 +monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) & not in_battle(_) & monster(Agent, _, _, _, alive) <-
      -awaiting_stats(Agent);
