@@ -1,4 +1,4 @@
-package utils;
+package model.utils;
 
 import model.Direction;
 import model.Vector2D;

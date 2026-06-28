@@ -1,4 +1,4 @@
-package utils;
+package model.utils;
 
 import model.Direction;
 import model.Vector2D;
@@ -9,13 +9,13 @@ import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 
-import static utils.Utils.termToDirection;
-import static utils.Utils.positionLiteralToVector;
-import static utils.Facing.fromLiteral;
+import static model.utils.Utils.termToDirection;
+import static model.utils.Utils.positionLiteralToVector;
+import static model.utils.Facing.fromLiteral;
 
 /**
  * Lets an agent update its own believed pose.
- * Indicator: <code>utils.update_pose(+Direction)</code>
+ * Indicator: <code>model.utils.update_pose(+Direction)</code>
  * This action assumes the calling agent has just performed a step in <code>Direction</code>.
  * It also assumes that agent has two believes in its belief base: (i) <code>position(X, Y)</code>
  * and (ii) (i) <code>facing(Dir)</code> (where <code>Dir</code>).

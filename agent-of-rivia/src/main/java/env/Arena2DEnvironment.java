@@ -265,14 +265,15 @@ public class Arena2DEnvironment extends Environment {
             return true;
         }
 
-        return model.setAgentDead(agentName);
+        model.setAgentDead(agentName);
+        return true;
     }
 
 
     private boolean handleApplyDamage(String agentName, Structure action) {
         int damage = Integer.parseInt(action.getTerm(0).toString());
 
-        boolean result = model.applyDamage(agentName, damage);
+        model.applyDamage(agentName, damage);
 
         MonsterStats stats = model.getMonsterStats(agentName);
         if (stats.health() == 0) {
@@ -280,7 +281,7 @@ public class Arena2DEnvironment extends Environment {
         } else {
             logger.info(agentName + " took " + damage + " damage. HP now: " + stats.health());
         }
-        return result;
+        return true;
     }
 
 
