@@ -73,7 +73,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     }
 
     private Color getColorForAgent(String agentName) {
-        if (agentName.equals("witcher")) {
+        if (agentName.equals(model.getHeroName())) {
             if (System.currentTimeMillis() < witcherRedUntilMillis) {
                 return Color.RED;
             }

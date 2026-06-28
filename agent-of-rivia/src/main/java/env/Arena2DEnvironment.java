@@ -56,7 +56,7 @@ public class Arena2DEnvironment extends Environment {
         percepts.addAll(surroundingPercepts(agentName));
         percepts.addAll(neighboursPercepts(agentName));
 
-        if ("witcher".equals(agentName)) {
+        if (agentName.equals(model.getHeroName())) {
             percepts.add(mapPositionPercept("home", model.getHomePosition()));
             percepts.add(mapPositionPercept("tavern", model.getTavernPosition()));
             percepts.addAll(getMonsterLocationPercepts());
@@ -95,7 +95,7 @@ public class Arena2DEnvironment extends Environment {
 
     private Collection<Literal> getMonsterLocationPercepts() {
         return model.getAllAgents().stream()
-                .filter(name -> !name.equals("witcher"))
+                .filter(name -> !name.equals(model.getHeroName()))
                 .filter(name -> model.getAgentStatus(name) != null)
                 .map(name -> {
                     Vector2D pos = model.getAgentPosition(name);
@@ -141,7 +141,7 @@ public class Arena2DEnvironment extends Environment {
 
 
     private boolean isWitcher(String agentName) {
-        return "witcher".equals(agentName);
+        return agentName.equals(model.getHeroName());
     }
 
 
@@ -260,7 +260,7 @@ public class Arena2DEnvironment extends Environment {
     private boolean handleKill(Structure action) {
         String agentName = action.getTerm(0).toString();
 
-        if (agentName.equals("witcher")) {
+        if (agentName.equals(model.getHeroName())) {
             model.incrementDeathCounter();
             return true;
         }

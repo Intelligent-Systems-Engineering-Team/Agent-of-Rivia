@@ -113,4 +113,6 @@ public interface Arena2DModel {
     void incrementDeathCounter();
 
     int getDeathCount();
+
+    String getHeroName();
 }
