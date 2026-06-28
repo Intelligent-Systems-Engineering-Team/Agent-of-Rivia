@@ -34,7 +34,7 @@ public class Arena2DEnvironment extends Environment {
     private Arena2DModel model;
     private Arena2DView view;
 
-    static Logger logger = Logger.getLogger(Arena2DEnvironment.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Arena2DEnvironment.class.getName());
     private static final Random RAND = new Random();
 
 
@@ -175,7 +175,9 @@ public class Arena2DEnvironment extends Environment {
 
 
     private boolean isReservedSpawnPosition(int x, int y) {
-        return (x == 0 && y == 0) || (x == model.getWidth() - 1 && y == 0);
+        Vector2D position = Vector2D.of(x, y);
+        return position.equals(model.getHomePosition())
+                || position.equals(model.getTavernPosition());
     }
 
 
@@ -277,9 +279,9 @@ public class Arena2DEnvironment extends Environment {
 
         MonsterStats stats = model.getMonsterStats(agentName);
         if (stats.health() == 0) {
-            logger.info(agentName + " died.");
+            LOGGER.info(agentName + " died.");
         } else {
-            logger.info(agentName + " took " + damage + " damage. HP now: " + stats.health());
+            LOGGER.info(agentName + " took " + damage + " damage. HP now: " + stats.health());
         }
         return true;
     }
@@ -296,7 +298,7 @@ public class Arena2DEnvironment extends Environment {
 
     private void throwUnsupportedAction(Structure action) {
         RuntimeException e = new IllegalArgumentException("Cannot handle action: " + action);
-        logger.warning(e.getMessage());
+        LOGGER.warning(e.getMessage());
         throw e;
     }
 
