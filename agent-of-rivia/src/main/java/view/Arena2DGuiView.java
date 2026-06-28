@@ -17,6 +17,11 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
 
     private static final Random RAND = new Random();
 
+    private static final int DEATH_ANIMATION_DURATION_MS = 2000;
+    private static final String HOME_SYMBOL = "H";
+    private static final String TAVERN_SYMBOL = "T";
+
+
     private static Color randomColor() {
         float hue;
 
@@ -30,6 +35,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         return Color.getHSBColor(hue, saturation, brightness);
     }
 
+
     private static Color negateColor(Color color) {
         return new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue(), color.getAlpha());
     }
@@ -41,7 +47,6 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
 
     private final JLabel deathCounterLabel = new JLabel();
 
-    private final int deathLength = 2000;
     private int lastDeathCount = 0;
     private long witcherRedUntilMillis = 0;
 
@@ -72,6 +77,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         pack();
     }
 
+
     private Color getColorForAgent(String agentName) {
         if (agentName.equals(model.getHeroName())) {
             if (System.currentTimeMillis() < witcherRedUntilMillis) {
@@ -80,10 +86,7 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             return Color.GREEN;
         }
 
-        if (!agentColors.containsKey(agentName)) {
-            agentColors.put(agentName, randomColor());
-        }
-        return agentColors.get(agentName);
+        return agentColors.computeIfAbsent(agentName, k -> randomColor());
     }
 
 
@@ -92,11 +95,22 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         return model;
     }
 
+
     private void updateView() {
+        updateDeathAnimation();
+        updateDeathCounterLabel();
+        clearGrid();
+        drawMapObjects();
+        drawAgents();
+        repaint();
+    }
+
+
+    private void updateDeathAnimation() {
         int currentDeathCount = model.getDeathCount();
 
         if (currentDeathCount > lastDeathCount) {
-            int curDeathLength = deathLength / (int) model.getFPS();
+            int curDeathLength = DEATH_ANIMATION_DURATION_MS / (int) model.getFPS();
             witcherRedUntilMillis = System.currentTimeMillis() + curDeathLength;
 
             Timer timer = new Timer(curDeathLength, e -> updateView());
@@ -105,17 +119,31 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
         }
 
         lastDeathCount = currentDeathCount;
-        deathCounterLabel.setText("Deaths: " + currentDeathCount);
+    }
 
+
+    private void updateDeathCounterLabel() {
+        deathCounterLabel.setText("Deaths: " + model.getDeathCount());
+    }
+
+
+    private void clearGrid() {
         buttonsGrid.values().forEach(b -> {
             b.setText(" ");
             b.setBackground(Color.WHITE);
             b.setForeground(UIManager.getColor("Button.foreground"));
             b.setEnabled(true);
         });
+    }
 
-        drawMapObjects();
 
+    private void drawMapObjects() {
+        buttonsGrid.get(model.getHomePosition()).setText(HOME_SYMBOL);
+        buttonsGrid.get(model.getTavernPosition()).setText(TAVERN_SYMBOL);
+    }
+
+
+    private void drawAgents() {
         model.getAllAgents().forEach(a -> {
             if (model.getAgentStatus(a) == MonsterStatus.DEAD) {
                 return;
@@ -129,16 +157,6 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
             b.setForeground(negateColor(c));
             b.setEnabled(false);
         });
-        repaint();
-    }
-
-
-    private void drawMapObjects() {
-        JButton homeButton = buttonsGrid.get(model.getHomePosition());
-        homeButton.setText("H");
-
-        JButton tavernButton = buttonsGrid.get(model.getTavernPosition());
-        tavernButton.setText("T");
     }
 
 
@@ -146,8 +164,10 @@ public class Arena2DGuiView extends JFrame implements Arena2DView {
     public void notifyModelChanged() {
         try {
             SwingUtilities.invokeAndWait(this::updateView);
-        } catch (InterruptedException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (InvocationTargetException e) {
+            System.err.println(e.getCause().getMessage());
         }
     }
 }

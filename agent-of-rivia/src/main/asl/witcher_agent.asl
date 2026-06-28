@@ -259,7 +259,7 @@ can_hunt(Name) :-
 
 // ---------- CONTRACT LOG ----------
 +monster(Name, Type, X, Y, alive) <-
-    .print("Contract available: ", Name, " (", Type, ") at (", X, ",", Y, ")").
+    .print("Contract available: ", Name, " at (", X, ",", Y, ")").
 
 +monster(Name, Type, X, Y, dead) <-
-    .print("Contract closed: ", Name, " (", Type, ")").
+    .print("Contract closed: ", Name).
