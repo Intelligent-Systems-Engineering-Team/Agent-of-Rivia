@@ -1,4 +1,5 @@
 // ---------- INITIAL BELIEFS ----------
+
 max_health(75).
 cur_health(75).
 strength(25).
@@ -8,7 +9,9 @@ mode(idle).
 facing(top).
 position(0, 0).
 
+
 // ---------- DERIVED BELIEFS ----------
+
 healthy_enough :-
     cur_health(CurHP) &
     max_health(MaxHP) &
@@ -29,7 +32,17 @@ can_hunt(Name) :-
     not monster_power(Name, _).
 
 
+// ---------- CONTRACT LOG ----------
+
++monster(Name, Type, X, Y, alive) <-
+    .print("Contract available: ", Name, " at (", X, ",", Y, ")").
+
++monster(Name, Type, X, Y, dead) <-
+    .print("Contract closed: ", Name).
+
+
 // ---------- MAIN GOAL ----------
+
 !kill_all_monsters.
 
 +!kill_all_monsters : monster(_, _, _, _, alive) <-
@@ -43,6 +56,7 @@ can_hunt(Name) :-
 
 
 // ---------- PREPARATION ----------
+
 +!ensure_ready : healthy_enough & mode(idle) <- true.
 
 +!ensure_ready : not healthy_enough & mode(idle) <-
@@ -62,6 +76,7 @@ can_hunt(Name) :-
 
 
 // ---------- HUNTING ----------
+
 +!hunt : monster(Name, _, X, Y, alive) & can_hunt(Name) <-
     -+mode(hunting);
     !set_target(Name);
@@ -81,6 +96,7 @@ can_hunt(Name) :-
 
 
 // ---------- CELEBRATING ----------
+
 +!celebrate : mode(celebrating) <-
     .print("Let's celebrate!");
     !go_tavern.
@@ -96,6 +112,7 @@ can_hunt(Name) :-
 
 
 // ---------- MOVEMENT ----------
+
 +!go(Direction) <-
     move(Direction);
     model.utils.update_pose(Direction).
@@ -105,7 +122,7 @@ can_hunt(Name) :-
     !go(Direction).
 
 +!go_to(Xt, Yt) : monster(Agent, _, Xt, Yt, alive) & neighbour(Agent) & cur_target(Agent) <-
-    !engage_target(Agent).
+    !handle_target_contact(Agent).
 
 +!go_to(Xt, Yt) : position(Xt, Yt) <-
     true.
@@ -132,6 +149,7 @@ can_hunt(Name) :-
 
 
 // ---------- ORIENTATION ----------
+
 +!orient(Dir) : facing(Dir) <- true.
 
 +!orient(right)  : facing(top)    <- !turn_right.
@@ -167,34 +185,26 @@ can_hunt(Name) :-
 
 
 // ---------- MONSTER ESTIMATION ----------
-+neighbour(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
-       .print("I tracked ", Agent);
-       .print("First contact with enemy...");
-       -+awaiting_stats(Agent);
-       .send(Agent, achieve, disclose_stats).
 
-+!engage_target(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
++!handle_target_contact(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & not monster_power(Agent, _) <-
     .print("I tracked ", Agent);
     .print("First contact with enemy...");
-    -+awaiting_stats(Agent);
-    .send(Agent, achieve, disclose_stats).
+    !request_monster_stats(Agent).
 
-+!engage_target(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & monster_power(Agent, _) <-
++!handle_target_contact(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) & monster_power(Agent, _) <-
     .print("I returned to ", Agent);
     .print("Long time no see!");
     !fight(Agent).
 
++!request_monster_stats(Agent) <-
+    -+awaiting_stats(Agent);
+    .send(Agent, achieve, disclose_stats).
 
+// Retries to receive stats if they are not received in 500 ms
 +awaiting_stats(Agent) : cur_target(Agent) & monster(Agent, _, _, _, alive) & not monster_power(Agent, _) <-
-       .wait(500);
-       .send(Agent, achieve, disclose_stats);
-       -+awaiting_stats(Agent).
-
-+neighbour(Agent) : monster(Agent, _, _, _, alive) & cur_target(Agent) <-
-    !engage_target(Agent).
-
-+neighbour(Agent) : monster(Agent, _, _, _, alive) & not cur_target(Agent) <-
-    .print("I found ", Agent, ", but it is not my current target...").
+    .wait(500);
+    .send(Agent, achieve, disclose_stats);
+    -+awaiting_stats(Agent).
 
 +monster_stats(H, S)[source(Agent)] : cur_health(MyH) & strength(MyS) & not in_battle(_) & monster(Agent, _, _, _, alive) <-
      -awaiting_stats(Agent);
@@ -203,6 +213,9 @@ can_hunt(Name) :-
      MonsterPower = H * S;
      MyPower = MyH * MyS;
      !choose_action(Agent, MonsterPower, MyPower).
+
++neighbour(Agent) : monster(Agent, _, _, _, alive) & not cur_target(Agent) <-
+    .print("I found ", Agent, ", but it is not my current target...").
 
 +!choose_action(Agent, MonsterPower, MyPower) : MonsterPower <= MyPower <-
     .print("I am strong enough to fight ", Agent, "!");
@@ -216,6 +229,7 @@ can_hunt(Name) :-
 
 
 // ---------- FIGHTING ----------
+
 +!fight(Agent) : in_battle(Agent) <- true.
 
 +!fight(Agent) : not in_battle(_) <-
@@ -255,11 +269,3 @@ can_hunt(Name) :-
     -+strength(NewStr);
     -+mode(idle);
     .print("LEVEL UP! Max health: ", NewMaxHP, " Strength: ", NewStr).
-
-
-// ---------- CONTRACT LOG ----------
-+monster(Name, Type, X, Y, alive) <-
-    .print("Contract available: ", Name, " at (", X, ",", Y, ")").
-
-+monster(Name, Type, X, Y, dead) <-
-    .print("Contract closed: ", Name).
