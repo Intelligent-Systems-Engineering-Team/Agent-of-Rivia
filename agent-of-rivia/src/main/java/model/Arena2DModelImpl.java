@@ -5,6 +5,8 @@ import java.util.function.BiFunction;
 
 public class Arena2DModelImpl implements Arena2DModel {
 
+    private static final String HERO_NAME = "witcher";
+
 
     private static class Pose {
         private final Vector2D position;
@@ -50,20 +52,19 @@ public class Arena2DModelImpl implements Arena2DModel {
 
     private final int width;
     private final int height;
+
     private final Vector2D homePosition = Vector2D.of(0, 0);
     private final Vector2D tavernPosition = Vector2D.of(19, 0);
 
     private final Map<String, Pose> agentPoses = Collections.synchronizedMap(new HashMap<>());
     private final BiFunction<Vector2D, Vector2D, Boolean> neighbourhoodFunction;
-    private long fps = 1L;
 
     private final Map<String, MonsterStatus> monsterToStatus = new HashMap<>();
     private final Map<String, String> monsterNameToType = new HashMap<>();
     private final Map<String, Integer> monsterNameToHealth = new HashMap<>();
     private final Map<String, Integer> monsterNameToStrength = new HashMap<>();
 
-    private final String heroName = "witcher";
-
+    private long fps = 1L;
     private int heroDeathCounter = 0;
 
 
@@ -80,15 +81,6 @@ public class Arena2DModelImpl implements Arena2DModel {
         this.neighbourhoodFunction = Objects.requireNonNull(neighbourhoodFunction);
     }
 
-    @Override
-    public boolean containsAgent(String name) {
-        return agentPoses.containsKey(name);
-    }
-
-    @Override
-    public Set<String> getAllAgents() {
-        return agentPoses.keySet();
-    }
 
     @Override
     public int getWidth() {
@@ -105,10 +97,15 @@ public class Arena2DModelImpl implements Arena2DModel {
         return x >= 0 && x < width && y >= 0 && y < height ;
     }
 
-    private void ensureAgentExists(String agent) {
-        if (!containsAgent(agent)) {
-            throw new IllegalArgumentException("No such an agent: " + agent);
-        }
+
+    @Override
+    public boolean containsAgent(String name) {
+        return agentPoses.containsKey(name);
+    }
+
+    @Override
+    public Set<String> getAllAgents() {
+        return agentPoses.keySet();
     }
 
     @Override
@@ -124,20 +121,6 @@ public class Arena2DModelImpl implements Arena2DModel {
         synchronized (agentPoses) {
             ensureAgentExists(agent);
             return agentPoses.get(agent).getOrientation();
-        }
-    }
-
-    private void setAgentPosition(String agent, Vector2D position) {
-        synchronized (agentPoses) {
-            Pose currentPose = agentPoses.get(agent);
-            agentPoses.put(agent, new Pose(position, currentPose.getOrientation()));
-        }
-    }
-
-    private void setAgentDirection(String agent, Orientation orientation) {
-        synchronized (agentPoses) {
-            Pose currentPose = agentPoses.get(agent);
-            agentPoses.put(agent, new Pose(currentPose.getPosition(), orientation));
         }
     }
 
@@ -170,6 +153,28 @@ public class Arena2DModelImpl implements Arena2DModel {
         }
     }
 
+
+    private void ensureAgentExists(String agent) {
+        if (!containsAgent(agent)) {
+            throw new IllegalArgumentException("No such an agent: " + agent);
+        }
+    }
+
+    private void setAgentPosition(String agent, Vector2D position) {
+        synchronized (agentPoses) {
+            Pose currentPose = agentPoses.get(agent);
+            agentPoses.put(agent, new Pose(position, currentPose.getOrientation()));
+        }
+    }
+
+    private void setAgentDirection(String agent, Orientation orientation) {
+        synchronized (agentPoses) {
+            Pose currentPose = agentPoses.get(agent);
+            agentPoses.put(agent, new Pose(currentPose.getPosition(), orientation));
+        }
+    }
+
+
     @Override
     public boolean areAgentsNeighbours(String agent, String neighbour) {
         if (!containsAgent(agent) || !containsAgent(neighbour)) return  false;
@@ -177,6 +182,7 @@ public class Arena2DModelImpl implements Arena2DModel {
         Vector2D neighbourPosition = getAgentPosition(neighbour);
         return neighbourhoodFunction.apply(agentPosition, neighbourPosition);
     }
+
 
     @Override
     public long getFPS() {
@@ -190,15 +196,13 @@ public class Arena2DModelImpl implements Arena2DModel {
 
 
     @Override
-    public boolean setAgentAlive(String agentName) {
+    public void setAgentAlive(String agentName) {
         monsterToStatus.put(agentName, MonsterStatus.ALIVE);
-        return true;
     }
 
     @Override
-    public boolean setAgentDead(String agentName) {
+    public void setAgentDead(String agentName) {
         monsterToStatus.put(agentName, MonsterStatus.DEAD);
-        return true;
     }
 
     @Override
@@ -222,7 +226,7 @@ public class Arena2DModelImpl implements Arena2DModel {
     }
 
     @Override
-    public boolean applyDamage(String agentName, int damage) {
+    public void applyDamage(String agentName, int damage) {
         int currentHp = monsterNameToHealth.getOrDefault(agentName, 0);
         int newHp = Math.max(0, currentHp - damage);
         monsterNameToHealth.put(agentName, newHp);
@@ -230,8 +234,8 @@ public class Arena2DModelImpl implements Arena2DModel {
         if (newHp == 0) {
             setAgentDead(agentName);
         }
-        return true;
     }
+
 
     @Override
     public Vector2D getHomePosition() {
@@ -242,6 +246,7 @@ public class Arena2DModelImpl implements Arena2DModel {
     public Vector2D getTavernPosition() {
         return tavernPosition;
     }
+
 
     @Override
     public void incrementDeathCounter() {
@@ -255,6 +260,6 @@ public class Arena2DModelImpl implements Arena2DModel {
 
     @Override
     public String getHeroName() {
-        return heroName;
+        return HERO_NAME;
     }
 }

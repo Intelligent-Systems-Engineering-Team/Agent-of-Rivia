@@ -1,4 +1,4 @@
-package utils;
+package model.utils;
 
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
@@ -7,7 +7,7 @@ import jason.asSyntax.Term;
 
 import java.util.Random;
 
-import static utils.Utils.*;
+import static model.utils.Utils.*;
 
 /**
  * Lets an agent draw a random integer in a given range

@@ -94,9 +94,9 @@ public interface Arena2DModel {
     void setFPS(long fps);
 
 
-    boolean setAgentAlive(String agentName);
+    void setAgentAlive(String agentName);
 
-    boolean setAgentDead(String agentName);
+    void setAgentDead(String agentName);
 
     MonsterStatus getAgentStatus(String agentName);
 
@@ -104,7 +104,7 @@ public interface Arena2DModel {
 
     void setMonsterStats(String agentName, String type, int health, int strength);
 
-    boolean applyDamage(String agentName, int damage);
+    void applyDamage(String agentName, int damage);
 
     Vector2D getHomePosition();
 

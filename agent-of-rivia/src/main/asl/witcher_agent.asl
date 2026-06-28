@@ -98,7 +98,7 @@ can_hunt(Name) :-
 // ---------- MOVEMENT ----------
 +!go(Direction) <-
     move(Direction);
-    utils.update_pose(Direction).
+    model.utils.update_pose(Direction).
 
 -!go(Direction) <-
     .print("Move failed. Retrying...");
