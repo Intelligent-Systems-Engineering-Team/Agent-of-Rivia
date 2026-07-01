@@ -94,25 +94,36 @@ public interface Arena2DModel {
     void setFPS(long fps);
 
 
+    /** Marks the specified agent as alive */
     void setAgentAlive(String agentName);
 
+    /** Marks the specified agent as dead */
     void setAgentDead(String agentName);
 
+    /** Returns the current status of the specified agent */
     MonsterStatus getAgentStatus(String agentName);
 
+    /** Get monster statistics by agent name */
     MonsterStats getMonsterStats(String agentName);
 
+    /** Set monster statistics by agent name */
     void setMonsterStats(String agentName, String type, int health, int strength);
 
+    /** Apply damage to the specified agent */
     void applyDamage(String agentName, int damage);
 
+    /** Get home position */
     Vector2D getHomePosition();
 
+    /** Get tavern position */
     Vector2D getTavernPosition();
 
+    /** Increase hero death counter */
     void incrementDeathCounter();
 
+    /** Get hero death count */
     int getDeathCount();
 
+    /** Get hero agent name */
     String getHeroName();
 }
